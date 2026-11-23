@@ -1,0 +1,4 @@
+node_modules/
+dist/
+tools/testes/saida/
+.DS_Store

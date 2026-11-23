@@ -1,0 +1,14 @@
+{
+  "name": "irrigamanager",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Gestão de pivôs centrais: mapa, horímetro e preventiva, avaliação de uniformidade (CUC e CUD) no celular.",
+  "scripts": {
+    "build": "python3 tools/build.py",
+    "build:artefato": "python3 tools/build.py --artefato",
+    "test": "node tools/testes/t_app.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.47.0"
+  }
+}

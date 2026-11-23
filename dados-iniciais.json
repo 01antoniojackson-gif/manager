@@ -1,0 +1,157 @@
+{
+  "pivos": {
+    "p01": {
+      "nome": "Pivô 01",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 105,
+      "y": 538,
+      "r": 103,
+      "o": 60,
+      "q": [
+        "RU39",
+        "RU37",
+        "RU36",
+        "RU38"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p02": {
+      "nome": "Pivô 02",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 310,
+      "y": 416,
+      "r": 132,
+      "o": 63,
+      "q": [
+        "RU43",
+        "RU41",
+        "RU40",
+        "RU42"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p03": {
+      "nome": "Pivô 03",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 488,
+      "y": 251,
+      "r": 102,
+      "o": 45,
+      "q": [
+        "RU47",
+        "RU45",
+        "RU44",
+        "RU46"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p04": {
+      "nome": "Pivô 04",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 643,
+      "y": 418,
+      "r": 118,
+      "o": 45,
+      "q": [
+        "RU51",
+        "RU49",
+        "RU48",
+        "RU50"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p05": {
+      "nome": "Pivô 05",
+      "area": 2,
+      "fazenda": "JD",
+      "x": 825,
+      "y": 283,
+      "r": 82,
+      "o": 45,
+      "q": [
+        "JD04",
+        "JD02",
+        "JD01",
+        "JD03"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p06": {
+      "nome": "Pivô 06",
+      "area": 2,
+      "fazenda": "JD",
+      "x": 857,
+      "y": 138,
+      "r": 63,
+      "o": 45,
+      "q": [
+        "JD08",
+        "JD06",
+        "JD05",
+        "JD07"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p09": {
+      "nome": "Pivô 09",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 773,
+      "y": 203,
+      "r": 115,
+      "o": 35,
+      "q": [
+        "RU56",
+        "RU54",
+        "RU55",
+        "RU57"
+      ],
+      "n": 4,
+      "laminaRec": 10,
+      "ativo": true
+    },
+    "p10": {
+      "nome": "Pivô 10",
+      "area": 1,
+      "fazenda": "RU",
+      "x": 610,
+      "y": 96,
+      "r": 80,
+      "o": 123,
+      "q": [
+        "RU58",
+        "RU59"
+      ],
+      "n": 2,
+      "laminaRec": 10,
+      "ativo": true
+    }
+  },
+  "cfg": {
+    "geral": {
+      "diam": 72,
+      "intervalo": 2000,
+      "avisoH": 100,
+      "avisoDias": 30,
+      "ventoMax": 4.5,
+      "faixa": 15,
+      "laminaRec": 10
+    }
+  }
+}
