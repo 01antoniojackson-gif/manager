@@ -1,0 +1,183 @@
+<title>IrrigaManager v0.2.0 · Checklist (ITENS 18 a 35)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/* Página de aprovação no padrão de docs/padrao-pagina-aprovacao.md: marfim e ouro (Claro), azul-noite e ouro (Escuro),
+   títulos Fraunces, texto Source Sans 3. Uma coluna; cada item é um cartão com o número grande à esquerda. */
+:root{--bg:#f6f3ea;--c:#fffdf8;--c2:#f1ece0;--bd:#e2dac8;--tx:#1e1b14;--tx2:#5b5443;--tx3:#746c55;--a:#9a7128;--aS:rgba(154,113,40,.12);--aTx:#7d5a1c;--ok:#2f7d4f;--okS:rgba(47,125,79,.13);--cr:#b3372f;--crS:rgba(179,55,47,.11);
+ --ouro:linear-gradient(135deg,#f7df9e 0%,#d9b46a 42%,#b4862f 100%);--fd:'Fraunces',Georgia,serif;--f:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif;--r:10px;--rs:7px;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0d16;--c:#121524;--c2:#191c2e;--bd:#2a2d3d;--tx:#f3eee3;--tx2:#bcb3a1;--tx3:#948c7c;--a:#d9b46a;--aS:rgba(217,180,106,.15);--aTx:#f0d48f;--ok:#7fbf98;--okS:rgba(127,191,152,.16);--cr:#e38b7d;--crS:rgba(227,139,125,.15);color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b0d16;--c:#121524;--c2:#191c2e;--bd:#2a2d3d;--tx:#f3eee3;--tx2:#bcb3a1;--tx3:#948c7c;--a:#d9b46a;--aS:rgba(217,180,106,.15);--aTx:#f0d48f;--ok:#7fbf98;--okS:rgba(127,191,152,.16);--cr:#e38b7d;--crS:rgba(227,139,125,.15);color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:64px}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 var(--f)}
+main{max-width:1120px;margin:0 auto;padding:22px 16px 80px;display:flex;flex-direction:column;gap:16px}
+h1{font:600 30px/1.2 var(--fd);margin:8px 0 0;text-wrap:balance}
+.sub{margin:0;color:var(--tx2);max-width:74ch}
+.como{margin:0;padding-left:20px;color:var(--tx2);max-width:74ch;display:flex;flex-direction:column;gap:2px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--a);outline-offset:2px}
+.topo{position:sticky;top:0;z-index:20;background:var(--c);border-bottom:1px solid var(--bd)}
+.topo-in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;gap:12px}
+.topo-in b{font-family:var(--fd);font-size:17px}
+#cont{color:var(--tx3);font-variant-numeric:tabular-nums}
+.sp{flex:1}
+.bt{height:36px;padding:0 14px;border-radius:var(--rs);border:1px solid var(--bd);background:var(--c);display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:600;font-size:14px;white-space:nowrap;cursor:pointer;color:var(--tx)}
+.bt:hover{border-color:var(--a)}
+.bt.pr{background:var(--ouro);border-color:#c99d48;color:#1c1406}
+.bt.gr{height:44px;padding:0 22px;font-size:16px}
+@media (pointer:coarse){.bt{height:44px}}
+.grupo{font:600 13px/1 var(--f);color:var(--tx3);margin:14px 0 -6px;padding-bottom:8px;border-bottom:1px solid var(--bd);letter-spacing:.02em}
+.it{background:var(--c);border:1px solid var(--bd);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:14px}
+.it.ok{border-color:var(--ok)}.it.no{border-color:var(--cr)}
+.it header{display:flex;gap:18px;align-items:flex-start}
+.num{flex:none;width:92px;font:600 13px/1 var(--f);color:var(--aTx);display:flex;flex-direction:column;gap:2px}
+.num span{font:600 56px/1 var(--fd);color:var(--a);font-variant-numeric:tabular-nums}
+.cab{min-width:0;display:flex;flex-direction:column;gap:6px}
+.cab h3{font:600 21px/1.25 var(--fd);margin:0;text-wrap:balance}
+.cab p{margin:0;color:var(--tx2);max-width:78ch}
+.cab ul{margin:0;padding-left:20px;color:var(--tx2);max-width:78ch}
+.perg{background:var(--aS);border-radius:var(--rs);padding:8px 12px;color:var(--tx)!important}
+.perg b{color:var(--aTx)}
+.ref{font-size:14.5px;color:var(--tx3)!important}
+.ref b{color:var(--tx2);font-weight:600;margin-right:4px}
+.leg{margin:0 0 6px;font-size:13.5px;font-weight:600;color:var(--tx3)}
+.lado{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.par-cel .lado{grid-template-columns:repeat(2,minmax(0,300px))}
+figure{margin:0;min-width:0}
+figcaption{font-size:12.5px;font-weight:700;color:var(--tx3);margin-bottom:4px}
+figure.prop>figcaption{color:var(--aTx)}
+.zoom{display:block;width:100%;padding:0;border:1px solid var(--bd);border-radius:var(--rs);background:var(--c2);cursor:zoom-in;overflow:hidden}
+figure.prop .zoom{border-color:var(--a)}
+img{max-width:100%;height:auto;display:block}
+.zoom img{width:100%}
+.vazio{padding:18px;border:1px dashed var(--bd);border-radius:10px;font-size:14px;color:var(--tx3)}
+.resp{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;border-top:1px solid var(--bd);padding-top:14px}
+.voto{display:flex;gap:8px}
+.voto input{position:absolute;opacity:0;pointer-events:none}
+.voto label{height:44px;min-width:128px;padding:0 16px;border:1px solid var(--bd);border-radius:var(--rs);display:grid;place-items:center;font-weight:700;cursor:pointer;background:var(--c)}
+.voto label:hover{border-color:var(--tx3)}
+.voto input:focus-visible+label{outline:2px solid var(--a);outline-offset:2px}
+.voto input:checked+label.ok{background:var(--okS);border-color:var(--ok);color:var(--ok)}
+.voto input:checked+label.no{background:var(--crS);border-color:var(--cr);color:var(--cr)}
+.com{display:flex;flex-direction:column;gap:4px;font-size:13.5px;font-weight:600;color:var(--tx3)}
+textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:var(--rs);background:var(--bg);color:var(--tx);padding:8px 10px;font:400 15px/1.4 var(--f);resize:vertical}
+.fim{background:var(--c);border:1px solid var(--bd);border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.fim h2{font:600 20px/1.2 var(--fd);margin:6px 0 0}.fim p,.fim ul{margin:0;color:var(--tx2)}.fim ul{padding-left:20px;display:flex;flex-direction:column;gap:3px}
+#copiado{color:var(--ok);font-weight:600;min-height:1.5em}
+#saida{white-space:pre-wrap;background:var(--bg);border:1px solid var(--bd);border-radius:var(--rs);padding:12px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;margin:0;max-height:320px;overflow:auto;width:100%}
+#lb{position:fixed;inset:0;z-index:80;background:rgba(8,9,14,.92);display:flex;flex-direction:column}
+.lb-bar{display:flex;gap:10px;align-items:center;padding:8px 12px;color:#f3eee3;flex-wrap:wrap}
+#lb-t{flex:1;min-width:120px;font-weight:600}
+.lb-pal{flex:1;min-height:0;overflow:auto;display:grid;place-items:center;padding:0 12px 12px;cursor:pointer}
+#lb-img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;background:#f6f3ea}
+.seg{display:inline-flex;border:1px solid #2a2d3d;border-radius:var(--rs);overflow:hidden;background:#121524}
+.seg button{height:34px;padding:0 14px;border:0;background:transparent;font-weight:700;font-size:13px;cursor:pointer;color:#bcb3a1}
+.seg button[aria-pressed="true"]{background:#d9b46a;color:#121524}
+#lb .bt{background:#121524;border-color:#2a2d3d;color:#f3eee3}
+@media(max-width:699px){
+ h1{font-size:25px}
+ .it{padding:14px}
+ .it header{flex-direction:column;gap:6px}
+ .num{width:auto;flex-direction:row;align-items:baseline;gap:8px}.num span{font-size:44px}
+ .lado{grid-template-columns:1fr}
+ .par-cel .lado{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .resp{grid-template-columns:1fr}
+ .voto label{min-width:0;flex:1}
+ .topo-in b{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div class="topo"><div class="topo-in"><b>IrrigaManager · v0.2.0</b><span id="cont">0 de 0 respondidos</span><span class="sp"></span><button type="button" class="bt pr" id="copiar">Copiar respostas</button></div></div>
+<main>
+<h1>IrrigaManager v0.2.0 · Checklist de inspeção do pivô</h1>
+<p class="sub">Feita a partir do seu pedido das 11h09, sobre a inspeção de pivô central da Mitti que você mandou, já com os ajustes de itens das 12h08. <b>HOJE</b> é o relatório da Mitti; <b>PROPOSTA</b> é o app de verdade, com dados inventados. A numeração continua da etapa 1 (itens 1 a 17).</p>
+<ul class="como"><li>Toque numa imagem para ampliar. Na imagem ampliada, toque de novo para alternar entre HOJE e PROPOSTA.</li><li>As respostas ficam guardadas neste aparelho até você copiar.</li></ul>
+<div id="itens" style="display:contents"></div>
+<section class="fim" aria-labelledby="fimT">
+ <h2 id="fimT">O que não consegui provar daqui</h2>
+ <ul>
+  <li>A câmera e o GPS num celular de verdade, dentro do app do Claude. A foto funcionou no navegador de teste.</li>
+  <li>A inspeção sem sinal no campo: a fila de “guardado no aparelho” foi testada simulando a falta de conexão.</li>
+  <li>A janela de confirmação de download do PDF e do Excel no app do Claude.</li>
+ </ul>
+ <h2>Da etapa 1, ainda faltam</h2>
+ <ul>
+  <li><b>Classes próprias para o CUD</b>: preciso dos limites que você usa (Excelente, Bom, Razoável, Ruim).</li>
+  <li><b>Importar o histórico da planilha de uniformidade</b>: preciso do arquivo Excel.</li>
+  <li><b>Trocar a imagem do mapa pelo app</b>: fica para a próxima rodada.</li>
+ </ul>
+ <p>Testes: <b>tools/testes/t_checklist.js</b> (24 verificações) e <b>tools/testes/t_app.js</b> (15 verificações), todos passando.</p>
+ <button type="button" class="bt pr gr" id="copiar2">Copiar respostas</button><span id="copiado" role="status"></span><pre id="saida" hidden></pre>
+</section>
+</main>
+<div id="lb" hidden role="dialog" aria-modal="true" aria-labelledby="lb-t"><div class="lb-bar"><span id="lb-t"></span><span class="seg" id="lb-seg" role="group" aria-label="Alternar"><button type="button" data-l="hoje">HOJE</button><button type="button" data-l="prop">PROPOSTA</button></span><button type="button" class="bt" id="lb-x">Fechar</button></div><div class="lb-pal" id="lb-pal"><img id="lb-img" alt=""></div></div>
+<script>
+(function(){'use strict';
+var IM=/*SHOTS*/;
+var S=IM.src,DM=IM.dim;
+var REF='tools/testes/t_checklist.js';
+var G=[
+{g:'Os itens do checklist',it:[
+ {t:'Checklist rápido e visual: 14 itens em 4 seções',p:['Seguindo o que você definiu: o checklist é de frequência quase diária e serve para liberar o pivô para operar, então fica só com itens importantes que dá para diagnosticar olhando. Manutenção fica na Cartilha; pressão na ponta fica na Uniformidade.'],l:['<b>Estrutura e torres</b> (5): alinhamento das torres, inspeção visual da estrutura e tubulações, pneus e rodas, juntas/cardans/motorredutores, trilhos das rodas.','<b>Hidráulica</b> (4): pressão na base, vazamentos nas conexões, irrigadores/emissores, válvula de limpeza.','<b>Elétrica e comando</b> (3): painel de controle, comando de direção e velocidade, cabos elétricos das torres.','<b>Área e segurança</b> (2): área livre de obstáculos, sinalização de segurança.'],r:'modelo padrão tem 14 itens em 4 seções',par:[['Lista de itens','mitti_lista','pdf_prop']]},
+ {t:'Ajustes que você pediu',p:['Aplicados no app e na lista padrão:'],l:['<b>Retirados:</b> nível de óleo nos redutores (vai para a Cartilha), pressão na ponta do pivô (fica na Uniformidade), limpeza dos filtros de linha, aterramento e para-raios (vai para a Cartilha) e parada automática.','<b>Rodeiros → trilhos:</b> “Verificar trilhos das rodas: sem valetas fundas ou atoleiro”.','<b>Canhão final → válvula de limpeza:</b> “Verificar válvula de limpeza”, agora na seção Hidráulica.'],q:'Escrevi só “Verificar válvula de limpeza”. Se quiser dizer o que olhar nela (por exemplo: abre, fecha e não vaza), escreva no comentário.',r:'modelo padrão tem 14 itens em 4 seções'},
+ {t:'Item novo que ficou: juntas, cardans e motorredutores',p:['“Verificar juntas, cardans e motorredutores (ruído, folga, vazamento de óleo)”, em Estrutura e torres. Mantive porque se percebe olhando e ouvindo, sem abrir nada.'],q:'Se preferir levar este item para a Cartilha, marque Reprovado.',r:'modelo padrão'},
+ {t:'Valor medido em dois itens',p:['Além de Conforme ou Não conforme, dois itens pedem o número:'],l:['Pressão na base (bar);','Percentímetro (%), no item de comando de direção e velocidade.'],q:'O percentímetro é a forma que vocês usam para registrar a velocidade? Se for outra (m/h, por exemplo), marque Reprovado e diga qual.',r:'pede o valor medido da pressão; pressão medida guardada',cel:1,par:[['Seção Hidráulica no celular',null,'m_valores']]},
+ {t:'Itens críticos',p:['Com os ajustes, ficaram quatro itens críticos. Se algum deles ficar Não conforme, o app sugere que o pivô está <b>inapto para operação</b>:'],l:['alinhamento das torres;','painel de controle;','cabos elétricos das torres;','área livre de obstáculos.'],q:'Se algum item deve entrar ou sair desta lista, marque Reprovado e diga qual. A lista também pode ser mudada depois, em Configurações.',r:'sugere inapto com crítico não conforme'}
+]},
+{g:'A inspeção no celular',it:[
+ {t:'Uma seção por tela, com três botões grandes',p:['Cada item tem <b>Conforme</b>, <b>Não conforme</b> e <b>N/A</b>, em botões de 46 px para usar com o dedo. Não dá para passar de seção com item sem resposta.','O botão “Marcar os sem resposta desta seção como Conforme” acelera quando quase tudo está certo.'],r:'não passa de seção com item sem resposta',cel:1,par:[['Seção Estrutura e torres',null,'m_secao']]},
+ {t:'Não conforme pede descrição, foto, ação e prazo',p:['Hoje as fotos ficam num campo separado no fim (“Registrar fotos de não conformidades”), sem ligar a foto ao item. Na proposta, ao marcar Não conforme, abrem no próprio item:'],l:['O que foi encontrado (obrigatório);','até 3 fotos, com data, hora e o nome do item gravados na imagem;','ação corretiva e prazo (opcionais).'],r:'não conforme exige descrição; foto do item não conforme',cel:1,par:[['Item não conforme','mitti_lista','m_nc']]},
+ {t:'N/A não conta contra o resultado',p:['Na inspeção da Mitti, o item com N/D entrou na conta: <b>11 de 14 (78,57%)</b>. Na proposta, N/A fica fora: com as mesmas respostas, seria <b>11 de 13 (84,6%)</b>.','O resultado aparece como “x de y conformes (%)”, com quantos N/A ficaram de fora.'],r:'resultado 9 de 13 (69,2%), N/A fora da conta',cel:1,par:[['Resultado','mitti_resumo','m_final']]},
+ {t:'“Apto para operação” com sugestão e justificativa',p:['Na inspeção da Mitti, o pivô ficou “Sim, apto” com 3 não conformes e nenhuma ação. Na proposta:'],l:['com item crítico não conforme, o app sugere “Não, inapto”;','para marcar “Sim, apto” mesmo assim, é obrigatório justificar;','a pessoa sempre escolhe; o app não decide sozinho.'],r:'apto com crítico exige justificativa',cel:1,par:[['Pergunta final','mitti_lista','m_just']]},
+ {t:'Horímetro na inspeção',p:['No início da inspeção há um campo opcional de horímetro. Se preenchido, a leitura entra no controle da preventiva, sem precisar lançar de novo.','O app confere com as leituras anteriores e aceita “2.968” como 2.968 horas.'],r:'horímetro da inspeção entrou nas leituras',cel:1,par:[['Início da inspeção',null,'m_inicio']]},
+ {t:'Observações gerais, responsável e assinatura',p:['Como na Mitti: observações gerais, nome do responsável (vem preenchido com o nome da conta) e assinatura com o dedo, com data e hora.','Como na uniformidade, a inspeção fica salva no aparelho a cada resposta: dá para fechar e continuar depois, e sem sinal ela é enviada quando houver conexão.'],r:'rascunho mantém respostas'}
+]},
+{g:'Pendências, aba Checklist e relatórios',it:[
+ {t:'Cada não conforme vira uma pendência do pivô',p:['Na Mitti, a inspeção ficou com “Ações 0”. Na proposta, cada não conforme abre uma <b>pendência</b> com o item, o que foi encontrado, a ação e o prazo.','A pendência fica aberta até alguém tocar em <b>Resolver</b> e dizer o que foi feito, quem fez e quando. Prazo vencido aparece em vermelho.','Quando a aba <b>Ações</b> for feita, as pendências passam para lá.'],r:'4 pendências abertas, 2 críticas; pendência resolvida',par:[['Pendências','mitti_resumo','d_resolver']]},
+ {t:'Aba Checklist no PC',p:['Por pivô: pendências abertas, resultado, não conformes, se está apto, horímetro, todos os itens com valor, observação e fotos, assinatura e a tabela de todas as inspeções do pivô.'],r:'aba mostra pendências e inapto',par:[['Aba Checklist',null,'d_aba']]},
+ {t:'Mapa e painel do pivô mostram “Inapto” e pendências',p:['No mapa, o pivô cuja última inspeção foi “inapto” ganha o aviso <b>⚠ INAPTO</b>, e o contador “Inapto” aparece ao lado dos da preventiva.','No painel do pivô: “Apto/Inapto para operação”, número de pendências, resultado da última inspeção e o botão <b>Nova inspeção</b>.'],r:'mapa marca o pivô inapto',par:[['Mapa',null,'d_mapa']]},
+ {t:'Relatório em PDF e Excel',p:['<b>PDF</b> no estilo do relatório da Mitti: resultado, não conformes, apto, horímetro, itens por seção com o resultado colorido, o que foi encontrado, ação e prazo, observações e assinatura.','<b>Excel</b> com 4 abas: Inspeção, Itens, Histórico do pivô e Pendências do pivô.'],r:'PDF da inspeção; Excel da inspeção',par:[['Relatório','mitti_lista','pdf_prop']]},
+ {t:'Itens do checklist editáveis em Configurações',p:['Dono e editores podem mudar o texto, a seção, a ordem, marcar como crítico, pedir valor medido (com unidade) e acrescentar ou remover itens.','Inspeções já feitas guardam os itens da época e não mudam.'],r:'modelo salvo com 15 itens',par:[['Configurações',null,'d_editor']]}
+]},
+{g:'Sugestões da etapa 1 que entraram agora',it:[
+ {t:'Excluir só para dono e editores',p:['O botão Excluir de avaliações, leituras do horímetro e inspeções só aparece para o dono e os editores do app. Quem tem acesso de Contribuidor lança, mas não apaga.','O bloqueio está na tela do app; a base de dados ainda aceita exclusão de quem tem acesso de Contribuidor.']},
+ {t:'Lembrete do horímetro',p:['No Mapa e em Pivôs, aparece o aviso “Pivô X está sem leitura há mais de 7 dias”, com o botão Lançar horímetro. Pivôs fora de operação não entram.']}
+]}];
+(function(){var n=18;G.forEach(function(g){g.it.forEach(function(it){it.n=n++;});});})();
+var host=document.getElementById('itens'),KEY='im-aprov-v020',sv={};try{sv=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){sv={};}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(sv));}catch(e){}}
+var TOT=0,PARES={};
+function fig(lado,k,par,leg,cel,cap){if(!k)return '<figure class="'+lado+(cel?' cel':'')+'"><figcaption>'+(lado==='hoje'?'HOJE':'PROPOSTA')+'</figcaption><div class="vazio">'+(lado==='hoje'?'Não existe hoje.':'')+'</div></figure>';
+ var d=DM[k],c=cap||(lado==='hoje'?'HOJE':'PROPOSTA');return '<figure class="'+lado+(cel?' cel':'')+'"><figcaption>'+c+'</figcaption><button type="button" class="zoom" data-par="'+par+'" data-lado="'+lado+'" aria-label="Ampliar: '+c+' · '+leg+'"><img loading="lazy" width="'+d[0]+'" height="'+d[1]+'" src="'+S[k]+'" alt="'+c+': '+leg+'"></button></figure>';}
+G.forEach(function(gr){var h=document.createElement('h2');h.className='grupo';h.textContent=gr.g;host.appendChild(h);
+ gr.it.forEach(function(it){TOT++;var a=document.createElement('article');a.className='it';a.id='item-'+it.n;a.setAttribute('data-n',it.n);a.setAttribute('data-t',it.t);
+  var x='<header><div class="num">ITEM <span>'+it.n+'</span></div><div class="cab"><h3>'+it.t+'</h3>'+(it.p||[]).map(function(s){return '<p>'+s+'</p>';}).join('')+(it.l?'<ul>'+it.l.map(function(s){return '<li>'+s+'</li>';}).join('')+'</ul>':'')+(it.q?'<p class="perg"><b>Pergunta:</b> '+it.q+'</p>':'')+(it.r?'<p class="ref"><b>Referência</b> '+REF+': '+it.r+'.</p>':'')+'</div></header>';
+  (it.par||[]).forEach(function(pr,i){var id=it.n+'-'+i;PARES[id]={t:pr[0],hoje:pr[1],prop:pr[2]};
+   x+='<div class="par'+(it.cel?' par-cel':'')+'"><p class="leg">'+pr[0]+'</p><div class="lado">'+(it.cap?fig('prop',pr[1],id,pr[0],it.cel,it.cap[0]).replace('data-lado="prop"','data-lado="hoje"'):fig('hoje',pr[1],id,pr[0],it.cel&&pr[1]&&pr[1].indexOf('m_')===0))+fig('prop',pr[2],id,pr[0],it.cel,it.cap?it.cap[1]:null)+'</div></div>';});
+  x+='<div class="resp"><div class="voto" role="radiogroup" aria-label="Resposta do item '+it.n+'"><input type="radio" name="r'+it.n+'" id="r'+it.n+'-a" value="Aprovado"><label for="r'+it.n+'-a" class="ok">Aprovado</label><input type="radio" name="r'+it.n+'" id="r'+it.n+'-r" value="Reprovado"><label for="r'+it.n+'-r" class="no">Reprovado</label></div><label class="com" for="c'+it.n+'">Comentário<textarea id="c'+it.n+'" rows="2" placeholder="O que mudar, se quiser (opcional)"></textarea></label></div>';
+  a.innerHTML=x;host.appendChild(a);
+  var s=sv[it.n]||{};if(s.v){var r=a.querySelector('input[value="'+s.v+'"]');if(r)r.checked=true;a.classList.add(s.v==='Aprovado'?'ok':'no');}if(s.c)a.querySelector('textarea').value=s.c;
+  a.addEventListener('change',function(e){if(e.target.name==='r'+it.n){sv[it.n]=sv[it.n]||{};sv[it.n].v=e.target.value;a.classList.toggle('ok',e.target.value==='Aprovado');a.classList.toggle('no',e.target.value==='Reprovado');save();cont();}});
+  a.querySelector('textarea').addEventListener('input',function(e){sv[it.n]=sv[it.n]||{};sv[it.n].c=e.target.value;save();});
+ });});
+function cont(){var n=0;Object.keys(sv).forEach(function(k){if(sv[k].v)n++;});document.getElementById('cont').textContent=n+' de '+TOT+' respondidos';}
+cont();
+function texto(){var o=['IrrigaManager v0.2.0 · Checklist · respostas',''];G.forEach(function(gr){o.push(gr.g);gr.it.forEach(function(it){var s=sv[it.n]||{};o.push('ITEM '+it.n+' · '+it.t.replace(/<[^>]+>/g,'')+': '+(s.v||'Sem resposta'));if(s.c&&s.c.trim())o.push('  Comentário: '+s.c.trim());});o.push('');});return o.join('\n');}
+function copiar(){var t=texto(),out=document.getElementById('saida'),ok=document.getElementById('copiado');out.textContent=t;out.hidden=false;
+ function done(){ok.textContent='Copiado. Cole na conversa.';}
+ function fb(){var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r);try{if(document.execCommand('copy'))done();else ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}catch(e){ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}}
+ if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(done,fb);else fb();
+ if(this&&this.id==='copiar')out.scrollIntoView({block:'center'});}
+document.getElementById('copiar').addEventListener('click',copiar);document.getElementById('copiar2').addEventListener('click',copiar);
+// ampliar
+var lb=document.getElementById('lb'),li=document.getElementById('lb-img'),lt=document.getElementById('lb-t'),seg=document.getElementById('lb-seg'),cur=null,lado='prop',volta=null;
+function mostra(){var p=PARES[cur],k=p[lado]||p[lado==='hoje'?'prop':'hoje'];if(!p[lado])lado=lado==='hoje'?'prop':'hoje';li.src=S[k];li.alt=(lado==='hoje'?'HOJE':'PROPOSTA')+': '+p.t;lt.textContent=p.t+' · '+(lado==='hoje'?'HOJE':'PROPOSTA');seg.hidden=!(p.hoje&&p.prop);seg.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',String(b.getAttribute('data-l')===lado));});}
+document.addEventListener('click',function(e){var z=e.target.closest('.zoom');if(!z)return;cur=z.getAttribute('data-par');lado=z.getAttribute('data-lado');volta=z;mostra();lb.hidden=false;document.body.style.overflow='hidden';document.getElementById('lb-x').focus();});
+function fecha(){lb.hidden=true;document.body.style.overflow='';if(volta)volta.focus();}
+document.getElementById('lb-x').addEventListener('click',fecha);
+document.getElementById('lb-pal').addEventListener('click',function(){var p=PARES[cur];if(p.hoje&&p.prop){lado=lado==='hoje'?'prop':'hoje';mostra();}else fecha();});
+seg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;lado=b.getAttribute('data-l');mostra();});
+document.addEventListener('keydown',function(e){if(lb.hidden)return;if(e.key==='Escape')fecha();if(e.key==='ArrowLeft'||e.key==='ArrowRight'){var p=PARES[cur];if(p.hoje&&p.prop){lado=lado==='hoje'?'prop':'hoje';mostra();}}});
+})();
+</script>

@@ -152,6 +152,88 @@
       "ventoMax": 4.5,
       "faixa": 15,
       "laminaRec": 10
+    },
+    "checklist": {
+      "itens": [
+        {
+          "id": "e1",
+          "sec": "Estrutura e torres",
+          "t": "Verificar o alinhamento das torres do pivô",
+          "crit": true
+        },
+        {
+          "id": "e2",
+          "sec": "Estrutura e torres",
+          "t": "Inspeção visual da estrutura e tubulações"
+        },
+        {
+          "id": "e3",
+          "sec": "Estrutura e torres",
+          "t": "Verificar estado dos pneus e rodas das torres"
+        },
+        {
+          "id": "e5",
+          "sec": "Estrutura e torres",
+          "t": "Verificar juntas, cardans e motorredutores (ruído, folga, vazamento de óleo)"
+        },
+        {
+          "id": "e6",
+          "sec": "Estrutura e torres",
+          "t": "Verificar trilhos das rodas: sem valetas fundas ou atoleiro"
+        },
+        {
+          "id": "h1",
+          "sec": "Hidráulica",
+          "t": "Verificar pressão na base do pivô",
+          "un": "bar",
+          "unl": "Pressão na base"
+        },
+        {
+          "id": "h3",
+          "sec": "Hidráulica",
+          "t": "Verificar ausência de vazamentos nas conexões"
+        },
+        {
+          "id": "h4",
+          "sec": "Hidráulica",
+          "t": "Verificar irrigadores / emissores (entupimento)"
+        },
+        {
+          "id": "h6",
+          "sec": "Hidráulica",
+          "t": "Verificar válvula de limpeza"
+        },
+        {
+          "id": "c1",
+          "sec": "Elétrica e comando",
+          "t": "Verificar funcionamento do painel de controle",
+          "crit": true
+        },
+        {
+          "id": "c2",
+          "sec": "Elétrica e comando",
+          "t": "Verificar comando de direção e velocidade de deslocamento",
+          "un": "%",
+          "unl": "Percentímetro"
+        },
+        {
+          "id": "c3",
+          "sec": "Elétrica e comando",
+          "t": "Verificar fixação e integridade dos cabos elétricos das torres",
+          "crit": true
+        },
+        {
+          "id": "s1",
+          "sec": "Área e segurança",
+          "t": "Verificar área livre de obstáculos ao redor do pivô",
+          "crit": true
+        },
+        {
+          "id": "s2",
+          "sec": "Área e segurança",
+          "t": "Verificar sinalização de segurança ao redor do equipamento"
+        }
+      ]
     }
   }
 }

@@ -1,6 +1,6 @@
 # Padrão das páginas de aprovação
 
-A partir da etapa 2, toda entrega vem com uma página de aprovação neste formato.
+A partir da etapa 2, toda entrega vem com uma página de aprovação neste formato. Exemplo: `docs/aprovacao-v0.2.0.html` (fonte em `tools/aprovacao_src.html`).
 
 ## Estrutura
 

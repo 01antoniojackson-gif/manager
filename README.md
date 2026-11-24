@@ -1,8 +1,8 @@
 # IrrigaManager
 
-App para gestão de pivôs centrais: mapa das áreas com a situação da preventiva, controle de horímetro e avaliação de uniformidade de irrigação (CUC e CUD) feita no celular, no campo.
+App para gestão de pivôs centrais: mapa das áreas com a situação da preventiva, controle de horímetro, checklist de inspeção diária e avaliação de uniformidade de irrigação (CUC e CUD), feitos no celular, no campo.
 
-**Versão 0.1.0 · etapa 1** (aprovada em 23/11/2026).
+**Versão 0.2.0 · checklist** (em aprovação; a 0.1.0 foi aprovada em 23/11/2026).
 
 ## O que o app faz
 
@@ -13,8 +13,15 @@ App para gestão de pivôs centrais: mapa das áreas com a situação da prevent
   2. coletores: distância do 1º coletor, distância entre coletores, número de coletores (até 30) e diâmetro do coletor;
   3. coleta coletor a coletor: a distância soma sozinha, a lâmina aparece ao digitar o volume, foto do frasco com data e hora gravadas na imagem, coletor perdido;
   4. resultado, observações, responsável e assinatura com o dedo.
+- **Checklist de inspeção** no celular: inspeção rápida e visual, de frequência quase diária, para liberar o pivô para operar.
+  - 14 itens em 4 seções (Estrutura e torres, Hidráulica, Elétrica e comando, Área e segurança), cada um com Conforme, Não conforme ou N/A;
+  - valor medido na pressão da base (bar) e no percentímetro (%);
+  - não conforme pede o que foi encontrado, até 3 fotos, ação corretiva e prazo, e abre uma pendência do pivô;
+  - 4 itens críticos: não conformes, fazem o app sugerir "inapto"; marcar "apto" mesmo assim exige justificativa;
+  - horímetro opcional, que entra no controle da preventiva; responsável e assinatura.
+- **Aba Checklist**: pendências abertas (com prazo vencido em vermelho e botão Resolver), resultado, itens, assinatura e histórico de inspeções do pivô. O mapa marca o pivô inapto.
 - **Aba Uniformidade**: CUC, CUD, lâmina média comparada à recomendada, coeficiente de variação, coletores fora da faixa, gráfico da lâmina por distância, histórico, tabela de avaliações e leitura do resultado.
-- **Exportação** em PDF (2 páginas) e Excel (abas Avaliação, Coletores e Histórico do pivô), geradas dentro do próprio app.
+- **Exportação** em PDF e Excel da avaliação de uniformidade e da inspeção, geradas dentro do próprio app.
 - **Modo escuro, claro e automático**. No celular, o menu vai para baixo da tela.
 
 ## Como abrir
@@ -36,8 +43,9 @@ O app é um único arquivo HTML, sem servidor.
 | Classes | Excelente ≥ 90%, Bom 80 a 90%, Razoável 70 a 80%, Ruim < 70% |
 | Vento | acima de 4,5 m/s o app avisa e pede confirmação |
 | Preventiva | intervalo de 2.000 h; "Próxima" faltando 100 h ou quando o ritmo de uso indica menos de 30 dias |
+| Resultado do checklist | conformes ÷ (conformes + não conformes); N/A fica fora da conta |
 
-Coletores perdidos ou sem leitura ficam fora do cálculo. Os parâmetros ficam em **Configurações** e só o dono ou editores do app alteram.
+Coletores perdidos ou sem leitura ficam fora do cálculo. Os parâmetros e os itens do checklist ficam em **Configurações** e só o dono ou editores do app alteram.
 
 ## Estrutura
 
@@ -48,9 +56,13 @@ src/icones.html            ícones SVG
 src/mapas.json             imagens do mapa e suas dimensões em pixels
 assets/                    prints das áreas RU e JD
 dados/dados-iniciais.json  os 8 pivôs e os parâmetros iniciais
-docs/aprovacao-etapa1.html página de aprovação da etapa 1
+docs/aprovacao-etapa1.html página de aprovação da etapa 1 (v0.1.0)
+docs/aprovacao-v0.2.0.html página de aprovação do checklist
+docs/padrao-pagina-aprovacao.md  padrão das páginas de aprovação
 tools/build.py             gera index.html (ou dist/ para publicar no Claude)
-tools/testes/t_app.js      teste de ponta a ponta
+tools/aprovacao_src.html   fonte da página de aprovação (as imagens entram no lugar de /*SHOTS*/)
+tools/testes/t_app.js      teste de ponta a ponta (mapa, horímetro, uniformidade)
+tools/testes/t_checklist.js teste de ponta a ponta do checklist
 ```
 
 ## Desenvolvimento
@@ -63,7 +75,9 @@ npm install && npm test             # roda o teste (Playwright + Chromium)
 
 Edite sempre `src/` e `assets/` e gere de novo; não edite `index.html` à mão.
 
-O teste abre o app no modo local, lança horímetros, faz uma avaliação completa de 26 coletores com assinatura, confere CUC, CUD e lâmina média contra um cálculo independente e gera o PDF e o Excel.
+`t_app.js` abre o app no modo local, lança horímetros, faz uma avaliação completa de 26 coletores com assinatura, confere CUC, CUD e lâmina média contra um cálculo independente e gera o PDF e o Excel.
+
+`t_checklist.js` faz uma inspeção completa no tamanho de celular (respostas, valores, não conformes com foto, apto com justificativa, assinatura), confere resultado, pendências e leitura do horímetro, resolve uma pendência, gera PDF e Excel, testa o rascunho e o editor de itens.
 
 ## Dados
 
@@ -75,8 +89,11 @@ Na base compartilhada (artefato do Claude), as coleções são:
 | `leituras/<id>` | pivô, data, horímetro `h`, `prev` (preventiva realizada), observação |
 | `avaliacoes/<id>` | pivô, data, hora, pressão, vento, torre, lâmina recomendada, faixa, `d1`, `ds`, `n`, diâmetro, coletores (`vol`, `perdido`, `foto`), observações, responsável, assinatura, GPS, resultados |
 | `fotos/<id>` | foto do frasco, quando não há armazenamento de arquivos disponível |
+| `checklists/<id>` | pivô, data, hora, horímetro, itens (seção, texto, crítico, resultado, valor, observação, ação, prazo, fotos), apto, justificativa, observações, responsável, assinatura, GPS |
+| `pendencias/<id>` | pivô, inspeção de origem, item, crítico, o que foi encontrado, ação, prazo, fotos, situação (aberta ou resolvida) e quem resolveu |
 | `cfg/geral` | parâmetros (só dono e editores gravam) |
+| `cfg/checklist` | itens do checklist em uso (só dono e editores gravam) |
 
 ## Próxima etapa
 
-Checklist e Ações, importação do histórico da planilha de uniformidade e as sugestões aprovadas em `docs/aprovacao-etapa1.html`.
+Cartilha de manutenção (com o nível de óleo dos redutores e o aterramento, que saíram do checklist), aba Ações (absorvendo as pendências), classes próprias do CUD e importação do histórico da planilha de uniformidade.

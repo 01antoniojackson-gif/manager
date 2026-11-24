@@ -1,5 +1,20 @@
 # Histórico de versões
 
+## 0.2.0 · 24/11/2026 · checklist
+
+Feita sobre a inspeção de pivô central da Mitti, com os ajustes pedidos em 24/11.
+
+- Aba Checklist e inspeção no celular: 14 itens rápidos e visuais em 4 seções, Conforme / Não conforme / N/A, valor medido na pressão da base e no percentímetro.
+- Saíram da lista da Mitti: nível de óleo dos redutores e aterramento (vão para a Cartilha), pressão na ponta (fica na Uniformidade), filtros de linha e parada automática. Rodeiros viraram trilhos; canhão final virou válvula de limpeza. Entrou: juntas, cardans e motorredutores.
+- Não conforme pede descrição, até 3 fotos, ação e prazo, e abre uma pendência do pivô, resolvida pela aba Checklist.
+- 4 itens críticos; com crítico não conforme o app sugere "inapto" e pede justificativa para "apto".
+- Resultado sem contar N/A.
+- Horímetro opcional na inspeção, que entra no controle da preventiva; "2.968" é lido como 2.968 h.
+- Mapa marca "⚠ INAPTO"; painel e tabela de pivôs mostram a última inspeção e as pendências.
+- PDF e Excel da inspeção.
+- Itens do checklist editáveis em Configurações (dono e editores).
+- Excluir só aparece para dono e editores; lembrete de pivô sem leitura do horímetro há mais de 7 dias.
+
 ## 0.1.0 · 23/11/2026 · etapa 1
 
 Primeira versão funcional, aprovada por inteiro.
