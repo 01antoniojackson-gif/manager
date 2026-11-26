@@ -1,6 +1,6 @@
 {
   "name": "irrigamanager",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "private": true,
   "description": "Gestão de pivôs centrais: mapa, horímetro e preventiva, checklist de inspeção, avaliação de uniformidade (CUC e CUD) e mapa de aspersores, no celular.",
   "scripts": {

@@ -59,10 +59,26 @@ function calculoIndependente(a) {
   await pg.waitForSelector('#wPr');
   await pg.fill('#wPr', '1,8'); await pg.fill('#wVt', '2,4'); await pg.fill('#wTw', '3,2');
   await pg.click('[data-w="next"]');
-  await pg.fill('#wD1', '40'); await pg.fill('#wDs', '15'); await pg.fill('#wN', '26');
-  confere('resumo das distâncias', (await pg.textContent('#wSum')) === '26 coletores, de 40 m a 415 m do centro');
+  confere('Pivô 04 com comprimento: nº de coletores não é digitado', !(await pg.$('#wN')));
+  await pg.fill('#wD1', '40'); await pg.fill('#wDs', '15'); await pg.waitForTimeout(50);
+  confere('Pivô 04 (409,8 m), 1º a 40 m, a cada 15 m: 25 coletores, último a 9,8 m do fim', (await pg.textContent('#wNc')) === '25 coletores' && (await pg.textContent('#wSum')) === 'de 40 m a 400 m do centro · o último fica a 9,8 m do fim do pivô (409,8 m)', await pg.textContent('#wSum'));
+  await pg.fill('#wDs', '13,5'); await pg.waitForTimeout(50);
+  confere('a cada 13,5 m: 28 coletores, último a 404,5 m (5,3 m do fim, ainda acima dos 5 m)', (await pg.textContent('#wNc')) === '28 coletores' && (await pg.textContent('#wSum')).includes('404,5 m do centro · o último fica a 5,3 m'), await pg.textContent('#wSum'));
+  await pg.fill('#wDs', '10'); await pg.waitForTimeout(50);
+  confere('a cada 10 m: 37 coletores (limite agora é 50), último a 9,8 m do fim', (await pg.textContent('#wNc')) === '37 coletores' && (await pg.textContent('#wSum')) === 'de 40 m a 400 m do centro · o último fica a 9,8 m do fim do pivô (409,8 m)', await pg.textContent('#wSum'));
+  await pg.fill('#wDs', '7'); await pg.waitForTimeout(50);
+  confere('a cada 7 m caberiam 53: limita a 50 e sugere 7,4 m', (await pg.textContent('#wNc')) === '50 coletores' && (await pg.textContent('#wSum')).includes('caberiam 53; o app usa no máximo 50') && (await pg.textContent('#wSum')).includes('use 7,4 m entre coletores (o último fica a 402,6 m do centro)'), await pg.textContent('#wSum'));
+  await pg.fill('#wDs', '7,4'); await pg.waitForTimeout(50);
+  confere('a cada 7,4 m: 50 coletores, último a 402,6 m', (await pg.textContent('#wNc')) === '50 coletores' && (await pg.textContent('#wSum')).includes('402,6 m do centro') && !(await pg.textContent('#wSum')).includes('caberiam'), await pg.textContent('#wSum'));
   await pg.click('[data-w="next"]'); await pg.waitForSelector('#wV');
-  for (let k = 1; k <= 26; k++) {
+  confere('50 coletores passam para a coleta, distância com casa decimal', (await pg.textContent('#wiz .prog')).includes('Coletor 1 de 50') && (await pg.textContent('#wiz .cn + .crumb')) === '40 + 0 × 7,4 = 40 m', await pg.textContent('#wiz .cn + .crumb'));
+  await pg.fill('#wV', '33'); await pg.click('[data-w="nextk"]'); await pg.waitForTimeout(80);
+  confere('coletor 2 a 47,4 m', (await pg.textContent('#wiz .cn + .crumb')) === '40 + 1 × 7,4 = 47,4 m', await pg.textContent('#wiz .cn + .crumb'));
+  await pg.screenshot({ path: path.join(SAIDA, 'u50.png') });
+  await pg.click('[data-w="prevk"]'); await pg.waitForTimeout(50); await pg.click('[data-w="prevk"]'); await pg.waitForSelector('#wDs');
+  await pg.fill('#wDs', '15'); await pg.waitForTimeout(50);
+  await pg.click('[data-w="next"]'); await pg.waitForSelector('#wV');
+  for (let k = 1; k <= 25; k++) {
     if (k === 7) confere('distância do coletor 7 somada', (await pg.textContent('.cn span')) === '130 m do centro');
     if (k === 9) await pg.check('#wPerd');
     else await pg.fill('#wV', (30 + ((k * 7) % 11) + (k > 18 && k < 23 ? -6 : 0)).toFixed(1).replace('.', ','));
@@ -88,6 +104,14 @@ function calculoIndependente(a) {
   const [xl] = await Promise.all([pg.waitForEvent('download'), pg.click('[data-act="xlsx"]')]);
   const xlPath = path.join(SAIDA, 'avaliacao.xlsx'); await xl.saveAs(xlPath);
   confere('Excel gerado', fs.readFileSync(xlPath).slice(0, 2).toString() === 'PK');
+
+  confere('avaliação guarda o comprimento do pivô', r.a.comp === 409.76 && r.a.n === 25);
+
+  // pivô sem comprimento cadastrado: número de coletores digitado
+  await pg.click('[data-up="p09"]'); await pg.click('.top [data-act="novaAval"]'); await pg.waitForSelector('#wPr');
+  await pg.fill('#wPr', '2'); await pg.fill('#wVt', '1'); await pg.fill('#wTw', '3'); await pg.click('[data-w="next"]');
+  confere('Pivô 09 sem comprimento: pede o nº de coletores', !!(await pg.$('#wN')) && (await pg.textContent('.wbody')).includes('não cadastrado'));
+  await pg.click('[data-wx="1"]'); await pg.waitForTimeout(200);
 
   confere('sem erros de script na página', erros.length === 0, erros.join(' | '));
   await nav.close();

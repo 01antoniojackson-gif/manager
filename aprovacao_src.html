@@ -1,4 +1,4 @@
-<title>IrrigaManager v0.3.0 · Aspersores (ITENS 41 a 50)</title>
+<title>IrrigaManager v0.3.2 · Limite de 50 coletores (ITEM 54)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>/* Página de aprovação no padrão de docs/padrao-pagina-aprovacao.md: marfim e ouro (Claro), azul-noite e ouro (Escuro),
@@ -88,24 +88,19 @@ textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:var
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-<div class="topo"><div class="topo-in"><b>IrrigaManager · v0.3.0</b><span id="cont">0 de 0 respondidos</span><span class="sp"></span><button type="button" class="bt pr" id="copiar">Copiar respostas</button></div></div>
+<div class="topo"><div class="topo-in"><b>IrrigaManager · v0.3.2</b><span id="cont">0 de 0 respondidos</span><span class="sp"></span><button type="button" class="bt pr" id="copiar">Copiar respostas</button></div></div>
 <main>
-<h1>IrrigaManager v0.3.0 · Mapa de aspersores</h1>
-<p class="sub">Feita a partir do seu pedido das 13h15 e das 6 cartas Senninger que você mandou (PC-01 a PC-06). <b>HOJE</b> é a carta em PDF; <b>PROPOSTA</b> é a aba nova do app, com os dados reais das cartas. As respostas da v0.2.1 (itens 36 a 40) continuam na página anterior.</p>
+<h1>IrrigaManager v0.3.2 · Até 50 coletores</h1>
+<p class="sub">Feita a partir da sua resposta ao ITEM 52 (“aumentar para 50 coletores como limite”). Os itens 51 e 53 foram aprovados e seguem como estavam. <b>PROPOSTA</b> é o app de verdade, com o Pivô 04 (409,8 m).</p>
 <ul class="como"><li>Toque numa imagem para ampliar. Na imagem ampliada, toque de novo para alternar entre HOJE e PROPOSTA.</li><li>As respostas ficam guardadas neste aparelho até você copiar.</li></ul>
 <div id="itens" style="display:contents"></div>
 <section class="fim" aria-labelledby="fimT">
- <h2 id="fimT">O que não consegui provar daqui</h2>
+ <h2 id="fimT">O que ainda falta</h2>
  <ul>
-  <li>Qual das numerações está marcada na tubulação de vocês (item 42).</li>
-  <li>O uso num celular de verdade, no campo, com sinal fraco (item 49).</li>
- </ul>
- <h2>O que ainda falta</h2>
- <ul>
-  <li>Cartas dos pivôs 09 e 10.</li>
+  <li>Cartas de aspersores e comprimento dos pivôs 09 e 10.</li>
   <li>Fonte do horímetro, Cartilha de manutenção e aba Ações.</li>
  </ul>
- <p>Testes: <b>tools/testes/t_aspersores.js</b> (19 verificações), <b>t_checklist.js</b> e <b>t_app.js</b>, todos passando.</p>
+ <p>Testes: <b>tools/testes/t_app.js</b>, <b>t_checklist.js</b> e <b>t_aspersores.js</b>, todos passando.</p>
  <button type="button" class="bt pr gr" id="copiar2">Copiar respostas</button><span id="copiado" role="status"></span><pre id="saida" hidden></pre>
 </section>
 </main>
@@ -114,24 +109,13 @@ textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:var
 (function(){'use strict';
 var IM=/*SHOTS*/;
 var S=IM.src,DM=IM.dim;
-var REF='tools/testes/t_aspersores.js';
+var REF='tools/testes/t_app.js';
 var G=[
-{g:'A aba Aspersores',it:[
- {t:'Aba Aspersores: consulta do mapa de cada pivô',p:['Nova aba no menu, só de consulta: o operador escolhe o pivô e vê, do centro até a ponta, o bocal, a cor e o regulador de cada saída. Não é uma atividade; nada é lançado.','No painel do pivô, no Mapa, entrou o botão <b>Aspersores</b>, que abre direto o pivô escolhido.'],r:'Pivô 01: 133 aspersores, 28 tampadas, 6 torres',par:[['Carta da Senninger × aba Aspersores','h_tabela','d_topo']]},
- {t:'Busca pela saída de três jeitos',p:['As cartas numeram as saídas de dois jeitos diferentes, e o app aceita os dois, mais o número do aspersor:'],l:['<b>Do centro</b>: a contagem da tabela principal da carta, de 1 até a última saída (1 a 161 no Pivô 01), com as tampadas incluídas.','<b>Por vão</b>: como na folha de instalação (a última página da carta), que recomeça em 1 depois de cada torre. Exemplo: vão 2, saída 17 = saída 44 do centro.','<b>Nº do aspersor</b>: a coluna NOZZ# da carta, que conta só as saídas com aspersor.'],q:'Qual numeração está pintada ou marcada na tubulação e é a que o operador usa no campo? Eu deixo essa como a primeira opção.',r:'folha de instalação PC-01: vão 2, saída 17 = aspersor nº 21, bocal 16, saída 44 do centro',cel:1,par:[['Busca por vão','h_instal','m_vao']]},
- {t:'O que aparece ao escolher uma saída',p:['Para cada saída: bocal (número Senninger e diâmetro em mm), cor do bocal (bolinha na cor e o nome escrito), regulador de pressão (modelo, psi e bar), emissor, distância do centro e em que vão fica, com as três numerações.','Meio número (ex.: 13,5) tem a cor do número inteiro e um entalhe; o app escreve “branco, com entalhe” e desenha o entalhe na bolinha.'],r:'PC-01 saída 28: bocal 13,5 branco com entalhe, PSR-10; diâmetro em mm',cel:1,par:[['Saída 64 do Pivô 01',null,'m_saida']]},
- {t:'Nomes das cores em português',p:['As cartas trazem as cores em inglês. Traduzi assim:'],l:['6 dourado · 7 verde-limão · 8 lavanda · 9 cinza · 10 turquesa · 11 amarelo · 12 vermelho · 13 branco · 14 azul · 15 marrom-escuro','16 laranja · 17 verde-escuro · 18 roxo · 19 preto · 20 turquesa-escuro · 21 mostarda · 22 bordô · 23 creme · 24 azul-escuro · 25 cobre metálico'],q:'Se a equipe chama alguma cor de outro jeito (por exemplo, “vinho” em vez de “bordô”), escreva no comentário.',r:'PC-02 saída 189: bocal 25 cobre metálico'},
- {t:'Saídas tampadas (bujão)',p:['As saídas sem aspersor aparecem como “tampada (bujão)”, com a distância do centro, para o operador não confundir na contagem. Na lista elas ficam escondidas e aparecem ao marcar “mostrar as tampadas”.'],r:'PC-01 saída 1: tampada (bujão) a 1,9 m',cel:1,par:[['Saída tampada',null,'m_tampada']]},
- {t:'Desenho do pivô e lista completa',p:['Um desenho do centro à ponta, com as torres e uma bolinha por aspersor na cor do bocal; tocar no desenho abre a saída mais próxima.','Abaixo, a lista de todas as saídas, separada pelas torres, com saída do centro, vão·saída, distância, bocal, cor, regulador e nº do aspersor. Tocar numa linha abre a saída.'],r:'tocar na linha abre a saída; tocar no desenho perto da ponta abre a última saída com aspersor',par:[['Lista do Pivô 01',null,'d_lista']]},
- {t:'Bocais deste pivô, para conferir o estoque',p:['Quantidade de cada bocal no pivô, com diâmetro e cor. Confere com a lista de materiais da carta.'],r:'PC-01 tem 8 bocais nº 16,5 (lista de materiais)',par:[['Bocais do Pivô 01',null,'d_bocais']]},
- {t:'Corrigir uma saída quando o campo for diferente da carta',p:['Dono e editores podem trocar o bocal ou o regulador de uma saída e escrever uma observação, quando o que está instalado for diferente da carta. A carta original fica guardada e aparece junto: “na carta: bocal 13,5”.','Os operadores (acesso de Contribuidor) só consultam.'],r:'correção guarda o novo bocal e a carta original',par:[['Corrigir a saída 64','d_corrigir','d_corrigido']]},
- {t:'Consulta com sinal fraco',p:['Depois que a aba abre uma vez com internet, os mapas ficam guardados no aparelho. Se o sinal cair com o app aberto, a consulta continua.','Abrir o app do zero sem nenhum sinal depende do app do Claude; isso eu não consigo garantir daqui.']}
-]},
-{g:'Os dados das cartas',it:[
- {t:'Dados conferidos com as 6 cartas',p:['Extraí as saídas, distâncias, bocais e reguladores das cartas e conferi de três formas:'],l:['a quantidade de cada bocal bate com a lista de materiais de cada carta;','vão, saída, bocal e regulador batem com a folha de instalação de cada carta (todos os aspersores dos 6 pivôs);','todas as saídas, de 1 até a última, estão presentes, sem falta nem repetição.'],l2:1,q:'Os pivôs 09 e 10 ainda não têm carta. Se tiver os PDFs deles, mande que eu incluo. As cartas dos pivôs 01 a 04 são de 2013 e as dos 05 e 06 de 2022; se algum pivô teve o pacote de bocais trocado depois disso, me avise.',r:'valores das cartas PC-01, PC-02 e PC-06 conferidos na tela'}
+{g:'Avaliação de uniformidade · passo 2',it:[
+ {t:'Limite de 50 coletores',p:['O limite passou de 30 para <b>50 coletores</b>. O cálculo continua o mesmo: cabem quantos coletores der até 5 m antes do fim do pivô.','Pivô 04 a cada 10 m: antes o app cortava em 30 (o último ficava a 330 m); agora usa os <b>37</b> que cabem, de 40 a 400 m, o último a 9,8 m do fim.','Só acima de 50 o app avisa e sugere o espaçamento. Exemplo a cada 7 m: caberiam 53; ele usa 50 e sugere 7,4 m (o último fica a 402,6 m).','Com espaçamento quebrado, as distâncias agora aparecem com vírgula (47,4 m, 54,8 m…) na coleta, no gráfico, no PDF e no Excel. O PDF repete o cabeçalho da tabela quando os coletores passam para outra página.'],r:'a cada 10 m: 37 coletores; a cada 7 m caberiam 53: limita a 50 e sugere 7,4 m; 50 coletores passam para a coleta',cel:1,par:[['Pivô 04 a cada 10 m','u2','u4'],['Pivô 04 a cada 7 m',null,'u3']]}
 ]}];
-(function(){var n=41;G.forEach(function(g){g.it.forEach(function(it){it.n=n++;});});})();
-var host=document.getElementById('itens'),KEY='im-aprov-v030',sv={};try{sv=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){sv={};}
+(function(){var n=54;G.forEach(function(g){g.it.forEach(function(it){it.n=n++;});});})();
+var host=document.getElementById('itens'),KEY='im-aprov-v032',sv={};try{sv=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){sv={};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(sv));}catch(e){}}
 var TOT=0,PARES={};
 function fig(lado,k,par,leg,cel,cap){if(!k)return '<figure class="'+lado+(cel?' cel':'')+'"><figcaption>'+(lado==='hoje'?'HOJE':'PROPOSTA')+'</figcaption><div class="vazio">'+(lado==='hoje'?'Não existe hoje.':'')+'</div></figure>';
@@ -149,7 +133,7 @@ G.forEach(function(gr){var h=document.createElement('h2');h.className='grupo';h.
  });});
 function cont(){var n=0;Object.keys(sv).forEach(function(k){if(sv[k].v)n++;});document.getElementById('cont').textContent=n+' de '+TOT+' respondidos';}
 cont();
-function texto(){var o=['IrrigaManager v0.3.0 · Aspersores · respostas',''];G.forEach(function(gr){o.push(gr.g);gr.it.forEach(function(it){var s=sv[it.n]||{};o.push('ITEM '+it.n+' · '+it.t.replace(/<[^>]+>/g,'')+': '+(s.v||'Sem resposta'));if(s.c&&s.c.trim())o.push('  Comentário: '+s.c.trim());});o.push('');});return o.join('\n');}
+function texto(){var o=['IrrigaManager v0.3.2 · Limite de 50 coletores · respostas',''];G.forEach(function(gr){o.push(gr.g);gr.it.forEach(function(it){var s=sv[it.n]||{};o.push('ITEM '+it.n+' · '+it.t.replace(/<[^>]+>/g,'')+': '+(s.v||'Sem resposta'));if(s.c&&s.c.trim())o.push('  Comentário: '+s.c.trim());});o.push('');});return o.join('\n');}
 function copiar(){var t=texto(),out=document.getElementById('saida'),ok=document.getElementById('copiado');out.textContent=t;out.hidden=false;
  function done(){ok.textContent='Copiado. Cole na conversa.';}
  function fb(){var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r);try{if(document.execCommand('copy'))done();else ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}catch(e){ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}}

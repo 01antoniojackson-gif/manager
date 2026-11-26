@@ -1,5 +1,23 @@
 # Histórico de versões
 
+## 0.3.2 · 26/11/2026 · limite de 50 coletores
+
+Respostas à aprovação da 0.3.1: itens 51 e 53 aprovados; 52 reprovado com o pedido de aumentar o limite para 50 coletores.
+
+- Limite de coletores por avaliação passou de 30 para 50. Acima de 50 o app avisa e sugere o espaçamento que cobre o pivô com 50.
+- Distâncias com casa decimal (espaçamento quebrado, como 7,4 m) aparecem com vírgula na coleta, no gráfico, na leitura do resultado, no PDF e no Excel.
+- PDF repete o cabeçalho da tabela de coletores quando ela passa para outra página.
+
+## 0.3.1 · 26/11/2026 · coletores calculados na uniformidade
+
+Pedido de 26/11 sobre o passo 2 da avaliação de uniformidade (itens 51 a 53).
+
+- O número de coletores é calculado pelo comprimento do pivô, pela distância do 1º coletor e pela distância entre coletores (as duas continuam editáveis), com o último coletor a pelo menos 5 m do fim do pivô.
+- Mantido o limite de 30 coletores; quando caberiam mais, o app avisa e sugere o espaçamento que cobre o pivô com 30.
+- Comprimento vem da carta Senninger (pivôs 01 a 06) ou do novo campo em Pivôs → Editar; sem comprimento, o app pede o número de coletores como antes.
+- Margem até o fim do pivô configurável em Configurações (padrão 5 m).
+- Avaliação guarda o comprimento do pivô; Dados da avaliação e Excel mostram a distância do último coletor até o fim.
+
 ## 0.3.0 · 25/11/2026 · mapa de aspersores
 
 Aprovada por inteiro (itens 41 a 50).

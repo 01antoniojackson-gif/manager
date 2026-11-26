@@ -2,7 +2,7 @@
 
 App para gestão de pivôs centrais: mapa das áreas com a situação da preventiva, controle de horímetro, checklist de inspeção diária e avaliação de uniformidade de irrigação (CUC e CUD), feitos no celular, no campo.
 
-**Versão 0.3.0 · mapa de aspersores** (0.1.0 aprovada em 23/11/2026; 0.2.0 com ajustes em 24/11/2026; 0.3.0 em 25/11/2026).
+**Versão 0.3.2 · limite de 50 coletores** (0.1.0 aprovada em 23/11/2026; 0.2.0 com ajustes em 24/11/2026; 0.3.0 em 25/11/2026; 0.3.1 e 0.3.2 em 26/11/2026).
 
 ## O que o app faz
 
@@ -10,7 +10,7 @@ App para gestão de pivôs centrais: mapa das áreas com a situação da prevent
 - **Pivôs**: cadastro (nome, fazenda, área do mapa, talhões, lâmina recomendada, em operação) e lançamento do horímetro, com a opção "Preventiva realizada", que zera a contagem.
 - **Avaliação de uniformidade no celular**, em 4 passos:
   1. condições: horário, pressão final do pivô (bar), vento (m/s), velocidade da última torre (m/min) e lâmina recomendada;
-  2. coletores: distância do 1º coletor, distância entre coletores, número de coletores (até 30) e diâmetro do coletor;
+  2. coletores: distância do 1º coletor e distância entre coletores; o app calcula quantos coletores cabem (até 50) pelo comprimento do pivô, com o último a pelo menos 5 m do fim; diâmetro do coletor;
   3. coleta coletor a coletor: a distância soma sozinha, a lâmina aparece ao digitar o volume, foto do frasco com data e hora gravadas na imagem, coletor perdido;
   4. resultado, observações, responsável e assinatura com o dedo.
 - **Checklist de inspeção** no celular: inspeção rápida e visual, de frequência quase diária, para liberar o pivô para operar.
@@ -47,6 +47,7 @@ O app é um único arquivo HTML, sem servidor.
 | CUD | média ponderada do quarto da área com menor lâmina ÷ média ponderada |
 | Faixa aceitável | ±15% sobre a lâmina recomendada |
 | Classes | Excelente ≥ 90%, Bom 80 a 90%, Razoável 70 a 80%, Ruim < 70% |
+| Nº de coletores | (comprimento − 5 m − distância do 1º) ÷ espaçamento, arredondado para baixo, + 1; no máximo 50 |
 | Vento | acima de 4,5 m/s o app avisa e pede confirmação |
 | Preventiva | intervalo de 2.000 h; "Próxima" faltando 100 h ou quando o ritmo de uso indica menos de 30 dias |
 | Resultado do checklist | conformes ÷ (conformes + não conformes); N/A fica fora da conta |
@@ -67,6 +68,8 @@ docs/aprovacao-etapa1.html página de aprovação da etapa 1 (v0.1.0)
 docs/aprovacao-v0.2.0.html página de aprovação do checklist
 docs/aprovacao-v0.2.1.html página de aprovação dos ajustes do checklist
 docs/aprovacao-v0.3.0.html página de aprovação da aba Aspersores
+docs/aprovacao-v0.3.1.html página de aprovação dos coletores calculados
+docs/aprovacao-v0.3.2.html página de aprovação do limite de 50 coletores
 docs/padrao-pagina-aprovacao.md  padrão das páginas de aprovação
 tools/build.py             gera index.html (ou dist/ para publicar no Claude)
 tools/aprovacao_src.html   fonte da página de aprovação (as imagens entram no lugar de /*SHOTS*/)
@@ -85,7 +88,7 @@ npm install && npm test             # roda o teste (Playwright + Chromium)
 
 Edite sempre `src/` e `assets/` e gere de novo; não edite `index.html` à mão.
 
-`t_app.js` abre o app no modo local, lança horímetros, faz uma avaliação completa de 26 coletores com assinatura, confere CUC, CUD e lâmina média contra um cálculo independente e gera o PDF e o Excel.
+`t_app.js` abre o app no modo local, lança horímetros, confere o cálculo do número de coletores (inclusive o limite de 50), faz uma avaliação completa de 25 coletores com assinatura, confere CUC, CUD e lâmina média contra um cálculo independente e gera o PDF e o Excel.
 
 `t_checklist.js` faz uma inspeção completa no tamanho de celular (respostas, pressão, não conformes com foto, apto com justificativa, assinatura), confere resultado, pendências e o horímetro vindo da última leitura, resolve uma pendência, gera PDF e Excel, testa o rascunho e o editor de itens.
 
@@ -95,9 +98,9 @@ Na base compartilhada (artefato do Claude), as coleções são:
 
 | Coleção | Conteúdo |
 |---|---|
-| `pivos/<id>` | nome, fazenda, área do mapa (1 = RU, 2 = JD), posição `x`, `y`, raio `r`, giro `o`, talhões `q`, lâmina recomendada, ativo |
+| `pivos/<id>` | nome, fazenda, área do mapa (1 = RU, 2 = JD), posição `x`, `y`, raio `r`, giro `o`, talhões `q`, lâmina recomendada, comprimento `comp` (opcional; sem ele vale o da carta), ativo |
 | `leituras/<id>` | pivô, data, horímetro `h`, `prev` (preventiva realizada), observação |
-| `avaliacoes/<id>` | pivô, data, hora, pressão, vento, torre, lâmina recomendada, faixa, `d1`, `ds`, `n`, diâmetro, coletores (`vol`, `perdido`, `foto`), observações, responsável, assinatura, GPS, resultados |
+| `avaliacoes/<id>` | pivô, data, hora, pressão, vento, torre, lâmina recomendada, faixa, `d1`, `ds`, `n`, comprimento do pivô `comp`, margem, diâmetro, coletores (`vol`, `perdido`, `foto`), observações, responsável, assinatura, GPS, resultados |
 | `fotos/<id>` | foto do frasco, quando não há armazenamento de arquivos disponível |
 | `checklists/<id>` | pivô, data, hora, itens (seção, texto, crítico, resultado, valor, observação, ação, prazo, fotos), apto, justificativa, observações, responsável, assinatura, GPS |
 | `pendencias/<id>` | pivô, inspeção de origem, item, crítico, o que foi encontrado, ação, prazo, fotos, situação (aberta ou resolvida) e quem resolveu |

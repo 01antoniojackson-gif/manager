@@ -197,7 +197,8 @@ details.card[open] summary{margin-bottom:10px}
 /*IMGS*/
 
 // ---------- constantes ----------
-var CFG0={diam:72,intervalo:2000,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10};
+var NMAX=50;
+var CFG0={diam:72,intervalo:2000,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10,margem:5};
 var AREA=['','RU','JD'];
 // Só usados no modo local (fora do Claude), para a página funcionar sozinha.
 var DEF_PIVOS=[
@@ -213,6 +214,7 @@ var DEF_PIVOS=[
 // ---------- utilidades ----------
 function $(id){return document.getElementById(id);}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+function md(v){if(v==null||!isFinite(v))return '—';return (Math.round(v*100)/100).toLocaleString('pt-BR',{maximumFractionDigits:2});}
 function nf(n,d){if(n==null||!isFinite(n))return '—';return Number(n).toLocaleString('pt-BR',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});}
 function f1(n){return nf(n,1);}
 function num(v){if(v==null)return null;var s=String(v).trim().replace(/\s/g,'');if(!s)return null;if(s.indexOf(',')>=0)s=s.replace(/\./g,'').replace(',','.');else if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');var x=Number(s);return isFinite(x)?x:null;}
@@ -345,7 +347,7 @@ function cp(c){var k=cls(c);return '<span class="pill '+k[0]+'">'+k[1]+'</span>'
 function leitura(a,r,ant){
  var t=[];if(r.nl<2)return ['Há poucos coletores com leitura para calcular os coeficientes.'];
  t.push(r.out?r.out+' de '+r.nl+' coletores ficaram fora da faixa de ±'+nf(a.faixa||CFG.faixa)+'% da lâmina recomendada ('+r.abaixo.length+' abaixo, '+r.acima.length+' acima).':'Todos os '+r.nl+' coletores ficaram dentro da faixa de ±'+nf(a.faixa||CFG.faixa)+'% da lâmina recomendada.');
- if(r.abaixo.length>1){var ds=r.abaixo.map(function(p){return p.dist;});t.push('Lâmina abaixo da faixa entre '+Math.min.apply(0,ds)+' e '+Math.max.apply(0,ds)+' m do centro.');}
+ if(r.abaixo.length>1){var ds=r.abaixo.map(function(p){return p.dist;});t.push('Lâmina abaixo da faixa entre '+md(Math.min.apply(0,ds))+' e '+md(Math.max.apply(0,ds))+' m do centro.');}
  var dif=(r.mean/r.rec-1)*100;t.push('Lâmina média de '+f1(r.mean)+' mm contra '+f1(r.rec)+' mm recomendada ('+(dif>=0?'+':'−')+f1(Math.abs(dif))+'%): '+(dif<-5?'aplicou menos que o recomendado.':dif>5?'aplicou mais que o recomendado.':'próxima do recomendado.'));
  t.push(r.cuh<80?'Vale revisar bocais, pressão e sobreposição no trecho com lâmina baixa antes da próxima irrigação.':r.cuh<90?'Resultado aceitável; acompanhe o trecho fora da faixa na próxima avaliação.':'Uniformidade excelente; mantenha a rotina de preventiva.');
  if(a.vento!=null&&a.vento>CFG.ventoMax)t.push('Vento de '+f1(a.vento)+' m/s, acima do limite de '+f1(CFG.ventoMax)+' m/s: o vento distorce a coleta; considere repetir a avaliação em condição mais calma.');
@@ -362,9 +364,9 @@ function barras(a,r,W,H){
  var step=mx>16?5:mx>8?4:2;for(var v=0;v<=mx;v+=step)s+='<line x1="'+l+'" x2="'+(W-rt)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="var(--ln)"/><text x="'+(l-6)+'" y="'+(Y(v)+4)+'" font-size="11" text-anchor="end" fill="var(--tx3)">'+v+'</text>';
  var byK={};r.pts.forEach(function(p){byK[p.k]=p;});
  for(var i=0;i<n;i++){var p=byK[i+1],x=l+i*bw;
-  if(p)s+='<rect x="'+(x+bw*.15).toFixed(1)+'" y="'+Y(p.mm).toFixed(1)+'" width="'+(bw*.7).toFixed(1)+'" height="'+(Y(0)-Y(p.mm)).toFixed(1)+'" rx="2" fill="var(--'+p.st+')"><title>Coletor '+(i+1)+' · '+(a.d1+i*a.ds)+' m · '+f1(p.mm)+' mm</title></rect>';
+  if(p)s+='<rect x="'+(x+bw*.15).toFixed(1)+'" y="'+Y(p.mm).toFixed(1)+'" width="'+(bw*.7).toFixed(1)+'" height="'+(Y(0)-Y(p.mm)).toFixed(1)+'" rx="2" fill="var(--'+p.st+')"><title>Coletor '+(i+1)+' · '+md(a.d1+i*a.ds)+' m · '+f1(p.mm)+' mm</title></rect>';
   else s+='<text x="'+(x+bw/2)+'" y="'+(Y(0)-4)+'" font-size="11" text-anchor="middle" fill="var(--tx3)">×</text>';
-  if(i%sk===0||(i===n-1&&(n-1)%sk>=sk/2))s+='<text x="'+(x+bw/2)+'" y="'+(H-10)+'" font-size="11" text-anchor="middle" fill="var(--tx3)">'+(a.d1+i*a.ds)+' m</text>';}
+  if(i%sk===0||(i===n-1&&(n-1)%sk>=sk/2))s+='<text x="'+(i===n-1&&n>1?x+bw:x+bw/2)+'" y="'+(H-10)+'" font-size="11" text-anchor="'+(i===n-1&&n>1?'end':'middle')+'" fill="var(--tx3)">'+md(a.d1+i*a.ds)+' m</text>';}
  return s+'<line x1="'+l+'" x2="'+(W-rt)+'" y1="'+Y(r.rec)+'" y2="'+Y(r.rec)+'" stroke="var(--tx2)" stroke-dasharray="5 4"/></svg>';
 }
 function historico(lst,selId){
@@ -462,7 +464,7 @@ function vUnif(){
  kp('Coef. de variação',f1(r.cv)+'%','<span class="crumb">'+r.nl+' coletores com leitura</span>')+
  kp('Fora da faixa',r.out+' de '+r.nl,'<span class="crumb">faixa de '+f1(r.lo)+' a '+f1(r.hi)+' mm</span>')+'</div>';
  var vk=a.vento!=null&&a.vento>CFG.ventoMax?'warn':'';
- h+='<div class="card"><h3>Dados da avaliação<small>último coletor a '+(a.d1+(a.n-1)*a.ds)+' m do centro'+(a.gps?' · GPS '+a.gps.lat.toFixed(5)+', '+a.gps.lon.toFixed(5):'')+'</small></h3><div class="k8">'+dk('Horário',esc(a.hora||'—'))+dk('Pressão final do pivô',f1(a.pressao),'bar')+dk('Velocidade do vento',f1(a.vento),'m/s'+(vk?' · acima de '+f1(CFG.ventoMax):''),vk)+dk('Velocidade da última torre',f1(a.torre),'m/min')+dk('Coletores',r.nl+' de '+a.n,r.per?r.per+(r.per>1?' perdidos':' perdido'):'')+dk('1º coletor',nf(a.d1),'m')+dk('Entre coletores',nf(a.ds),'m')+dk('Diâmetro do coletor',nf(a.diam),'mm')+'</div></div>';
+ h+='<div class="card"><h3>Dados da avaliação<small>último coletor a '+nf(a.d1+(a.n-1)*a.ds,1)+' m do centro'+(a.comp?', '+nf(a.comp-(a.d1+(a.n-1)*a.ds),1)+' m antes do fim do pivô ('+nf(a.comp,1)+' m)':'')+(a.gps?' · GPS '+a.gps.lat.toFixed(5)+', '+a.gps.lon.toFixed(5):'')+'</small></h3><div class="k8">'+dk('Horário',esc(a.hora||'—'))+dk('Pressão final do pivô',f1(a.pressao),'bar')+dk('Velocidade do vento',f1(a.vento),'m/s'+(vk?' · acima de '+f1(CFG.ventoMax):''),vk)+dk('Velocidade da última torre',f1(a.torre),'m/min')+dk('Coletores',r.nl+' de '+a.n,r.per?r.per+(r.per>1?' perdidos':' perdido'):'')+dk('1º coletor',md(a.d1),'m')+dk('Entre coletores',md(a.ds),'m')+dk('Diâmetro do coletor',nf(a.diam),'mm')+'</div></div>';
  h+='<div class="card"><h3>Lâmina por distância do centro<small>'+fd(a.data)+'</small></h3>'+barras(a,r)+'<div class="leg"><span class="pill ok">Na faixa (±'+nf(a.faixa||CFG.faixa)+'%)</span><span class="pill crit">Abaixo</span><span class="pill warn">Acima</span><span class="pill mut np">× sem leitura</span><span class="pill mut np">- - - recomendada</span></div></div>';
  var lst=av.slice(-12).map(function(x){return {a:x,r:calc(x)};}).filter(function(x){return x.r.cuh!=null;});
  h+='<div class="g2"><div class="card"><h3>Histórico de CUC e CUD<small>clique num ponto</small></h3>'+historico(lst,a.id)+'<div class="leg"><span class="pill ok">CUC</span><span class="pill mut">CUD (tracejado)</span></div></div>';
@@ -472,7 +474,7 @@ function vUnif(){
  h+='<div class="g21"><div class="card"><h3>Leitura do resultado<small>'+fd(a.data)+'</small></h3><ul class="ins">'+leitura(a,r,ant).map(function(t){return '<li>'+esc(t)+'</li>';}).join('')+'</ul>'+(a.obs?'<p class="note" style="margin:10px 0 0"><b>Observações:</b> '+esc(a.obs)+'</p>':'')+'</div><div class="card"><h3>Responsável pela avaliação<small>assinada no app</small></h3><div class="sigbox">'+sigSvg(a.sig)+'</div><b>'+esc(a.resp||'—')+'</b><div class="crumb">Assinada em '+esc(assin(a))+' · '+esc(p.nome)+'</div></div></div>';
  h+='<details class="card"><summary>Coletores ('+a.n+')</summary><div class="tw"><table class="t"><thead><tr><th class="n">Coletor</th><th class="n">Distância</th><th class="n">Volume</th><th class="n">Lâmina</th><th>Situação</th><th>Foto</th></tr></thead><tbody>';
  var byK={};r.pts.forEach(function(p2){byK[p2.k]=p2;});
- for(i=0;i<a.n;i++){var c=(a.col||[])[i]||{},q=byK[i+1];h+='<tr><td class="n">'+(i+1)+'</td><td class="n">'+(a.d1+i*a.ds)+' m</td><td class="n">'+(c.vol!=null?f1(c.vol)+' mL':'—')+'</td><td class="n">'+(q?f1(q.mm)+' mm':'—')+'</td><td>'+(c.perdido?'<span class="pill mut">Perdido</span>':q?'<span class="pill '+q.st+'">'+(q.st==='ok'?'Na faixa':q.st==='crit'?'Abaixo':'Acima')+'</span>':'<span class="muted">Sem leitura</span>')+'</td><td>'+(c.foto?'<button class="lk" data-act="foto" data-ref="'+esc(c.foto)+'" data-k="'+(i+1)+'">Ver foto</button>':'<span class="muted">—</span>')+'</td></tr>';}
+ for(i=0;i<a.n;i++){var c=(a.col||[])[i]||{},q=byK[i+1];h+='<tr><td class="n">'+(i+1)+'</td><td class="n">'+md(a.d1+i*a.ds)+' m</td><td class="n">'+(c.vol!=null?f1(c.vol)+' mL':'—')+'</td><td class="n">'+(q?f1(q.mm)+' mm':'—')+'</td><td>'+(c.perdido?'<span class="pill mut">Perdido</span>':q?'<span class="pill '+q.st+'">'+(q.st==='ok'?'Na faixa':q.st==='crit'?'Abaixo':'Acima')+'</span>':'<span class="muted">Sem leitura</span>')+'</td><td>'+(c.foto?'<button class="lk" data-act="foto" data-ref="'+esc(c.foto)+'" data-k="'+(i+1)+'">Ver foto</button>':'<span class="muted">—</span>')+'</td></tr>';}
  h+='</tbody></table></div></details>';
  return h;
 }
@@ -485,7 +487,7 @@ function vCfg(){
  var c=CFG;function f(id,l,v,u,h){return '<label class="fl"><span>'+l+(u?' ('+u+')':'')+'</span><input id="'+id+'" inputmode="decimal" value="'+esc(nf(v,v%1?1:0))+'">'+(h?'<small>'+h+'</small>':'')+'</label>';}
  return '<div class="card" style="max-width:720px"><h3>Parâmetros<small>valem para toda a equipe</small></h3><div class="form"><div class="fg">'+
  f('cDiam','Diâmetro do coletor',c.diam,'mm','Converte o volume (mL) em lâmina (mm).')+f('cRec','Lâmina recomendada padrão',c.laminaRec,'mm','Cada pivô pode ter a sua, em Pivôs → Editar.')+
- f('cFx','Faixa aceitável em torno da recomendada',c.faixa,'%','Coletor fora dela aparece como abaixo ou acima.')+f('cVento','Vento máximo para avaliar',c.ventoMax,'m/s','Acima disso o app avisa para repetir.')+
+ f('cFx','Faixa aceitável em torno da recomendada',c.faixa,'%','Coletor fora dela aparece como abaixo ou acima.')+f('cMg','Distância mínima do último coletor ao fim do pivô',c.margem,'m','Garante a sobreposição dos aspersores no último coletor.')+f('cVento','Vento máximo para avaliar',c.ventoMax,'m/s','Acima disso o app avisa para repetir.')+
  f('cInt','Intervalo da preventiva',c.intervalo,'h')+f('cAvH','Avisar “Próxima” faltando',c.avisoH,'h')+f('cAvD','ou faltando',c.avisoDias,'dias','Estimado pelo ritmo de uso do horímetro.')+
  '</div><div class="acts"><button class="b1" data-act="saveCfg"'+(S.ro?' disabled':'')+'>Salvar parâmetros</button></div><p class="note">Só quem edita a página (dono ou editor) pode salvar os parâmetros.</p></div></div>'+
  '<div class="card" style="max-width:720px"><h3>Como os resultados são calculados</h3><ul class="ins"><li>Lâmina do coletor (mm) = volume (mL) × 1000 ÷ área da boca do coletor (mm²).</li><li>CUC de Heermann e Hein: cada coletor pesa pela distância ao centro, porque representa uma faixa de área maior quanto mais longe está.</li><li>CUD: média ponderada do quarto da área com menor lâmina, dividida pela média ponderada.</li><li>Christiansen simples aparece como referência, para comparar com a planilha.</li><li>Coletores perdidos ou sem leitura ficam fora do cálculo.</li></ul></div>'+ckEditor()+'<div class="card" style="max-width:720px"><h3>Resultado do checklist</h3><ul class="ins"><li>Resultado = conformes ÷ (conformes + não conformes). Itens N/A ficam fora da conta.</li><li>Item crítico não conforme faz o app sugerir “Inapto”; para marcar “Apto” mesmo assim, é preciso justificar.</li><li>Cada não conforme abre uma pendência do pivô, que fica aberta até alguém marcar como resolvida.</li></ul></div>';
@@ -608,17 +610,17 @@ function dlgHorimetro(pid){
 }
 function dlgPivo(id){
  var p=id?pv(id):null,o=p||{nome:'',fazenda:AREA[S.area],area:S.area,q:['','','',''],laminaRec:CFG.laminaRec,ativo:true};
- modal(p?'Editar '+esc(p.nome):'Novo pivô','<div class="fg"><label class="fl">Nome<input id="pN" value="'+esc(o.nome)+'" maxlength="40"></label><label class="fl">Área do mapa<select id="pA"><option value="1"'+((o.area||1)===1?' selected':'')+'>Área RU</option><option value="2"'+(o.area===2?' selected':'')+'>Área JD</option></select></label><label class="fl">Fazenda<input id="pF" value="'+esc(o.fazenda||'')+'" maxlength="40"></label><label class="fl">Lâmina recomendada (mm)<input id="pL" inputmode="decimal" value="'+esc(nf(o.laminaRec||CFG.laminaRec,1))+'"></label><label class="fl full">Talhões, na ordem do mapa (separados por vírgula)<input id="pQ" value="'+esc((o.q||[]).join(', '))+'"><small>Ex.: RU36, RU37, RU38, RU39 · use dois nomes para um pivô de dois talhões de 180°.</small></label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="pAt" type="checkbox"'+(o.ativo!==false?' checked':'')+' style="width:20px;height:20px;accent-color:var(--ac)"> Pivô em operação</label></div><p class="note" id="pInfo">'+(p?'A posição e o raio se ajustam no Mapa, em “Ajustar pivôs”.':'O pivô novo aparece no centro do mapa; depois arraste até o lugar certo em “Ajustar pivôs”.')+'</p>',
+ modal(p?'Editar '+esc(p.nome):'Novo pivô','<div class="fg"><label class="fl">Nome<input id="pN" value="'+esc(o.nome)+'" maxlength="40"></label><label class="fl">Área do mapa<select id="pA"><option value="1"'+((o.area||1)===1?' selected':'')+'>Área RU</option><option value="2"'+(o.area===2?' selected':'')+'>Área JD</option></select></label><label class="fl">Fazenda<input id="pF" value="'+esc(o.fazenda||'')+'" maxlength="40"></label><label class="fl">Lâmina recomendada (mm)<input id="pL" inputmode="decimal" value="'+esc(nf(o.laminaRec||CFG.laminaRec,1))+'"></label><label class="fl">Comprimento do pivô (m)<input id="pC" inputmode="decimal" value="'+esc(o.comp?nf(o.comp,2):'')+'" placeholder="'+esc(p&&aspDe(p.id)?nf(aspDe(p.id).meta.comprimento,2)+' (carta)':'')+'"><small>'+(p&&aspDe(p.id)?'Em branco, usa o da carta Senninger.':'Usado para calcular os coletores da uniformidade.')+'</small></label><label class="fl full">Talhões, na ordem do mapa (separados por vírgula)<input id="pQ" value="'+esc((o.q||[]).join(', '))+'"><small>Ex.: RU36, RU37, RU38, RU39 · use dois nomes para um pivô de dois talhões de 180°.</small></label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="pAt" type="checkbox"'+(o.ativo!==false?' checked':'')+' style="width:20px;height:20px;accent-color:var(--ac)"> Pivô em operação</label></div><p class="note" id="pInfo">'+(p?'A posição e o raio se ajustam no Mapa, em “Ajustar pivôs”.':'O pivô novo aparece no centro do mapa; depois arraste até o lugar certo em “Ajustar pivôs”.')+'</p>',
  '<button class="b2" data-close="1">Cancelar</button><button class="b1" id="pOk">Salvar</button>');
  $('pOk').onclick=function(){var nome=$('pN').value.trim(),q=$('pQ').value.split(',').map(function(s){return s.trim();}).filter(Boolean),lr=num($('pL').value),a=+$('pA').value;
   if(!nome||!q.length||!lr){$('pInfo').className='note crit';$('pInfo').textContent='Preencha nome, talhões e lâmina recomendada.';return;}
   var nid=id||('p'+nome.replace(/\D/g,'').slice(-3))||uid('p');if(!id&&(D.pivos[nid]||nid==='p'))nid=uid('p');
   var base=id?D.pivos[id]:{x:Math.round(DIM[a-1][0]/2),y:Math.round(DIM[a-1][1]/2),r:70,o:45};
   if(id&&(base.area||1)!==a)base=Object.assign({},base,{x:Math.round(DIM[a-1][0]/2),y:Math.round(DIM[a-1][1]/2)});
-  var obj=Object.assign({},base,{nome:nome,area:a,fazenda:$('pF').value.trim()||AREA[a],q:q,n:q.length,laminaRec:lr,ativo:$('pAt').checked});
+  var cc=num($('pC').value);var obj=Object.assign({},base,{nome:nome,area:a,fazenda:$('pF').value.trim()||AREA[a],q:q,n:q.length,laminaRec:lr,ativo:$('pAt').checked});if(cc&&cc>0)obj.comp=cc;else delete obj.comp;
   this.disabled=true;put('pivos',nid,obj).then(function(){closeModal();S.sel=nid;toast('Pivô salvo.');}).catch(function(e){$('pOk').disabled=false;$('pInfo').className='note crit';$('pInfo').textContent=errMsg(e);});};
 }
-function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',ventoMax:'cVento',intervalo:'cInt',avisoH:'cAvH',avisoDias:'cAvD'};
+function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',margem:'cMg',ventoMax:'cVento',intervalo:'cInt',avisoH:'cAvH',avisoDias:'cAvD'};
  for(var k in m){var v=num($(m[k]).value);if(v==null||v<=0){toast('Confira o campo destacado.','crit');$(m[k]).focus();return;}o[k]=v;}
  put('cfg','geral',o).then(function(){toast('Parâmetros salvos.');}).catch(function(e){toast(e&&e.code==='invalid_argument'?'Só o dono ou um editor da página pode alterar os parâmetros.':errMsg(e),'crit');});}
 function fotoSrc(ref){if(!ref)return Promise.resolve(null);var k=ref.slice(0,2),id=ref.slice(2);
@@ -648,6 +650,8 @@ function abrirWizard(pid,cont){
 }
 function fecharWiz(){var w=W;$('wiz').innerHTML='';$('wiz').onclick=null;clearTimeout(saveT);W=null;(w?kvSet('draft',w):Promise.resolve()).then(refreshDraftBanner);}
 function wfield(id,l,v,u,ex){return '<label class="fl"><span>'+l+(u?' <small>('+u+')</small>':'')+'</span><input id="'+id+'" inputmode="decimal" autocomplete="off" value="'+(v==null?'':esc(String(v).replace('.',',')))+'"'+(ex||'')+'></label>';}
+function compPivo(p){if(!p)return null;if(p.comp)return {L:p.comp,fonte:'cadastro do pivô'};var d=aspDe(p.id);return d&&d.meta&&d.meta.comprimento?{L:d.meta.comprimento,fonte:'carta Senninger'}:null;}
+function nCalc(L,d1,ds,mg){if(L==null||d1==null||!ds||ds<=0)return null;var lim=L-mg;if(d1>lim)return 0;return Math.floor((lim-d1)/ds+1e-9)+1;}
 function wdist(k){return W.d1+(k-1)*W.ds;}
 function wrender(){
  var p=pv(W.pivo),st=W.step,h='<div class="wiz"><div class="wz" role="dialog" aria-modal="true" aria-label="Avaliação de uniformidade"><div class="wbar"><div><small>Uniformidade · passo '+st+' de 4</small><b>'+esc(p?p.nome:'')+' · '+fd(W.data)+'</b></div><button class="x" data-wx="1" aria-label="Fechar e guardar rascunho">✕</button></div><div class="wbody"><div class="steps">'+[1,2,3,4].map(function(i){return '<i class="'+(i<=st?'on':'')+'"></i>';}).join('')+'</div>';
@@ -657,12 +661,14 @@ function wrender(){
   '<div class="h5">Condições da avaliação</div><div class="fg">'+wfield('wPr','Pressão final do pivô',W.pressao,'bar')+wfield('wVt','Velocidade do vento',W.vento,'m/s')+wfield('wTw','Velocidade da última torre',W.torre,'m/min')+wfield('wRec','Lâmina recomendada',W.rec,'mm')+'</div><p class="note" id="wMsg"></p>';
   foot='<button class="b1" data-w="next">Próximo: coletores</button>';
  }else if(st===2){
-  h+='<div class="h5">Posição dos coletores</div><div class="fg">'+wfield('wD1','Distância do 1º coletor',W.d1,'m')+wfield('wDs','Distância entre coletores',W.ds,'m')+wfield('wN','Nº de coletores',W.n,'máx. 30')+wfield('wDm','Diâmetro do coletor',W.diam,'mm')+'</div><div class="res"><span id="wSum">Informe as distâncias e o número de coletores.</span></div><p class="note" id="wMsg"></p>';
+  var cp=compPivo(p);
+  h+='<div class="h5">Posição dos coletores</div>'+(cp?'<p class="note" style="margin:0">'+esc(p.nome)+': <b>'+nf(cp.L,1)+' m</b> de comprimento ('+esc(cp.fonte)+'). O último coletor fica a pelo menos '+nf(CFG.margem)+' m do fim do pivô, para ter sobreposição dos aspersores.</p>':'<p class="note warn" style="margin:0">Comprimento do '+esc(p?p.nome:'pivô')+' não cadastrado: informe o número de coletores, ou cadastre o comprimento em Pivôs → Editar para o app calcular.</p>')+
+   '<div class="fg">'+wfield('wD1','Distância do 1º coletor',W.d1,'m')+wfield('wDs','Distância entre coletores',W.ds,'m')+(cp?'':wfield('wN','Nº de coletores',W.n,'máx. '+NMAX))+wfield('wDm','Diâmetro do coletor',W.diam,'mm')+'</div><div class="res" style="display:grid;gap:4px;justify-items:start"><b id="wNc" style="font:600 26px var(--n)"></b><span id="wSum">Informe as distâncias.</span></div><p class="note" id="wMsg"></p>';
   foot='<div class="r"><button class="b2" data-w="back">Voltar</button><button class="b1" data-w="next">Iniciar coleta</button></div>';
  }else if(st===3){
   var k=W.k,c=W.col[k-1]||{},lidos=W.col.filter(function(x){return x&&(x.vol!=null||x.perdido);}).length;
   h+='<div class="prog"><span>Coletor '+k+' de '+W.n+'</span><span>'+lidos+' registrados</span></div><div class="trk"><i style="width:'+Math.round(lidos/W.n*100)+'%"></i></div>'+
-  '<div class="cn"><b>Coletor '+k+'</b><span>'+wdist(k)+' m do centro</span></div><div class="crumb">'+nf(W.d1)+' + '+(k-1)+' × '+nf(W.ds)+' = '+wdist(k)+' m</div>'+
+  '<div class="cn"><b>Coletor '+k+'</b><span>'+md(wdist(k))+' m do centro</span></div><div class="crumb">'+md(W.d1)+' + '+(k-1)+' × '+md(W.ds)+' = '+md(wdist(k))+' m</div>'+
   '<label class="fl"><span>Volume coletado <small>(mL)</small></span><input id="wV" class="big" inputmode="decimal" autocomplete="off" value="'+(c.vol!=null?esc(String(c.vol).replace('.',',')):'')+'"'+(c.perdido?' disabled':'')+'></label>'+
   '<div class="res"><span>Lâmina</span><b id="wL">—</b><span id="wLs"></span></div>'+
   '<div class="foto">'+(c.foto?'<img src="'+c.foto+'" alt="Foto do frasco do coletor '+k+'">':'<div class="ph">'+ic('cam')+'</div>')+'<div style="display:grid;gap:6px;justify-items:start"><b style="font-size:13px">Foto do frasco</b><span class="crumb">'+(c.foto?'Tirada às '+esc(c.fh||''):'Opcional. Abre a câmera do celular.')+'</span><button class="b2" data-w="foto">'+(c.foto?'Refazer foto':'Tirar foto')+'</button></div></div>'+
@@ -683,7 +689,15 @@ function wrender(){
  if(st===2)wsum();if(st===3){wlam();var v=$('wV');if(v&&!v.disabled&&window.matchMedia('(pointer:fine)').matches)v.focus();}
  if(st===4)sigInit();
 }
-function wsum(){var d1=num($('wD1').value),ds=num($('wDs').value),n=num($('wN').value);$('wSum').textContent=(d1!=null&&ds!=null&&n)?Math.round(n)+' coletores, de '+nf(d1)+' m a '+nf(d1+(Math.round(n)-1)*ds)+' m do centro':'Informe as distâncias e o número de coletores.';}
+function wPlan(){var p=pv(W.pivo),cp=compPivo(p),d1=num($('wD1').value),ds=num($('wDs').value),r={cp:cp,d1:d1,ds:ds};
+ if(cp){var nc=nCalc(cp.L,d1,ds,CFG.margem);r.cabem=nc;r.n=nc==null?null:Math.min(NMAX,nc);}else{var n=num($('wN')&&$('wN').value);r.n=n==null?null:Math.round(n);}
+ if(r.n&&d1!=null&&ds){r.ult=d1+(r.n-1)*ds;if(cp)r.folga=cp.L-r.ult;}return r;}
+function wsum(){var r=wPlan(),nc=$('wNc'),sm=$('wSum');
+ if(r.d1==null||!r.ds||r.n==null){nc.textContent='';sm.textContent=r.cp?'Informe a distância do 1º coletor e a distância entre coletores.':'Informe as distâncias e o número de coletores.';sm.className='';return;}
+ if(r.n<2){nc.textContent='';sm.textContent='Com essas distâncias não cabem 2 coletores até '+nf(r.cp.L-CFG.margem,1)+' m. Diminua as distâncias.';sm.className='crit';return;}
+ nc.textContent=r.n+' coletores';var fm=function(v){return nf(v,Math.abs(v-Math.round(v))<0.05?0:1);},t='de '+fm(r.d1)+' m a '+fm(r.ult)+' m do centro';if(r.cp)t+=' · o último fica a '+nf(r.folga,1)+' m do fim do pivô ('+nf(r.cp.L,1)+' m)';
+ if(r.cabem>NMAX){var sg=Math.floor((r.cp.L-CFG.margem-r.d1)/(NMAX-1)*10)/10;t+='. Com esse espaçamento caberiam '+r.cabem+'; o app usa no máximo '+NMAX+'. Para cobrir o pivô com '+NMAX+' coletores, use '+nf(sg,1)+' m entre coletores (o último fica a '+fm(r.d1+(NMAX-1)*sg)+' m do centro).';}
+ sm.textContent=t;sm.className=r.cabem>NMAX?'warn':'';}
 function wlam(){var v=$('wV'),c=W.col[W.k-1]||{},el=$('wL'),sl=$('wLs');if(!el)return;if(c.perdido){el.textContent='—';sl.innerHTML='<span class="pill mut">Perdido</span>';return;}
  var vol=num(v.value);if(vol==null){el.textContent='—';sl.innerHTML='';return;}var mm=mmDe(vol,W.diam),fx=W.faixa/100;el.textContent=f1(mm)+' mm';
  sl.innerHTML=mm<W.rec*(1-fx)?'<span class="pill crit">Abaixo da faixa</span>':mm>W.rec*(1+fx)?'<span class="pill warn">Acima da faixa</span>':'<span class="pill ok">Na faixa</span>';}
@@ -703,11 +717,12 @@ function wclick(e){
   if(pr==null||vt==null||tw==null||!rc||!$('wD').value||!$('wH').value)return wmsg('Preencha data, horário, pressão, vento, velocidade da torre e lâmina recomendada.');
   W.pivo=$('wP').value;W.data=$('wD').value;W.hora=$('wH').value;W.pressao=pr;W.vento=vt;W.torre=tw;W.rec=rc;
   if(vt>CFG.ventoMax&&!W.okVento){W.okVento=true;return wmsg('Vento de '+f1(vt)+' m/s, acima de '+f1(CFG.ventoMax)+' m/s: a literatura recomenda não avaliar assim. Toque de novo para seguir mesmo assim.','warn');}
-  if(W.d1==null){var ult=avalsDe(W.pivo).slice(-1)[0];if(ult){W.d1=ult.d1;W.ds=ult.ds;W.n=ult.n;}}
+  if(W.d1==null){var ult=avalsDe(W.pivo).slice(-1)[0];if(ult){W.d1=ult.d1;W.ds=ult.ds;if(!compPivo(pv(W.pivo)))W.n=ult.n;}}
   W.step=2;tryGPS().then(function(g){if(g&&W)W.gps=g;});saveDraft();wrender();return;}
- if(a==='next'&&W.step===2){var d1=num($('wD1').value),ds=num($('wDs').value),n=num($('wN').value),dm=num($('wDm').value);
-  if(d1==null||d1<0||!ds||ds<=0||!n||!dm)return wmsg('Preencha as distâncias, o número de coletores e o diâmetro.');
-  n=Math.round(n);if(n<2||n>30)return wmsg('O número de coletores vai de 2 a 30.');
+ if(a==='next'&&W.step===2){var pl=wPlan(),d1=pl.d1,ds=pl.ds,n=pl.n,dm=num($('wDm').value);
+  if(d1==null||d1<0||!ds||ds<=0||!dm||n==null)return wmsg(pl.cp?'Preencha as distâncias e o diâmetro do coletor.':'Preencha as distâncias, o número de coletores e o diâmetro.');
+  if(n<2||n>NMAX)return wmsg(pl.cp?'Com essas distâncias não cabem 2 coletores até '+nf(pl.cp.L-CFG.margem,1)+' m do centro.':'O número de coletores vai de 2 a '+NMAX+'.');
+  if(pl.cp){W.comp=pl.cp.L;W.margem=CFG.margem;}
   W.d1=d1;W.ds=ds;W.diam=dm;if(n<W.col.length)W.col=W.col.slice(0,n);W.n=n;W.k=Math.min(W.k||1,n);W.step=3;saveDraft();wrender();return;}
  if(a==='back'){W.step=W.step===4?3:W.step-1;saveDraft();wrender();return;}
  if(a==='prevk'){if(W.k>1){W.k--;saveDraft();wrender();}else{W.step=2;saveDraft();wrender();}return;}
@@ -741,7 +756,7 @@ function finalizar(){
  if(!resp)return wmsg('Informe o nome do responsável.');
  if(!W.sig||!W.sig.length)return wmsg('Falta a assinatura do responsável.');
  var btn=$('wFim');btn.disabled=true;btn.textContent='Salvando…';
- var aval={pivo:W.pivo,data:W.data,hora:W.hora,pressao:W.pressao,vento:W.vento,torre:W.torre,rec:W.rec,faixa:W.faixa,d1:W.d1,ds:W.ds,n:W.n,diam:W.diam,
+ var aval={pivo:W.pivo,data:W.data,hora:W.hora,pressao:W.pressao,vento:W.vento,torre:W.torre,rec:W.rec,faixa:W.faixa,d1:W.d1,ds:W.ds,n:W.n,diam:W.diam,comp:W.comp||null,margem:W.comp?W.margem:null,
   col:Array.from({length:W.n},function(_,i){var c=W.col[i]||{};return {vol:c.vol==null?null:c.vol,perdido:!!c.perdido,foto:null};}),
   obs:(W.obs||'').trim(),resp:resp,respId:S.userId||null,sig:sigEncode(W.sig),gps:W.gps||null,assinadaEm:fd(today())+' às '+nowHM(),criado:new Date().toISOString(),teste:!!W.teste,
   cuc:Math.round(r.cuh*10)/10,cud:Math.round(r.cud*10)/10,media:Math.round(r.mean*100)/100};
@@ -1118,7 +1133,7 @@ function buildPDF(a){
  kv(cols[0],y,'Christiansen simples',f1(r.cuc)+'%');kv(cols[1],y,'Coef. de variação',f1(r.cv)+'%');kv(cols[2],y,'Fora da faixa',r.out+' de '+r.nl);kv(cols[3],y,'Faixa aceitável',f1(r.lo)+' a '+f1(r.hi)+' mm');y+=40;
  pdf.line(40,y-10,555,y-10);
  kv(cols[0],y,'Horário',a.hora||'—');kv(cols[1],y,'Pressão final do pivô',f1(a.pressao)+' bar');kv(cols[2],y,'Velocidade do vento',f1(a.vento)+' m/s');kv(cols[3],y,'Velocidade da última torre',f1(a.torre)+' m/min');y+=34;
- kv(cols[0],y,'Coletores',r.nl+' de '+a.n+(r.per?' ('+r.per+(r.per>1?' perdidos)':' perdido)'):''));kv(cols[1],y,'1º coletor / espaçamento',nf(a.d1)+' m / '+nf(a.ds)+' m');kv(cols[2],y,'Diâmetro do coletor',nf(a.diam)+' mm');kv(cols[3],y,'GPS',a.gps?a.gps.lat.toFixed(5)+', '+a.gps.lon.toFixed(5):'não registrado');y+=44;
+ kv(cols[0],y,'Coletores',r.nl+' de '+a.n+(r.per?' ('+r.per+(r.per>1?' perdidos)':' perdido)'):''));kv(cols[1],y,'1º coletor / espaçamento',md(a.d1)+' m / '+md(a.ds)+' m');kv(cols[2],y,'Diâmetro do coletor',nf(a.diam)+' mm');kv(cols[3],y,'GPS',a.gps?a.gps.lat.toFixed(5)+', '+a.gps.lon.toFixed(5):'não registrado');y+=44;
  // gráfico
  pdf.text(40,y,'Lâmina por distância do centro (mm)',11,{bold:true});y+=10;
  var gx=62,gw=493,gh=150,gy=y+6,mx=Math.max(r.hi*1.25,Math.max.apply(0,r.pts.map(function(q){return q.mm;}))*1.08),Y=function(v){return gy+gh-(v/mx)*gh;};
@@ -1127,7 +1142,7 @@ function buildPDF(a){
  var bw=gw/a.n,byK={};r.pts.forEach(function(q){byK[q.k]=q;});
  var CO={ok:'0.13 0.4 0.23',crit:'0.71 0.22 0.18',warn:'0.56 0.34 0.03'};
  for(var i=0;i<a.n;i++){var q=byK[i+1],x=gx+i*bw;if(q)pdf.rect(x+bw*.15,Y(q.mm),bw*.7,Y(0)-Y(q.mm),CO[q.st]);else pdf.text(x+bw/2,Y(0)-3,'x',8,{align:'center',color:G});
-  var sk2=Math.max(1,Math.ceil(a.n/10));if(i%sk2===0||(i===a.n-1&&(a.n-1)%sk2>=sk2/2))pdf.text(x+bw/2,gy+gh+12,(a.d1+i*a.ds)+' m',7.5,{align:'center',color:G});}
+  var sk2=Math.max(1,Math.ceil(a.n/10));if(i%sk2===0||(i===a.n-1&&(a.n-1)%sk2>=sk2/2))pdf.text(x+bw/2,gy+gh+12,md(a.d1+i*a.ds)+' m',7.5,{align:'center',color:G});}
  pdf.line(gx,Y(r.rec),gx+gw,Y(r.rec),'0.3 0.3 0.3',.8,true);y=gy+gh+32;
  pdf.text(40,y,'Verde: na faixa · Vermelho: abaixo · Marrom: acima · Tracejado: lâmina recomendada · x: sem leitura',8,{color:G});y+=22;
  // leitura
@@ -1142,7 +1157,7 @@ function buildPDF(a){
  // página 2: coletores
  pdf.page();y=50;pdf.text(40,y,p.nome+' · '+fd(a.data)+' · coletores',14,{bold:true});y+=24;
  var hx=[40,110,200,290,380];['Coletor','Distância','Volume','Lâmina','Situação'].forEach(function(t,j){pdf.text(hx[j],y,t,9.5,{bold:true});});y+=6;pdf.line(40,y,555,y);y+=14;
- for(i=0;i<a.n;i++){var c=(a.col||[])[i]||{},qq=byK[i+1];pdf.text(hx[0],y,String(i+1),9.5);pdf.text(hx[1],y,(a.d1+i*a.ds)+' m',9.5);pdf.text(hx[2],y,c.vol!=null?f1(c.vol)+' mL':'—',9.5);pdf.text(hx[3],y,qq?f1(qq.mm)+' mm':'—',9.5);pdf.text(hx[4],y,c.perdido?'Perdido':qq?(qq.st==='ok'?'Na faixa':qq.st==='crit'?'Abaixo':'Acima'):'Sem leitura',9.5,{color:qq&&qq.st!=='ok'?CO[qq.st]:'0.1 0.15 0.12'});y+=19;if(y>800){pdf.page();y=50;}}
+ for(i=0;i<a.n;i++){var c=(a.col||[])[i]||{},qq=byK[i+1];pdf.text(hx[0],y,String(i+1),9.5);pdf.text(hx[1],y,md(a.d1+i*a.ds)+' m',9.5);pdf.text(hx[2],y,c.vol!=null?f1(c.vol)+' mL':'—',9.5);pdf.text(hx[3],y,qq?f1(qq.mm)+' mm':'—',9.5);pdf.text(hx[4],y,c.perdido?'Perdido':qq?(qq.st==='ok'?'Na faixa':qq.st==='crit'?'Abaixo':'Acima'):'Sem leitura',9.5,{color:qq&&qq.st!=='ok'?CO[qq.st]:'0.1 0.15 0.12'});y+=19;if(y>800&&i<a.n-1){pdf.page();y=50;['Coletor','Distância','Volume','Lâmina','Situação'].forEach(function(t,j){pdf.text(hx[j],y,t,9.5,{bold:true});});y+=6;pdf.line(40,y,555,y);y+=14;}}
  pdf.text(40,822,'Lâmina = volume × 1000 ÷ área da boca do coletor (Ø '+nf(a.diam)+' mm). CUC ponderado pela distância ao centro (Heermann e Hein).',7.5,{color:G});
  return pdf.build();
 }
@@ -1178,9 +1193,9 @@ function buildXLSX(sheets){
  return zip(files);}
 function rd(v,d){return v==null||!isFinite(v)?null:Math.round(v*Math.pow(10,d))/Math.pow(10,d);}
 function xlsxAval(a){var p=pv(a.pivo)||{nome:a.pivo},r=calc(a);
- var s1=[{b:1,c:['Avaliação de uniformidade',p.nome+' · '+fd(a.data)]},['Fazenda',p.fazenda||AREA[p.area||1]],['Talhões',(p.q||[]).join(', ')],['Data',fd(a.data)],['Horário',a.hora],['Pressão final do pivô (bar)',a.pressao],['Velocidade do vento (m/s)',a.vento],['Velocidade da última torre (m/min)',a.torre],['Lâmina recomendada (mm)',a.rec],['Faixa aceitável (±%)',a.faixa||CFG.faixa],['1º coletor (m)',a.d1],['Entre coletores (m)',a.ds],['Nº de coletores',a.n],['Diâmetro do coletor (mm)',a.diam],[],{b:1,c:['Resultados']},['CUC Heermann e Hein (%)',rd(r.cuh,1)],['Classe',cls(r.cuh)[1]],['CUC Christiansen simples (%)',rd(r.cuc,1)],['CUD (%)',rd(r.cud,1)],['Lâmina média ponderada (mm)',rd(r.mean,2)],['Coeficiente de variação (%)',rd(r.cv,1)],['Coletores com leitura',r.nl],['Coletores perdidos',r.per],['Fora da faixa',r.out],[],['Responsável',a.resp],['Assinada em',assin(a)],['GPS',a.gps?a.gps.lat.toFixed(6)+', '+a.gps.lon.toFixed(6):'não registrado'],['Observações',a.obs||''],['Teste',a.teste?'sim':'não']];
+ var s1=[{b:1,c:['Avaliação de uniformidade',p.nome+' · '+fd(a.data)]},['Fazenda',p.fazenda||AREA[p.area||1]],['Talhões',(p.q||[]).join(', ')],['Data',fd(a.data)],['Horário',a.hora],['Pressão final do pivô (bar)',a.pressao],['Velocidade do vento (m/s)',a.vento],['Velocidade da última torre (m/min)',a.torre],['Lâmina recomendada (mm)',a.rec],['Faixa aceitável (±%)',a.faixa||CFG.faixa],['1º coletor (m)',a.d1],['Entre coletores (m)',a.ds],['Nº de coletores',a.n],['Diâmetro do coletor (mm)',a.diam],['Comprimento do pivô (m)',a.comp||null],['Último coletor até o fim do pivô (m)',a.comp?rd(a.comp-(a.d1+(a.n-1)*a.ds),1):null],[],{b:1,c:['Resultados']},['CUC Heermann e Hein (%)',rd(r.cuh,1)],['Classe',cls(r.cuh)[1]],['CUC Christiansen simples (%)',rd(r.cuc,1)],['CUD (%)',rd(r.cud,1)],['Lâmina média ponderada (mm)',rd(r.mean,2)],['Coeficiente de variação (%)',rd(r.cv,1)],['Coletores com leitura',r.nl],['Coletores perdidos',r.per],['Fora da faixa',r.out],[],['Responsável',a.resp],['Assinada em',assin(a)],['GPS',a.gps?a.gps.lat.toFixed(6)+', '+a.gps.lon.toFixed(6):'não registrado'],['Observações',a.obs||''],['Teste',a.teste?'sim':'não']];
  var byK={};r.pts.forEach(function(q){byK[q.k]=q;});
- var s2=[{b:1,c:['Coletor','Distância (m)','Volume (mL)','Lâmina (mm)','Situação']}];for(var i=0;i<a.n;i++){var c=(a.col||[])[i]||{},q=byK[i+1];s2.push([i+1,a.d1+i*a.ds,c.vol,q?rd(q.mm,2):null,c.perdido?'Perdido':q?(q.st==='ok'?'Na faixa':q.st==='crit'?'Abaixo':'Acima'):'Sem leitura']);}
+ var s2=[{b:1,c:['Coletor','Distância (m)','Volume (mL)','Lâmina (mm)','Situação']}];for(var i=0;i<a.n;i++){var c=(a.col||[])[i]||{},q=byK[i+1];s2.push([i+1,Math.round((a.d1+i*a.ds)*100)/100,c.vol,q?rd(q.mm,2):null,c.perdido?'Perdido':q?(q.st==='ok'?'Na faixa':q.st==='crit'?'Abaixo':'Acima'):'Sem leitura']);}
  var s3=[{b:1,c:['Data','Hora','Pressão (bar)','Vento (m/s)','Torre (m/min)','Coletores lidos','CUC HH (%)','CUC Christiansen (%)','CUD (%)','Lâmina média (mm)','Responsável','Teste']}];
  avalsDe(a.pivo).forEach(function(x){var q=calc(x);s3.push([fd(x.data),x.hora,x.pressao,x.vento,x.torre,q.nl,rd(q.cuh,1),rd(q.cuc,1),rd(q.cud,1),rd(q.mean,2),x.resp,x.teste?'sim':'']);});
  return buildXLSX([{name:'Avaliação',rows:s1,widths:[34,30]},{name:'Coletores',rows:s2,widths:[10,14,14,14,14]},{name:'Histórico do pivô',rows:s3,widths:[12,8,13,12,13,15,12,20,10,17,24,8]}]);}
