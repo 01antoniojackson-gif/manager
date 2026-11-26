@@ -201,7 +201,7 @@
         {
           "id": "h6",
           "sec": "Hidráulica",
-          "t": "Verificar válvula de limpeza"
+          "t": "Verificar funcionamento da válvula de limpeza"
         },
         {
           "id": "c1",
@@ -212,9 +212,7 @@
         {
           "id": "c2",
           "sec": "Elétrica e comando",
-          "t": "Verificar comando de direção e velocidade de deslocamento",
-          "un": "%",
-          "unl": "Percentímetro"
+          "t": "Verificar comando de direção e velocidade de deslocamento"
         },
         {
           "id": "c3",

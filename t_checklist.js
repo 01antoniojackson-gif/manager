@@ -23,12 +23,11 @@ function confere(nome, ok, extra) { console.log((ok ? 'OK    ' : 'FALHOU ') + no
 
   // Abre a inspeção pelo menu Checklist
   await pg.click('[data-go="ck"]'); await pg.click('[data-cp="p04"]'); await pg.click('[data-act="novoCk"]');
-  await pg.waitForSelector('#kHo');
+  await pg.waitForSelector('#kP');
   confere('modelo padrão tem 14 itens em 4 seções', (await pg.textContent('.wbody')).includes('14 itens em 4 seções'));
   await pg.evaluate(() => { const D = window.__im.D; D.leituras.l1 = { pivo: 'p04', data: '2026-11-01', h: 2900, prev: true }; window.__im.derive(); });
-  await pg.fill('#kHo', '2800'); await pg.click('[data-k="next"]');
-  confere('recusa horímetro menor que o anterior', (await msg()).includes('não bate'));
-  await pg.fill('#kHo', '2950'); await pg.click('[data-k="next"]');
+  confere('início da inspeção sem campo de horímetro', !(await pg.$('#kHo')));
+  await pg.click('[data-k="next"]');
 
   // Seção 1: Estrutura e torres
   await pg.click('[data-k="next"]');
@@ -53,7 +52,7 @@ function confere(nome, ok, extra) { console.log((ok ? 'OK    ' : 'FALHOU ') + no
   await pg.click('[data-k="next"]');
 
   // Seção 3: Elétrica e comando
-  await pg.click('[data-k="todosC"]'); await pg.fill('[data-kf="c2|val"]', '80');
+  await pg.click('[data-k="todosC"]');
   await resp('c3', 'NC'); await pg.fill('[data-kf="c3|obs"]', 'Cabo solto na caixa da torre 4');
   await pg.click('[data-k="next"]');
 
@@ -73,10 +72,10 @@ function confere(nome, ok, extra) { console.log((ok ? 'OK    ' : 'FALHOU ') + no
   await pg.screenshot({ path: path.join(SAIDA, 'ck_final.png') });
   await pg.click('[data-ka="0"]'); await pg.click('#kFim'); await pg.waitForTimeout(500);
 
-  const st = await pg.evaluate(() => { const D = window.__im.D; const ck = Object.values(D.checklists)[0]; return { n: Object.keys(D.checklists).length, ck, res: window.__im.ckRes(ck), pend: Object.values(D.pendencias), leit: Object.values(D.leituras).filter(l => l.h === 2950).length }; });
+  const st = await pg.evaluate(() => { const D = window.__im.D; const ck = Object.values(D.checklists)[0]; return { n: Object.keys(D.checklists).length, ck, res: window.__im.ckRes(ck), pend: Object.values(D.pendencias), leit: Object.keys(D.leituras).length - 1 }; });
   confere('inspeção salva como inapta', st.n === 1 && st.ck.apto === false);
   confere('4 pendências abertas, 2 críticas', st.pend.length === 4 && st.pend.filter(p => p.crit).length === 2);
-  confere('horímetro da inspeção entrou nas leituras', st.leit === 1);
+  confere('inspeção não grava leitura de horímetro', st.leit === 0);
   confere('foto ligada ao item e à pendência', st.ck.itens.find(i => i.id === 'e6').fotos.length === 1 && st.pend.find(p => p.itemId === 'e6').fotos.length === 1);
   confere('pressão medida guardada', st.ck.itens.find(i => i.id === 'h1').val === 2.4);
 
@@ -85,6 +84,7 @@ function confere(nome, ok, extra) { console.log((ok ? 'OK    ' : 'FALHOU ') + no
   const tela = await pg.textContent('#main');
   confere('aba mostra pendências e inapto', tela.includes('Pendências abertas') && tela.includes('Inapto para operação'));
   confere('pendência com prazo vencido marcada', tela.includes('atrasada'));
+  confere('mostra o horímetro da última leitura do pivô', tela.includes('2.900 h') && tela.includes('última leitura até a inspeção'));
   await pg.screenshot({ path: path.join(SAIDA, 'ck_aba.png'), fullPage: true });
 
   // Resolver uma pendência
@@ -106,7 +106,7 @@ function confere(nome, ok, extra) { console.log((ok ? 'OK    ' : 'FALHOU ') + no
   confere('Excel da inspeção', fs.readFileSync(xl).slice(0, 2).toString() === 'PK');
 
   // Rascunho: fechar no meio e continuar
-  await pg.click('[data-cp="p01"]'); await pg.click('[data-act="novoCk"]'); await pg.waitForSelector('#kHo');
+  await pg.click('[data-cp="p01"]'); await pg.click('[data-act="novoCk"]'); await pg.waitForSelector('#kP');
   await pg.click('[data-k="next"]'); await resp('e1', 'C'); await resp('e2', 'NC'); await pg.fill('[data-kf="e2|obs"]', 'Ferrugem');
   await pg.waitForTimeout(400); await pg.click('[data-kx="1"]'); await pg.waitForTimeout(300);
   await pg.reload(); await pg.waitForTimeout(800);

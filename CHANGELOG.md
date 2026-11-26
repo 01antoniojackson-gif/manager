@@ -1,5 +1,25 @@
 # Histórico de versões
 
+## 0.3.0 · 25/11/2026 · mapa de aspersores
+
+Aprovada por inteiro (itens 41 a 50).
+
+- Aba Aspersores, só de consulta: bocal (nº e mm), cor, regulador e emissor de cada saída, para os pivôs 01 a 06.
+- Busca principal por vão e saída do vão (como a folha de instalação), com "Vão 3 · Saída 13" em destaque; também pela saída contando do centro ou pelo nº do aspersor.
+- Saídas tampadas, balanço, desenho do pivô, lista por vão e quantidade de cada bocal.
+- Correção de uma saída por dono e editores, guardando a carta original.
+- Dados extraídos das cartas Senninger e conferidos com a lista de materiais e a folha de instalação de cada uma.
+- Botão Aspersores no painel do pivô.
+
+## 0.2.1 · 24/11/2026 · ajustes do checklist
+
+Respostas à aprovação da 0.2.0: itens 18 a 20, 22 a 26 e 28 a 34 aprovados; 21, 27 e 35 reprovados.
+
+- Item da válvula: "Verificar funcionamento da válvula de limpeza".
+- Percentímetro saiu; só a pressão na base pede valor.
+- Horímetro saiu da inspeção. O Checklist mostra a última leitura do pivô até a data da inspeção; a fonte das leituras (plataforma de gerenciamento de irrigação) ainda será definida.
+- Lembrete de pivô sem leitura há mais de 7 dias retirado.
+
 ## 0.2.0 · 24/11/2026 · checklist
 
 Feita sobre a inspeção de pivô central da Mitti, com os ajustes pedidos em 24/11.
@@ -9,7 +29,7 @@ Feita sobre a inspeção de pivô central da Mitti, com os ajustes pedidos em 24
 - Não conforme pede descrição, até 3 fotos, ação e prazo, e abre uma pendência do pivô, resolvida pela aba Checklist.
 - 4 itens críticos; com crítico não conforme o app sugere "inapto" e pede justificativa para "apto".
 - Resultado sem contar N/A.
-- Horímetro opcional na inspeção, que entra no controle da preventiva; "2.968" é lido como 2.968 h.
+- Números com ponto de milhar ("2.968") são lidos como 2.968.
 - Mapa marca "⚠ INAPTO"; painel e tabela de pivôs mostram a última inspeção e as pendências.
 - PDF e Excel da inspeção.
 - Itens do checklist editáveis em Configurações (dono e editores).

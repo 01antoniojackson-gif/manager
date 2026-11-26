@@ -19,7 +19,8 @@ for rel in mapas["imagens"]:
     urls.append("data:image/jpeg;base64," + base64.b64encode(dados).decode("ascii"))
 imgs_js = "var IMGS=%s,DIM=%s;" % (json.dumps(urls), json.dumps(mapas["dimensoes"], separators=(",", ":")))
 
-corpo = src.replace("<!--SYMBOLS-->", icones).replace("/*IMGS*/", imgs_js)
+asp = (RAIZ / "dados" / "aspersores.json").read_text(encoding="utf-8").strip().replace("<", "\\u003c")
+corpo = src.replace("<!--SYMBOLS-->", icones).replace("/*IMGS*/", imgs_js).replace("/*ASP*/null", asp)
 
 if "--artefato" in sys.argv:
     destino = RAIZ / "dist" / "irrigamanager-app.html"
