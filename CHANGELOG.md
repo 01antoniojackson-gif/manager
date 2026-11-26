@@ -1,5 +1,29 @@
 # Histórico de versões
 
+## 0.4.1 · 26/11/2026 · atualização semanal dos horímetros
+
+Pedido no comentário do ITEM 56: enquanto não há integração com a plataforma dos pivôs, um analista atualiza todos os horímetros uma vez por semana.
+
+- Botão "Atualizar horímetros" na aba Pivôs: uma tela com todos os pivôs em operação, a data e quem atualizou; cada valor preenchido vira uma leitura e pivô em branco fica como está.
+- Confere cada valor na hora: recusa valor menor que a leitura anterior, mostra as horas e o ritmo por dia, e pede confirmação quando passa de 24 h por dia; mesmo valor na mesma data não duplica.
+- Quadro "Horímetros" no topo da aba Pivôs: horímetro, data da atualização, há quantos dias e quem atualizou, mais a última atualização geral. Em amarelo o pivô sem atualização há mais de 7 dias (ajustável em Configurações).
+- Data da atualização junto do horímetro no painel do mapa e na Cartilha; coluna "Lançado por" nas leituras e campo de nome no lançamento de um pivô.
+
+## 0.4.0 · 26/11/2026 · cartilha de manutenção
+
+Aprovada por inteiro (itens 55 a 64). Feita sobre o "Plano de manutenção dos PCs" (periodicidades, óleos, pneus) e o "Plano de Manutenção Preventiva Valley" (itens que faltavam, pivô ligado, histórico de ocorrências), com os ajustes pedidos em 26/11.
+
+- Aba Cartilha com 40 tarefas: 31 do pivô (torre central, redutores, rodas e torres, lances e balanço, elétrica) e 9 da casa de bomba.
+- Periodicidades: 1.000 h (só horas), trimestral e anual (só calendário) e troca de óleo em 2.000 h ou anual, o que vier primeiro. O semestral do plano virou anual; nenhuma periodicidade da Valley foi usada.
+- Pivotflex e junta rotativa como tarefas separadas; nível de óleo dos redutores e aterramento (que saíram do checklist) entraram aqui; aterramento pede a resistência medida (Ω).
+- Situação de cada tarefa (Em dia, Próxima, Vencida, Sem registro) por pivô e numa tabela tarefas × pivôs.
+- Registrar manutenção no celular: data, horímetro (vira leitura quando é novo), tarefas feitas, valor medido, verificado por, observação e até 3 fotos; também sem sinal.
+- Ocorrências e peças substituídas, com quantidade, custo e total por pivô.
+- A cor do pivô no mapa passa a ser a pior situação entre as tarefas da Cartilha. Saíram o contador único de 2.000 h e a opção "Preventiva realizada" do horímetro.
+- Painel do pivô e tabela de pivôs mostram vencidas, próximas e as tarefas mais urgentes.
+- Tarefas editáveis em Configurações (dono e editores).
+- PDF da cartilha para imprimir, com caixa "Feito" e campos de horímetro, data e verificado por; Excel com plano, situação por pivô, registros e ocorrências.
+
 ## 0.3.2 · 26/11/2026 · limite de 50 coletores
 
 Respostas à aprovação da 0.3.1: itens 51 e 53 aprovados; 52 reprovado com o pedido de aumentar o limite para 50 coletores.

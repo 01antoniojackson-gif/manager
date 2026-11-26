@@ -1,237 +1,494 @@
 {
-  "pivos": {
-    "p01": {
-      "nome": "Pivô 01",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 105,
-      "y": 538,
-      "r": 103,
-      "o": 60,
-      "q": [
-        "RU39",
-        "RU37",
-        "RU36",
-        "RU38"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p02": {
-      "nome": "Pivô 02",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 310,
-      "y": 416,
-      "r": 132,
-      "o": 63,
-      "q": [
-        "RU43",
-        "RU41",
-        "RU40",
-        "RU42"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p03": {
-      "nome": "Pivô 03",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 488,
-      "y": 251,
-      "r": 102,
-      "o": 45,
-      "q": [
-        "RU47",
-        "RU45",
-        "RU44",
-        "RU46"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p04": {
-      "nome": "Pivô 04",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 643,
-      "y": 418,
-      "r": 118,
-      "o": 45,
-      "q": [
-        "RU51",
-        "RU49",
-        "RU48",
-        "RU50"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p05": {
-      "nome": "Pivô 05",
-      "area": 2,
-      "fazenda": "JD",
-      "x": 825,
-      "y": 283,
-      "r": 82,
-      "o": 45,
-      "q": [
-        "JD04",
-        "JD02",
-        "JD01",
-        "JD03"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p06": {
-      "nome": "Pivô 06",
-      "area": 2,
-      "fazenda": "JD",
-      "x": 857,
-      "y": 138,
-      "r": 63,
-      "o": 45,
-      "q": [
-        "JD08",
-        "JD06",
-        "JD05",
-        "JD07"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p09": {
-      "nome": "Pivô 09",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 773,
-      "y": 203,
-      "r": 115,
-      "o": 35,
-      "q": [
-        "RU56",
-        "RU54",
-        "RU55",
-        "RU57"
-      ],
-      "n": 4,
-      "laminaRec": 10,
-      "ativo": true
-    },
-    "p10": {
-      "nome": "Pivô 10",
-      "area": 1,
-      "fazenda": "RU",
-      "x": 610,
-      "y": 96,
-      "r": 80,
-      "o": 123,
-      "q": [
-        "RU58",
-        "RU59"
-      ],
-      "n": 2,
-      "laminaRec": 10,
-      "ativo": true
-    }
+ "pivos": {
+  "p01": {
+   "nome": "Pivô 01",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 105,
+   "y": 538,
+   "r": 103,
+   "o": 60,
+   "q": [
+    "RU39",
+    "RU37",
+    "RU36",
+    "RU38"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
   },
-  "cfg": {
-    "geral": {
-      "diam": 72,
-      "intervalo": 2000,
-      "avisoH": 100,
-      "avisoDias": 30,
-      "ventoMax": 4.5,
-      "faixa": 15,
-      "laminaRec": 10
-    },
-    "checklist": {
-      "itens": [
-        {
-          "id": "e1",
-          "sec": "Estrutura e torres",
-          "t": "Verificar o alinhamento das torres do pivô",
-          "crit": true
-        },
-        {
-          "id": "e2",
-          "sec": "Estrutura e torres",
-          "t": "Inspeção visual da estrutura e tubulações"
-        },
-        {
-          "id": "e3",
-          "sec": "Estrutura e torres",
-          "t": "Verificar estado dos pneus e rodas das torres"
-        },
-        {
-          "id": "e5",
-          "sec": "Estrutura e torres",
-          "t": "Verificar juntas, cardans e motorredutores (ruído, folga, vazamento de óleo)"
-        },
-        {
-          "id": "e6",
-          "sec": "Estrutura e torres",
-          "t": "Verificar trilhos das rodas: sem valetas fundas ou atoleiro"
-        },
-        {
-          "id": "h1",
-          "sec": "Hidráulica",
-          "t": "Verificar pressão na base do pivô",
-          "un": "bar",
-          "unl": "Pressão na base"
-        },
-        {
-          "id": "h3",
-          "sec": "Hidráulica",
-          "t": "Verificar ausência de vazamentos nas conexões"
-        },
-        {
-          "id": "h4",
-          "sec": "Hidráulica",
-          "t": "Verificar irrigadores / emissores (entupimento)"
-        },
-        {
-          "id": "h6",
-          "sec": "Hidráulica",
-          "t": "Verificar funcionamento da válvula de limpeza"
-        },
-        {
-          "id": "c1",
-          "sec": "Elétrica e comando",
-          "t": "Verificar funcionamento do painel de controle",
-          "crit": true
-        },
-        {
-          "id": "c2",
-          "sec": "Elétrica e comando",
-          "t": "Verificar comando de direção e velocidade de deslocamento"
-        },
-        {
-          "id": "c3",
-          "sec": "Elétrica e comando",
-          "t": "Verificar fixação e integridade dos cabos elétricos das torres",
-          "crit": true
-        },
-        {
-          "id": "s1",
-          "sec": "Área e segurança",
-          "t": "Verificar área livre de obstáculos ao redor do pivô",
-          "crit": true
-        },
-        {
-          "id": "s2",
-          "sec": "Área e segurança",
-          "t": "Verificar sinalização de segurança ao redor do equipamento"
-        }
-      ]
-    }
+  "p02": {
+   "nome": "Pivô 02",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 310,
+   "y": 416,
+   "r": 132,
+   "o": 63,
+   "q": [
+    "RU43",
+    "RU41",
+    "RU40",
+    "RU42"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p03": {
+   "nome": "Pivô 03",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 488,
+   "y": 251,
+   "r": 102,
+   "o": 45,
+   "q": [
+    "RU47",
+    "RU45",
+    "RU44",
+    "RU46"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p04": {
+   "nome": "Pivô 04",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 643,
+   "y": 418,
+   "r": 118,
+   "o": 45,
+   "q": [
+    "RU51",
+    "RU49",
+    "RU48",
+    "RU50"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p05": {
+   "nome": "Pivô 05",
+   "area": 2,
+   "fazenda": "JD",
+   "x": 825,
+   "y": 283,
+   "r": 82,
+   "o": 45,
+   "q": [
+    "JD04",
+    "JD02",
+    "JD01",
+    "JD03"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p06": {
+   "nome": "Pivô 06",
+   "area": 2,
+   "fazenda": "JD",
+   "x": 857,
+   "y": 138,
+   "r": 63,
+   "o": 45,
+   "q": [
+    "JD08",
+    "JD06",
+    "JD05",
+    "JD07"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p09": {
+   "nome": "Pivô 09",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 773,
+   "y": 203,
+   "r": 115,
+   "o": 35,
+   "q": [
+    "RU56",
+    "RU54",
+    "RU55",
+    "RU57"
+   ],
+   "n": 4,
+   "laminaRec": 10,
+   "ativo": true
+  },
+  "p10": {
+   "nome": "Pivô 10",
+   "area": 1,
+   "fazenda": "RU",
+   "x": 610,
+   "y": 96,
+   "r": 80,
+   "o": 123,
+   "q": [
+    "RU58",
+    "RU59"
+   ],
+   "n": 2,
+   "laminaRec": 10,
+   "ativo": true
   }
+ },
+ "cfg": {
+  "geral": {
+   "diam": 72,
+   "avisoH": 100,
+   "avisoDias": 30,
+   "ventoMax": 4.5,
+   "faixa": 15,
+   "laminaRec": 10,
+   "margem": 5
+  },
+  "checklist": {
+   "itens": [
+    {
+     "id": "e1",
+     "sec": "Estrutura e torres",
+     "t": "Verificar o alinhamento das torres do pivô",
+     "crit": true
+    },
+    {
+     "id": "e2",
+     "sec": "Estrutura e torres",
+     "t": "Inspeção visual da estrutura e tubulações"
+    },
+    {
+     "id": "e3",
+     "sec": "Estrutura e torres",
+     "t": "Verificar estado dos pneus e rodas das torres"
+    },
+    {
+     "id": "e5",
+     "sec": "Estrutura e torres",
+     "t": "Verificar juntas, cardans e motorredutores (ruído, folga, vazamento de óleo)"
+    },
+    {
+     "id": "e6",
+     "sec": "Estrutura e torres",
+     "t": "Verificar trilhos das rodas: sem valetas fundas ou atoleiro"
+    },
+    {
+     "id": "h1",
+     "sec": "Hidráulica",
+     "t": "Verificar pressão na base do pivô",
+     "un": "bar",
+     "unl": "Pressão na base"
+    },
+    {
+     "id": "h3",
+     "sec": "Hidráulica",
+     "t": "Verificar ausência de vazamentos nas conexões"
+    },
+    {
+     "id": "h4",
+     "sec": "Hidráulica",
+     "t": "Verificar irrigadores / emissores (entupimento)"
+    },
+    {
+     "id": "h6",
+     "sec": "Hidráulica",
+     "t": "Verificar funcionamento da válvula de limpeza"
+    },
+    {
+     "id": "c1",
+     "sec": "Elétrica e comando",
+     "t": "Verificar funcionamento do painel de controle",
+     "crit": true
+    },
+    {
+     "id": "c2",
+     "sec": "Elétrica e comando",
+     "t": "Verificar comando de direção e velocidade de deslocamento"
+    },
+    {
+     "id": "c3",
+     "sec": "Elétrica e comando",
+     "t": "Verificar fixação e integridade dos cabos elétricos das torres",
+     "crit": true
+    },
+    {
+     "id": "s1",
+     "sec": "Área e segurança",
+     "t": "Verificar área livre de obstáculos ao redor do pivô",
+     "crit": true
+    },
+    {
+     "id": "s2",
+     "sec": "Área e segurança",
+     "t": "Verificar sinalização de segurança ao redor do equipamento"
+    }
+   ]
+  },
+  "cartilha": {
+   "tarefas": [
+    {
+     "id": "tc1",
+     "sec": "Torre central",
+     "t": "Engraxar a junta rotativa",
+     "h": 1000
+    },
+    {
+     "id": "tc2",
+     "sec": "Torre central",
+     "t": "Engraxar os graxeiros da haste principal",
+     "h": 1000
+    },
+    {
+     "id": "tc3",
+     "sec": "Torre central",
+     "t": "Lubrificar o pivotflex e verificar se as engraxadeiras funcionam",
+     "h": 1000
+    },
+    {
+     "id": "tc4",
+     "sec": "Torre central",
+     "t": "Limpar o excesso de lubrificante do conjunto",
+     "m": 12
+    },
+    {
+     "id": "tc5",
+     "sec": "Torre central",
+     "t": "Inspecionar a haste e os braços do pivô",
+     "h": 1000
+    },
+    {
+     "id": "tc6",
+     "sec": "Torre central",
+     "t": "Inspecionar a base e a ancoragem da torre central; reapertar se precisar",
+     "h": 1000
+    },
+    {
+     "id": "tc7",
+     "sec": "Torre central",
+     "t": "Vazamentos na subida: vedações do tubo de subida, flanges, curva e abraçadeiras do mangote",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "tc8",
+     "sec": "Torre central",
+     "t": "Manômetro funcionando e pressão conforme o projeto",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "tc9",
+     "sec": "Torre central",
+     "t": "Pressostato e transdutor de pressão: funcionamento e regulagem",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "rd1",
+     "sec": "Redutores",
+     "t": "Redutor central, de transmissão e motorredutores: trocar o óleo (SAE 85W-140)",
+     "h": 2000,
+     "m": 12
+    },
+    {
+     "id": "rd2",
+     "sec": "Redutores",
+     "t": "Redutores das rodas: trocar o óleo (SAE 140, 3,30 L por redutor)",
+     "h": 2000,
+     "m": 12
+    },
+    {
+     "id": "rd3",
+     "sec": "Redutores",
+     "t": "Limpar retentores e selos e pintar a carcaça dos redutores",
+     "h": 1000
+    },
+    {
+     "id": "rd4",
+     "sec": "Redutores",
+     "t": "Todos os redutores: nível de óleo, drenar a condensação, vedações e diafragma",
+     "m": 12
+    },
+    {
+     "id": "rd5",
+     "sec": "Redutores",
+     "t": "Limpar e desobstruir os drenos dos motorredutores",
+     "h": 1000
+    },
+    {
+     "id": "rt1",
+     "sec": "Rodas e torres",
+     "t": "Pneus: calibrar de 23 a 30 psi e apertar as porcas a 162,79 N·m",
+     "m": 3
+    },
+    {
+     "id": "rt2",
+     "sec": "Rodas e torres",
+     "t": "Medir a convergência e ajustar o estabilizador",
+     "m": 3
+    },
+    {
+     "id": "rt3",
+     "sec": "Rodas e torres",
+     "t": "Checar porcas folgadas e os parafusos dos aros",
+     "m": 3
+    },
+    {
+     "id": "rt4",
+     "sec": "Rodas e torres",
+     "t": "Rastro das rodas: checar a profundidade; aterrar e cascalhar se precisar",
+     "m": 3
+    },
+    {
+     "id": "rt5",
+     "sec": "Rodas e torres",
+     "t": "Eixo cardã: posição, travamento, proteção e abraçadeiras",
+     "h": 1000
+    },
+    {
+     "id": "rt6",
+     "sec": "Rodas e torres",
+     "t": "Juntas entre lances: desgaste e travas; tirar ramos das juntas flexíveis",
+     "h": 1000
+    },
+    {
+     "id": "lb1",
+     "sec": "Lances e balanço",
+     "t": "Parafusos de fixação (folga e torque), tirantes e cabos do balanço",
+     "h": 1000
+    },
+    {
+     "id": "lb2",
+     "sec": "Lances e balanço",
+     "t": "Vazamentos nas vedações dos tubos, nas descidas e nos drenos",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "lb3",
+     "sec": "Lances e balanço",
+     "t": "Irrigadores: limpar reguladores, bocais e defletores; trocar os gastos ou faltantes (conferir na aba Aspersores)",
+     "h": 1000
+    },
+    {
+     "id": "lb4",
+     "sec": "Lances e balanço",
+     "t": "Lavar a tubulação: abrir os drenos e o final do balanço",
+     "h": 1000
+    },
+    {
+     "id": "lb5",
+     "sec": "Lances e balanço",
+     "t": "Percurso do pivô: verificar obstruções",
+     "h": 1000
+    },
+    {
+     "id": "el1",
+     "sec": "Elétrica",
+     "t": "Anel coletor: escovas, pistas, poeira e corrosão (com a chave geral desligada)",
+     "h": 1000
+    },
+    {
+     "id": "el2",
+     "sec": "Elétrica",
+     "t": "Conexões elétricas do painel e dos motores; fixação do transformador",
+     "h": 1000
+    },
+    {
+     "id": "el3",
+     "sec": "Elétrica",
+     "t": "Aterramento: inspeção visual e medição da resistência",
+     "h": 1000,
+     "un": "Ω",
+     "unl": "Resistência medida"
+    },
+    {
+     "id": "el4",
+     "sec": "Elétrica",
+     "t": "Fixação dos cabos elétricos: cabos aéreos e cabo do motorredutor",
+     "h": 1000
+    },
+    {
+     "id": "el5",
+     "sec": "Elétrica",
+     "t": "Painel: tensões, fusíveis, chaves, botoeiras, luzes, voltímetro e horímetro",
+     "h": 1000
+    },
+    {
+     "id": "el6",
+     "sec": "Elétrica",
+     "t": "Painel e caixas das torres: vedação, insetos, cabo terra e reaperto de bornes; testar o circuito de segurança de cada torre",
+     "h": 1000
+    },
+    {
+     "id": "cb1",
+     "sec": "Casa de bomba",
+     "t": "Nível de óleo do mancal da bomba (pela vareta)",
+     "h": 1000
+    },
+    {
+     "id": "cb2",
+     "sec": "Casa de bomba",
+     "t": "Lubrificar os rolamentos do motor (conforme o fornecedor)",
+     "h": 1000
+    },
+    {
+     "id": "cb3",
+     "sec": "Casa de bomba",
+     "t": "Vazamentos nas tubulações de sucção e recalque",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "cb4",
+     "sec": "Casa de bomba",
+     "t": "Gaxeta do eixo da bomba: regular o vazamento",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "cb5",
+     "sec": "Casa de bomba",
+     "t": "Alinhamento do conjunto motobomba",
+     "h": 1000
+    },
+    {
+     "id": "cb6",
+     "sec": "Casa de bomba",
+     "t": "Válvulas: de pé, de retenção e eixo do registro de gaveta",
+     "h": 1000
+    },
+    {
+     "id": "cb7",
+     "sec": "Casa de bomba",
+     "t": "Circuito de segurança do controle da bomba",
+     "h": 1000,
+     "lig": true
+    },
+    {
+     "id": "cb8",
+     "sec": "Casa de bomba",
+     "t": "Elétrica: ligações, vedação das chaves de partida e comandos remotos",
+     "h": 1000
+    },
+    {
+     "id": "cb9",
+     "sec": "Casa de bomba",
+     "t": "Aterramento da casa de bomba",
+     "h": 1000,
+     "un": "Ω",
+     "unl": "Resistência medida"
+    }
+   ]
+  }
+ }
 }

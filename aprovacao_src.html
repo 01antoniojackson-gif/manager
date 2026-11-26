@@ -1,4 +1,4 @@
-<title>IrrigaManager v0.3.2 · Limite de 50 coletores (ITEM 54)</title>
+<title>IrrigaManager v0.4.1 · Atualização semanal dos horímetros (ITENS 65 a 67)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>/* Página de aprovação no padrão de docs/padrao-pagina-aprovacao.md: marfim e ouro (Claro), azul-noite e ouro (Escuro),
@@ -88,19 +88,24 @@ textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:var
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
-<div class="topo"><div class="topo-in"><b>IrrigaManager · v0.3.2</b><span id="cont">0 de 0 respondidos</span><span class="sp"></span><button type="button" class="bt pr" id="copiar">Copiar respostas</button></div></div>
+<div class="topo"><div class="topo-in"><b>IrrigaManager · v0.4.1</b><span id="cont">0 de 0 respondidos</span><span class="sp"></span><button type="button" class="bt pr" id="copiar">Copiar respostas</button></div></div>
 <main>
-<h1>IrrigaManager v0.3.2 · Até 50 coletores</h1>
-<p class="sub">Feita a partir da sua resposta ao ITEM 52 (“aumentar para 50 coletores como limite”). Os itens 51 e 53 foram aprovados e seguem como estavam. <b>PROPOSTA</b> é o app de verdade, com o Pivô 04 (409,8 m).</p>
+<h1>IrrigaManager v0.4.1 · Atualização semanal dos horímetros</h1>
+<p class="sub">Feita a partir do seu comentário no ITEM 56 e do resumo aprovado às 14h57 (com o destaque em amarelo). Os itens 55 a 64 foram aprovados. <b>PROPOSTA</b> é o app de verdade, com dados de exemplo: atualização de todos os pivôs há 10 dias e de 6 deles há 3 dias.</p>
 <ul class="como"><li>Toque numa imagem para ampliar. Na imagem ampliada, toque de novo para alternar entre HOJE e PROPOSTA.</li><li>As respostas ficam guardadas neste aparelho até você copiar.</li></ul>
 <div id="itens" style="display:contents"></div>
 <section class="fim" aria-labelledby="fimT">
- <h2 id="fimT">O que ainda falta</h2>
+ <h2 id="fimT">O que não foi possível provar</h2>
  <ul>
-  <li>Cartas de aspersores e comprimento dos pivôs 09 e 10.</li>
-  <li>Fonte do horímetro, Cartilha de manutenção e aba Ações.</li>
+  <li>As telas usam dados de exemplo; a base da equipe ainda não tem leituras. A primeira atualização semanal já alimenta a Cartilha.</li>
+  <li>A atualização precisa de sinal; sem conexão o app avisa quais não foram salvos.</li>
  </ul>
- <p>Testes: <b>tools/testes/t_app.js</b>, <b>t_checklist.js</b> e <b>t_aspersores.js</b>, todos passando.</p>
+ <h2>O que ainda falta</h2>
+ <ul>
+  <li>Integração com a plataforma dos pivôs (no lugar da atualização manual).</li>
+  <li>Cartas de aspersores e comprimento dos pivôs 09 e 10; aba Ações.</li>
+ </ul>
+ <p>Testes: <b>tools/testes/t_horimetros.js</b>, <b>t_cartilha.js</b>, <b>t_app.js</b>, <b>t_checklist.js</b> e <b>t_aspersores.js</b>, todos passando.</p>
  <button type="button" class="bt pr gr" id="copiar2">Copiar respostas</button><span id="copiado" role="status"></span><pre id="saida" hidden></pre>
 </section>
 </main>
@@ -109,13 +114,15 @@ textarea{width:100%;min-height:44px;border:1px solid var(--bd);border-radius:var
 (function(){'use strict';
 var IM=/*SHOTS*/;
 var S=IM.src,DM=IM.dim;
-var REF='tools/testes/t_app.js';
+var REF='tools/testes/t_horimetros.js';
 var G=[
-{g:'Avaliação de uniformidade · passo 2',it:[
- {t:'Limite de 50 coletores',p:['O limite passou de 30 para <b>50 coletores</b>. O cálculo continua o mesmo: cabem quantos coletores der até 5 m antes do fim do pivô.','Pivô 04 a cada 10 m: antes o app cortava em 30 (o último ficava a 330 m); agora usa os <b>37</b> que cabem, de 40 a 400 m, o último a 9,8 m do fim.','Só acima de 50 o app avisa e sugere o espaçamento. Exemplo a cada 7 m: caberiam 53; ele usa 50 e sugere 7,4 m (o último fica a 402,6 m).','Com espaçamento quebrado, as distâncias agora aparecem com vírgula (47,4 m, 54,8 m…) na coleta, no gráfico, no PDF e no Excel. O PDF repete o cabeçalho da tabela quando os coletores passam para outra página.'],r:'a cada 10 m: 37 coletores; a cada 7 m caberiam 53: limita a 50 e sugere 7,4 m; 50 coletores passam para a coleta',cel:1,par:[['Pivô 04 a cada 10 m','u2','u4'],['Pivô 04 a cada 7 m',null,'u3']]}
+{g:'Horímetros',it:[
+ {t:'Atualizar todos os horímetros numa tela só',p:['Na aba Pivôs, o botão principal agora é <b>Atualizar horímetros</b>. Ele abre, no celular, todos os pivôs em operação, com a última leitura de cada um e um campo para o valor novo, mais a data (vem com hoje) e quem atualizou.','Cada valor é conferido na hora: em verde, as horas desde a última leitura e o ritmo por dia; em vermelho, valor menor que a leitura anterior (não salva); em amarelo, mais de 24 h por dia (pede “Salvar mesmo assim”).','Pivô deixado em branco fica como está. O mesmo valor na mesma data não duplica. O “Lançar horímetro de um pivô” continua existindo.'],r:'tela lista os 8 pivôs em operação; valor menor fica em vermelho; +300 h em 10 dias vira aviso; salva 4 leituras com data, nome e lote',cel:1,par:[['Aba Pivôs','h41_piv','p41_piv'],['Valores digitados (Pivô 04 com aviso)','h41_lote1','p41_lote1'],['Todos preenchidos',null,'p41_lote2']]},
+ {t:'Quadro Horímetros com a data da atualização',p:['No topo da aba Pivôs: cada pivô com o horímetro, a data da atualização, há quantos dias e quem atualizou (no celular, “Por” aparece no histórico do pivô). No título, a última atualização geral e quantos pivôs entraram nela.','Em <b>amarelo</b>, o pivô sem atualização há mais de 7 dias ou sem leitura. São só cor e texto, sem alerta. Os 7 dias podem ser mudados em Configurações.'],r:'leitura de 10 dias fica em amarelo; quadro mostra a última atualização geral; com 14 dias, a leitura de 10 dias não fica amarela',cel:1,par:[['Depois de salvar: todos “hoje”',null,'p41_piv2']]},
+ {t:'Data junto do horímetro em todo o app',p:['Painel do pivô no mapa: “horímetro · 23/11”. Cartilha: “atualizado em 23/11/2026 (há 3 dias)”.','Histórico de leituras do pivô com a coluna <b>Lançado por</b>. O lançamento de um pivô só também pede o nome.'],r:'painel do mapa mostra a data junto do horímetro; Cartilha mostra a data da atualização; histórico de leituras mostra "Lançado por"',par:[['Aba Pivôs no PC','h41_pivpc','p41_pivpc'],['Painel do Pivô 04 no mapa','h41_side','p41_side'],['Leituras do Pivô 04','h41_leitpc','p41_leitpc']]}
 ]}];
-(function(){var n=54;G.forEach(function(g){g.it.forEach(function(it){it.n=n++;});});})();
-var host=document.getElementById('itens'),KEY='im-aprov-v032',sv={};try{sv=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){sv={};}
+(function(){var n=65;G.forEach(function(g){g.it.forEach(function(it){it.n=n++;});});})();
+var host=document.getElementById('itens'),KEY='im-aprov-v041',sv={};try{sv=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){sv={};}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(sv));}catch(e){}}
 var TOT=0,PARES={};
 function fig(lado,k,par,leg,cel,cap){if(!k)return '<figure class="'+lado+(cel?' cel':'')+'"><figcaption>'+(lado==='hoje'?'HOJE':'PROPOSTA')+'</figcaption><div class="vazio">'+(lado==='hoje'?'Não existe hoje.':'')+'</div></figure>';
@@ -133,7 +140,7 @@ G.forEach(function(gr){var h=document.createElement('h2');h.className='grupo';h.
  });});
 function cont(){var n=0;Object.keys(sv).forEach(function(k){if(sv[k].v)n++;});document.getElementById('cont').textContent=n+' de '+TOT+' respondidos';}
 cont();
-function texto(){var o=['IrrigaManager v0.3.2 · Limite de 50 coletores · respostas',''];G.forEach(function(gr){o.push(gr.g);gr.it.forEach(function(it){var s=sv[it.n]||{};o.push('ITEM '+it.n+' · '+it.t.replace(/<[^>]+>/g,'')+': '+(s.v||'Sem resposta'));if(s.c&&s.c.trim())o.push('  Comentário: '+s.c.trim());});o.push('');});return o.join('\n');}
+function texto(){var o=['IrrigaManager v0.4.1 · Horímetros · respostas',''];G.forEach(function(gr){o.push(gr.g);gr.it.forEach(function(it){var s=sv[it.n]||{};o.push('ITEM '+it.n+' · '+it.t.replace(/<[^>]+>/g,'')+': '+(s.v||'Sem resposta'));if(s.c&&s.c.trim())o.push('  Comentário: '+s.c.trim());});o.push('');});return o.join('\n');}
 function copiar(){var t=texto(),out=document.getElementById('saida'),ok=document.getElementById('copiado');out.textContent=t;out.hidden=false;
  function done(){ok.textContent='Copiado. Cole na conversa.';}
  function fb(){var r=document.createRange();r.selectNodeContents(out);var s=window.getSelection();s.removeAllRanges();s.addRange(r);try{if(document.execCommand('copy'))done();else ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}catch(e){ok.textContent='Selecionei o texto abaixo: copie com Ctrl+C ou segurando o dedo.';}}

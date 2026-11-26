@@ -36,7 +36,6 @@ function calculoIndependente(a) {
   async function horimetro(pid, data, h, prev) {
     await pg.click('[data-act="horimetro"]'); await pg.waitForSelector('#hP');
     await pg.selectOption('#hP', pid); await pg.fill('#hD', data); await pg.fill('#hH', String(h));
-    if (prev) await pg.check('#hPrev');
     await pg.click('#hOk'); await pg.waitForTimeout(120);
   }
   await pg.click('[data-go="pivos"]');
@@ -45,9 +44,9 @@ function calculoIndependente(a) {
   await horimetro('p04', '2026-11-20', 2912);
   await horimetro('p03', '2026-01-10', 500, true);
   await horimetro('p03', '2026-11-20', 2564);
-  const st = await pg.evaluate(() => { const im = window.__im; im.derive(); const P = Object.keys(im.D.pivos).map(id => Object.assign({ id }, im.D.pivos[id])); return { p04: im.prev(P.find(p => p.id === 'p04')), p03: im.prev(P.find(p => p.id === 'p03')) }; });
-  confere('Pivô 04 fica "Próxima" faltando 88 h', st.p04.st === 'warn' && st.p04.falta === 88, st.p04.txt + ' ' + st.p04.falta);
-  confere('Pivô 03 fica "Vencida"', st.p03.st === 'crit', st.p03.txt);
+  const st = await pg.evaluate(() => { const im = window.__im; im.derive(); const P = Object.keys(im.D.pivos).map(id => Object.assign({ id }, im.D.pivos[id])); const p4 = P.find(p => p.id === 'p04'); return { h: im.horAtual('p04'), sp: im.stPivo(p4) }; });
+  confere('horímetro atual do Pivô 04 vem da última leitura', st.h && st.h.h === 2912 && st.h.data === '2026-11-20', JSON.stringify(st.h));
+  confere('sem manutenção registrada o pivô fica "Sem registro"', st.sp.st === 'mut' && st.sp.n.mut === st.sp.tot, st.sp.txt);
 
   // Leitura menor que a anterior é recusada
   await pg.click('[data-act="horimetro"]'); await pg.selectOption('#hP', 'p04'); await pg.fill('#hH', '100'); await pg.click('#hOk');

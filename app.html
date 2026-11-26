@@ -23,7 +23,7 @@ svg{display:block}
 .rail button svg{width:21px;height:21px}
 .rail button.on{opacity:1;background:var(--railon);font-weight:700}
 .rail button[disabled]{opacity:.38;cursor:not-allowed}
-.rail .sp{flex:1}
+.rail .sp{flex:1}.rail .sh{display:none}
 .main{min-width:0;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px 16px;display:grid;gap:14px;align-content:start}
 .top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
 .top h1{margin:0;font-size:22px;line-height:1.2}
@@ -163,6 +163,22 @@ details.card[open] summary{margin-bottom:10px}
 .tri button[aria-pressed=true].a{background:var(--tx3);border-color:var(--tx3);color:var(--bg)}
 .ncbox{display:grid;gap:8px;border-top:1px dashed var(--ln);padding-top:9px}
 .thumbs{display:flex;gap:6px;flex-wrap:wrap}.thumbs img{width:64px;height:64px;object-fit:cover;border-radius:8px;border:1px solid var(--ln)}
+.mtx{border:1px solid currentColor;border-radius:999px;background:none;font-weight:700;font-size:11px;padding:2px 8px;min-width:56px;cursor:pointer;color:var(--tx3)}.mtx.ok{color:var(--ok)}.mtx.warn{color:var(--warn)}.mtx.crit{color:var(--crit);background:color-mix(in srgb,var(--crit) 14%,transparent)}.mtx.mut{border-color:transparent}
+.t td.c,.t th.c{text-align:center}
+.t tr.hdes td{background:color-mix(in srgb,var(--warn) 9%,transparent)}
+.hbr{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:10px;align-items:center}
+.hbr b{display:block;font-size:15px}.hbr small{display:block;font-size:12px;color:var(--tx3);margin-top:2px}
+.hbr input{width:100%;height:46px;font-size:18px;text-align:right}
+.hq .pill{margin-left:6px}
+.hbm{font-size:12.5px;color:var(--tx2)}.hbm:empty{display:none}
+.hbi.on{border-color:var(--ok)}.hbi.on .hbm{color:var(--ok)}.hbi.al{border-color:var(--warn)}.hbi.al .hbm{color:var(--warn)}.hbi.er{border-color:var(--crit)}.hbi.er .hbm{color:var(--crit)}
+.t.ct{table-layout:fixed;min-width:820px}.t.ct th:nth-child(2){width:128px}.t.ct th:nth-child(3){width:100px}.t.ct th:nth-child(4){width:200px}.t.ct th:nth-child(5){width:128px}.t.ct th:nth-child(6){width:112px}.t.ct td{white-space:normal}
+.mtl{display:grid;gap:6px}
+.mti{border:1px solid var(--ln);border-radius:10px;background:var(--sf);padding:8px 10px;display:grid;gap:8px}
+.mti.on{border-color:var(--ac);background:color-mix(in srgb,var(--ac) 8%,var(--sf))}
+.mti>.mtc{display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;font-weight:600;font-size:14px;line-height:1.35;cursor:pointer}
+.mti>.mtc input{width:20px;height:20px;margin-top:1px;accent-color:var(--ac)}
+.mti small{display:block;font-weight:400;font-size:12px;color:var(--tx3);margin-top:2px}
 .cein{background:var(--sf);border:1px solid var(--ln);border-radius:8px;min-height:34px;padding:0 8px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:50;background:var(--tx);color:var(--bg);padding:10px 16px;border-radius:10px;font-weight:600;font-size:13.5px;max-width:calc(100vw - 32px);box-shadow:0 8px 24px var(--sh)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
@@ -171,13 +187,21 @@ details.card[open] summary{margin-bottom:10px}
  .shell{grid-template-columns:minmax(0,1fr)}
  .rail{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;z-index:10;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));overflow-x:auto}
  .rail .brand,.rail .sp,.rail button[disabled]{display:none}
- .rail button{flex:1;min-width:64px}
+ #cardHor .hp{display:none}#cardHor .hq .pill{margin-left:4px}
+ .rail button{flex:1 1 0;min-width:50px;font-size:10px;padding:8px 0}.rail .lg{display:none}.rail .sh{display:inline}
  .main{padding-bottom:96px}
  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
  .k5{grid-template-columns:repeat(2,minmax(0,1fr))}.k8{grid-template-columns:repeat(2,minmax(0,1fr))}
  .bn{font-size:30px}
  .wiz{place-items:stretch}.wz{width:100%;height:100%;border-radius:0;border:0}
  .ov{padding:0;place-items:end stretch}.dlg{width:100%;border-radius:16px 16px 0 0;max-height:92vh}
+ .t.ct{min-width:0;table-layout:auto;display:block}.t.ct thead{display:none}.t.ct tbody{display:block}
+ .t.ct tr{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t t" "p s" "u u" "x x" "r r";gap:5px 10px;padding:11px 12px;border-bottom:1px solid var(--ln)}
+ .t.ct td{display:block;border:0!important;padding:0!important;height:auto!important;min-width:0!important}
+ .t.ct td:nth-child(1){grid-area:t;font-weight:600}.t.ct td:nth-child(2){grid-area:p;color:var(--tx2)}.t.ct td:nth-child(5){grid-area:s;justify-self:end}
+ .t.ct td:nth-child(3){grid-area:u;font-size:13px;color:var(--tx2)}.t.ct td:nth-child(3):before{content:"Última vez: "}.t.ct td:nth-child(3) div{display:inline;margin-left:6px}
+ .t.ct td:nth-child(4){grid-area:x;font-size:13px;color:var(--tx2)}.t.ct td:nth-child(4):before{content:"Próxima: "}
+ .t.ct td:nth-child(6){grid-area:r}.t.ct td:nth-child(6) .b2{width:100%;min-height:38px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -198,7 +222,7 @@ details.card[open] summary{margin-bottom:10px}
 
 // ---------- constantes ----------
 var NMAX=50;
-var CFG0={diam:72,intervalo:2000,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10,margem:5};
+var CFG0={diam:72,horAviso:7,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10,margem:5};
 var AREA=['','RU','JD'];
 // Só usados no modo local (fora do Claude), para a página funcionar sozinha.
 var DEF_PIVOS=[
@@ -240,11 +264,11 @@ function kvGet(k){return idb().then(function(d){if(!d)return null;return new Pro
 function kvSet(k,v){return idb().then(function(d){if(!d)return false;return new Promise(function(res){try{var t=d.transaction('kv','readwrite');if(v==null)t.objectStore('kv').delete(k);else t.objectStore('kv').put(v,k);t.oncomplete=function(){res(true);};t.onerror=function(){res(false);};}catch(e){res(false);}});});}
 
 // ---------- estado e dados ----------
-var COLS=['pivos','avaliacoes','leituras','cfg','checklists','pendencias','aspersores'];
-var D={pivos:{},avaliacoes:{},leituras:{},cfg:{},checklists:{},pendencias:{},aspersores:{}};
-var S={mode:'loading',stale:false,ro:false,view:'mapa',sel:null,selT:0,area:1,ed:false,uP:null,uA:null,pend:[],userName:'',userId:null,cfmDel:null,cP:null,cA:null,ckEdit:null,canEdit:false,aP:null,aspS:null,aspTamp:false,aspOff:false,aspM:'v',aspIn:'',aspVao:1};
+var COLS=['pivos','avaliacoes','leituras','cfg','checklists','pendencias','aspersores','manutencoes','ocorrencias'];
+var D={pivos:{},avaliacoes:{},leituras:{},cfg:{},checklists:{},pendencias:{},aspersores:{},manutencoes:{},ocorrencias:{}};
+var S={mode:'loading',stale:false,ro:false,view:'mapa',sel:null,selT:0,area:1,ed:false,uP:null,uA:null,pend:[],userName:'',userId:null,cfmDel:null,cP:null,cA:null,ckEdit:null,canEdit:false,aP:null,aspS:null,aspTamp:false,aspOff:false,aspM:'v',aspIn:'',aspVao:1,tP:null,tMode:'p',ctEdit:null};
 var DB=null,ASSETS=null,DL=null,USER=null;
-var P=[],A=[],L=[],C=[],PD=[],CFG=Object.assign({},CFG0),FOTO={tipo:'aval'};
+var P=[],A=[],L=[],C=[],PD=[],MT=[],OC=[],CFG=Object.assign({},CFG0),FOTO={tipo:'aval'};
 
 function derive(){
  P=Object.keys(D.pivos).map(function(id){return Object.assign({id:id},D.pivos[id]);}).sort(function(a,b){return String(a.nome).localeCompare(String(b.nome),'pt-BR',{numeric:true});});
@@ -252,7 +276,9 @@ function derive(){
  L=Object.keys(D.leituras).map(function(id){return Object.assign({id:id},D.leituras[id]);}).sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:(a.h-b.h);});
  C=Object.keys(D.checklists).map(function(id){return Object.assign({id:id},D.checklists[id]);}).sort(function(a,b){return (a.data+a.hora)<(b.data+b.hora)?-1:1;});
  PD=Object.keys(D.pendencias).map(function(id){return Object.assign({id:id},D.pendencias[id]);}).sort(function(a,b){return a.criada<b.criada?-1:1;});
- CFG=Object.assign({},CFG0,D.cfg.geral||{});
+ MT=Object.keys(D.manutencoes||{}).map(function(id){return Object.assign({id:id},D.manutencoes[id]);}).sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:((a.horim||0)-(b.horim||0))||(a.criado<b.criado?-1:1);});
+ OC=Object.keys(D.ocorrencias||{}).map(function(id){return Object.assign({id:id},D.ocorrencias[id]);}).sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:(a.criado<b.criado?-1:1);});
+ CFG=Object.assign({},CFG0,D.cfg.geral||{});STC={};
  if(!S.sel||!pv(S.sel))S.sel=P[0]?P[0].id:null;
  if(S.uP&&!pv(S.uP))S.uP=null;
 }
@@ -306,20 +332,6 @@ function boot(){
  window.claude.use('user').then(function(u){USER=u;if(!u)return;u.id().then(function(i){S.userId=i;});u.name().then(function(n){S.userName=n||'';});u.canEdit().then(function(v){S.canEdit=!!v;schedule();});},function(){});
 }
 
-// ---------- preventiva ----------
-function prev(p){
- var ls=leitDe(p.id);if(!ls.length)return {st:'mut',txt:'Sem leitura',ls:ls};
- var last=ls[ls.length-1],pr=null;for(var i=ls.length-1;i>=0;i--){if(ls[i].prev){pr=ls[i];break;}}
- var r={ls:ls,last:last,pr:pr,atual:last.h,dataLast:last.data};
- if(!pr){r.st='mut';r.txt='Sem preventiva registrada';return r;}
- r.desde=last.h-pr.h;r.falta=CFG.intervalo-r.desde;r.diasPrev=dias(pr.data,today());
- var lim=addDias(last.data,-90),base=null;for(i=0;i<ls.length;i++){if(ls[i].data>=lim&&ls[i].data<last.data&&ls[i].h<=last.h){base=ls[i];break;}}
- if(base){var dd=dias(base.data,last.data);if(dd>0&&last.h>base.h){r.taxa=(last.h-base.h)/dd;r.diasRest=r.falta>0?r.falta/r.taxa:0;r.dataPrev=addDias(last.data,Math.round(r.diasRest));}}
- if(r.falta<=0){r.st='crit';r.txt='Vencida';}
- else if(r.falta<=CFG.avisoH||(r.diasRest!=null&&r.diasRest<=CFG.avisoDias)){r.st='warn';r.txt='Próxima';}
- else {r.st='ok';r.txt='Em dia';}
- return r;
-}
 function stPill(r){return '<span class="pill '+r.st+'">'+esc(r.txt)+'</span>';}
 
 // ---------- cálculos da uniformidade ----------
@@ -393,7 +405,7 @@ function nT(p){return Math.max(1,(p.q&&p.q.length)||p.n||4);}
 function overlay(){
  var a=S.area,dm=DIM[a-1],s='';
  P.forEach(function(p){if((p.area||1)!==a)return;
-  var on=p.id===S.sel,st=prev(p).st,c='var(--'+(st==='mut'?'tx3':st)+')',n=nT(p),sl=Math.PI*2/n,o=(p.o||0)*Math.PI/180;
+  var on=p.id===S.sel,st=stPivo(p).st,c='var(--'+(st==='mut'?'tx3':st)+')',n=nT(p),sl=Math.PI*2/n,o=(p.o||0)*Math.PI/180;
   for(var k=0;k<n;k++){var a0=k*sl-Math.PI/2+o,a1=a0+sl,tt=on&&S.selT===k+1;
    var d=n===1?('M'+(p.x-p.r)+' '+p.y+'a'+p.r+' '+p.r+' 0 1 0 '+(2*p.r)+' 0a'+p.r+' '+p.r+' 0 1 0 '+(-2*p.r)+' 0'):('M'+p.x+' '+p.y+'L'+(p.x+p.r*Math.cos(a0)).toFixed(1)+' '+(p.y+p.r*Math.sin(a0)).toFixed(1)+'A'+p.r+' '+p.r+' 0 0 1 '+(p.x+p.r*Math.cos(a1)).toFixed(1)+' '+(p.y+p.r*Math.sin(a1)).toFixed(1)+'Z');
    s+='<path data-p="'+esc(p.id)+'" data-t="'+(k+1)+'" tabindex="0" role="button" aria-label="'+esc(p.nome+', '+qn(p,k))+'" d="'+d+'" fill="'+c+'" fill-opacity="'+(tt?.6:on?.32:.2)+'" stroke="#fff" stroke-opacity=".9" stroke-width="'+(tt?5:2)+'"/>';}
@@ -406,42 +418,43 @@ function overlay(){
  var sv=$('ovl');if(sv){sv.setAttribute('viewBox','0 0 '+dm[0]+' '+dm[1]);sv.innerHTML=s;}
 }
 function miniBars(a,r){return barras(a,r,320,120).replace('class="chart"','class="chart" style="max-height:130px"');}
+function urgentes(sp){return sp.lista.filter(function(x){return x.st==='crit'||x.st==='warn';}).sort(function(a,b){return SORD[b.st]-SORD[a.st]||((a.faltaH==null?1e9:a.faltaH)-(b.faltaH==null?1e9:b.faltaH));});}
 function vMapa(){
- var cnt={ok:0,warn:0,crit:0,mut:0};P.forEach(function(p){cnt[prev(p).st]++;});
+ var cnt={ok:0,warn:0,crit:0,mut:0};P.forEach(function(p){cnt[stPivo(p).st]++;});
  var p=pv(S.sel),h='<div class="mapg"><div class="card mapcard"><div class="maptop"><span class="seg" role="group" aria-label="Área do mapa">'+[1,2].map(function(a){return '<button type="button" data-area="'+a+'" aria-pressed="'+(S.area===a)+'">Área '+AREA[a]+'</button>';}).join('')+'</span>'+
  '<span class="chip ok"><span class="pill">Em dia · '+cnt.ok+'</span></span><span class="chip warn"><span class="pill">Próxima · '+cnt.warn+'</span></span><span class="chip crit"><span class="pill">Vencida · '+cnt.crit+'</span></span>'+(cnt.mut?'<span class="chip mut"><span class="pill">Sem dados · '+cnt.mut+'</span></span>':'')+(function(){var n=P.filter(function(q){var u=ultCk(q.id);return u&&!u.apto;}).length;return n?'<span class="chip crit"><span class="pill np">⚠ Inapto · '+n+'</span></span>':'';})()+
  '<span style="flex:1"></span><label class="tog"><input type="checkbox" id="edTog"'+(S.ed?' checked':'')+(S.ro?' disabled':'')+'>Ajustar pivôs no mapa</label></div>'+
  '<div class="mapbox'+(S.ed?' ed':'')+'" id="mapbox"><svg id="ovl" aria-label="Pivôs e talhões"></svg></div>';
  if(S.ed&&p)h+='<div class="edbar"><b>'+esc(p.nome)+'</b><label>Raio <input type="range" id="eR" min="20" max="200" value="'+p.r+'"></label><label>Giro (°) <input type="number" id="eO" min="0" max="359" step="5" value="'+(p.o||0)+'" style="width:72px"></label><span class="muted">Arraste o círculo até o pivô na imagem. Talhões e nomes ficam em Pivôs → Editar.</span></div>';
- h+='<p class="crumb" style="margin:8px 2px 0">Clique num talhão ou no nome do pivô. A cor segue a preventiva; “⚠ INAPTO” vem da última inspeção.</p></div>';
+ h+='<p class="crumb" style="margin:8px 2px 0">Clique num talhão ou no nome do pivô. A cor segue a Cartilha de manutenção (a pior situação entre as tarefas do pivô); “⚠ INAPTO” vem da última inspeção.</p></div>';
  h+='<aside class="card side">'+(p?painel(p):'<div class="empty">Nenhum pivô cadastrado.<button class="b1" data-act="novoPivo">Cadastrar pivô</button></div>')+'</aside></div>';
  return h;
 }
 function painel(p){
- var r=prev(p),av=avalsDe(p.id),ua=av[av.length-1],ru=ua?calc(ua):null;
+ var r=stPivo(p),cur=horAtual(p.id),av=avalsDe(p.id),ua=av[av.length-1],ru=ua?calc(ua):null;
  var h='<div><span class="crumb">Fazenda '+esc(p.fazenda||AREA[p.area||1])+(S.selT?' · talhão selecionado':'')+'</span><h2 class="ptitle">'+esc(p.nome)+(S.selT?' · '+esc(qn(p,S.selT-1)):'')+'</h2></div>';
  var uc=ultCk(p.id),npa=pendDe(p.id,true).length;
- h+='<div class="pills"><span class="pill '+r.st+'">Preventiva: '+esc(r.txt)+'</span>'+aptoPill(uc)+(npa?'<span class="pill warn">'+npa+' pendência'+(npa>1?'s':'')+'</span>':'')+(p.ativo===false?'<span class="pill mut">Inativo</span>':'')+'</div>';
- h+='<div class="kpis"><div class="kpi '+(r.st==='crit'||r.st==='warn'?r.st:'')+'"><b>'+(r.falta!=null?nf(r.falta)+' h':'—')+'</b><span>para a preventiva</span></div><div class="kpi"><b>'+(r.desde!=null?nf(r.desde)+' h':'—')+'</b><span>desde a última</span></div><div class="kpi"><b>'+(r.atual!=null?nf(r.atual):'—')+'</b><span>horímetro atual</span></div></div>';
- var lin=[];if(r.dataLast)lin.push('Última leitura em '+fd(r.dataLast));if(r.pr)lin.push('preventiva em '+fd(r.pr.data));if(r.dataPrev&&r.falta>0)lin.push('próxima prevista por volta de '+fd(r.dataPrev));
- h+='<div class="note">'+(lin.length?esc(lin.join(' · ')):'Lance o horímetro e registre a última preventiva para acompanhar o prazo.')+'</div>';
+ h+='<div class="pills"><span class="pill '+r.st+'">Manutenção: '+esc(r.txt)+'</span>'+aptoPill(uc)+(npa?'<span class="pill warn">'+npa+' pendência'+(npa>1?'s':'')+'</span>':'')+(p.ativo===false?'<span class="pill mut">Inativo</span>':'')+'</div>';
+ h+='<div class="kpis"><div class="kpi '+(r.n.crit?'crit':'')+'"><b>'+r.n.crit+'</b><span>vencidas</span></div><div class="kpi '+(r.n.warn?'warn':'')+'"><b>'+r.n.warn+'</b><span>próximas</span></div><div class="kpi"><b>'+(cur?nf(cur.h):'—')+'</b><span>horímetro · '+(cur?fdc(cur.data):'sem leitura')+'</span></div></div>';
+ var ug=urgentes(r);
+ h+=ug.length?'<ul class="ins" style="margin:0">'+ug.slice(0,3).map(function(x){return '<li><b class="'+x.st+'">'+esc(x.txt)+':</b> '+esc(x.t.t)+' · '+esc(proxTxt(x))+'</li>';}).join('')+(ug.length>3?'<li class="muted">e mais '+(ug.length-3)+'</li>':'')+'</ul>':'<div class="note">'+(r.st==='mut'?'Nenhuma manutenção registrada. Registre na Cartilha a última vez que cada tarefa foi feita.':(cur?'Última leitura em '+fd(cur.data)+'. ':'')+'Nenhuma tarefa vencida ou próxima'+(r.n.mut?' ('+r.n.mut+' sem registro)':'')+'.')+'</div>';
  h+='<div class="sub"><span>Talhões</span><span class="muted" style="font-weight:400">'+nT(p)+'</span></div><div class="pills">'+(p.q||[]).map(function(t,k){return '<span class="pill np '+(S.selT===k+1?'ok':'mut')+'">'+esc(t)+'</span>';}).join('')+'</div>';
  if(ua&&ru.cuh!=null){h+='<div class="sub"><span>Uniformidade · '+fd(ua.data)+'</span><span>CUC '+f1(ru.cuh)+'% · CUD '+f1(ru.cud)+'%</span></div>'+miniBars(ua,ru);}
  else h+='<div class="sub"><span>Uniformidade</span></div><div class="note">Nenhuma avaliação ainda.</div>';
  if(uc){var ur=ckRes(uc);h+='<div class="sub"><span>Última inspeção · '+fd(uc.data)+'</span><span>'+(ur.pct==null?'—':f1(ur.pct)+'%')+' · '+ur.n+' não conforme'+(ur.n===1?'':'s')+'</span></div>';}
- h+='<div class="acts"><button class="b1" data-act="horimetro" data-id="'+esc(p.id)+'">'+ic('ga')+'Lançar horímetro</button><button class="b2" data-act="novoCk" data-id="'+esc(p.id)+'">'+ic('ck')+'Nova inspeção</button>'+(aspDe(p.id)?'<button class="b2" data-go="asp" data-id="'+esc(p.id)+'">'+ic('spr')+'Aspersores</button>':'')+'<button class="b2" data-act="novaAval" data-id="'+esc(p.id)+'">'+ic('pl')+'Nova avaliação</button>'+(ua?'<button class="b2" data-go="unif" data-id="'+esc(p.id)+'">Ver uniformidade</button>':'')+'</div>';
+ h+='<div class="acts"><button class="b1" data-act="horimetro" data-id="'+esc(p.id)+'">'+ic('ga')+'Lançar horímetro</button><button class="b2" data-act="novoCk" data-id="'+esc(p.id)+'">'+ic('ck')+'Nova inspeção</button><button class="b2" data-go="ct" data-id="'+esc(p.id)+'">'+ic('wr')+'Cartilha</button>'+(aspDe(p.id)?'<button class="b2" data-go="asp" data-id="'+esc(p.id)+'">'+ic('spr')+'Aspersores</button>':'')+'<button class="b2" data-act="novaAval" data-id="'+esc(p.id)+'">'+ic('pl')+'Nova avaliação</button>'+(ua?'<button class="b2" data-go="unif" data-id="'+esc(p.id)+'">Ver uniformidade</button>':'')+'</div>';
  return h;
 }
 
 // ---------- pivôs ----------
 function vPivos(){
  if(!P.length)return '<div class="card empty">Nenhum pivô cadastrado.<button class="b1" data-act="novoPivo">'+ic('pl')+'Cadastrar pivô</button></div>';
- var h='<div class="acts"><button class="b1" data-act="horimetro">'+ic('ga')+'Lançar horímetro</button><button class="b2" data-act="novoPivo">'+ic('pl')+'Novo pivô</button></div><div class="tw"><table class="t"><thead><tr><th>Pivô</th><th>Fazenda</th><th>Talhões</th><th class="n">Lâmina rec.</th><th class="n">Horímetro</th><th class="n">Desde a prev.</th><th class="n">Falta</th><th>Preventiva</th><th>Última uniformidade</th><th>Última inspeção</th><th></th></tr></thead><tbody>';
- P.forEach(function(p){var r=prev(p),av=avalsDe(p.id),ua=av[av.length-1],ru=ua?calc(ua):null;
-  h+='<tr'+(p.id===S.sel?' class="sel"':'')+'><td><button class="lk" data-sel="'+esc(p.id)+'">'+esc(p.nome)+'</button>'+(p.ativo===false?' <span class="pill mut np">Inativo</span>':'')+'</td><td>'+esc(p.fazenda||AREA[p.area||1])+'</td><td>'+esc((p.q||[]).join(', '))+'</td><td class="n">'+f1(p.laminaRec||CFG.laminaRec)+' mm</td><td class="n">'+(r.atual!=null?nf(r.atual)+' h':'—')+'</td><td class="n">'+(r.desde!=null?nf(r.desde)+' h':'—')+'</td><td class="n">'+(r.falta!=null?nf(r.falta)+' h':'—')+'</td><td>'+stPill(r)+'</td><td>'+(ru&&ru.cuh!=null?f1(ru.cuh)+'% · '+fd(ua.data):'<span class="muted">—</span>')+'</td><td>'+(function(){var u=ultCk(p.id);return u?aptoPill(u)+' <span class="crumb">'+fd(u.data)+'</span>':'<span class="muted">—</span>';})()+'</td><td><div class="acts" style="flex-wrap:nowrap"><button class="b2" data-act="horimetro" data-id="'+esc(p.id)+'">Horímetro</button><button class="b2" data-act="editPivo" data-id="'+esc(p.id)+'">Editar</button></div></td></tr>';});
+ var h='<div class="acts"><button class="b1" data-act="horLote">'+ic('ga')+'Atualizar horímetros</button><button class="b2" data-act="horimetro">Lançar horímetro de um pivô</button><button class="b2" data-act="novoPivo">'+ic('pl')+'Novo pivô</button></div>'+cardHorimetros()+'<div class="tw"><table class="t"><thead><tr><th>Pivô</th><th>Fazenda</th><th>Talhões</th><th class="n">Lâmina rec.</th><th class="n">Horímetro</th><th>Manutenção</th><th class="n">Vencidas</th><th class="n">Próximas</th><th>Última uniformidade</th><th>Última inspeção</th><th></th></tr></thead><tbody>';
+ P.forEach(function(p){var r=stPivo(p),cur=horAtual(p.id),av=avalsDe(p.id),ua=av[av.length-1],ru=ua?calc(ua):null;
+  h+='<tr'+(p.id===S.sel?' class="sel"':'')+'><td><button class="lk" data-sel="'+esc(p.id)+'">'+esc(p.nome)+'</button>'+(p.ativo===false?' <span class="pill mut np">Inativo</span>':'')+'</td><td>'+esc(p.fazenda||AREA[p.area||1])+'</td><td>'+esc((p.q||[]).join(', '))+'</td><td class="n">'+f1(p.laminaRec||CFG.laminaRec)+' mm</td><td class="n">'+(cur?nf(cur.h)+' h':'—')+'</td><td><button class="lk" data-go="ct" data-id="'+esc(p.id)+'" style="text-decoration:none">'+stPill(r)+'</button></td><td class="n'+(r.n.crit?' crit':'')+'">'+r.n.crit+'</td><td class="n'+(r.n.warn?' warn':'')+'">'+r.n.warn+'</td><td>'+(ru&&ru.cuh!=null?f1(ru.cuh)+'% · '+fd(ua.data):'<span class="muted">—</span>')+'</td><td>'+(function(){var u=ultCk(p.id);return u?aptoPill(u)+' <span class="crumb">'+fd(u.data)+'</span>':'<span class="muted">—</span>';})()+'</td><td><div class="acts" style="flex-wrap:nowrap"><button class="b2" data-act="horimetro" data-id="'+esc(p.id)+'">Horímetro</button><button class="b2" data-act="editPivo" data-id="'+esc(p.id)+'">Editar</button></div></td></tr>';});
  h+='</tbody></table></div>';
  var p=pv(S.sel);if(p){var ls=leitDe(p.id).slice(-12).reverse();
-  h+='<div class="card"><h3>Leituras do horímetro · '+esc(p.nome)+'<small>'+(ls.length?'últimas '+ls.length:'nenhuma ainda')+'</small></h3>'+(ls.length?'<div class="tw"><table class="t"><thead><tr><th>Data</th><th class="n">Horímetro</th><th>Tipo</th><th>Observação</th><th></th></tr></thead><tbody>'+ls.map(function(l){return '<tr><td>'+fd(l.data)+'</td><td class="n">'+nf(l.h)+' h</td><td>'+(l.prev?'<span class="pill ok np">Preventiva realizada</span>':'Leitura')+'</td><td>'+esc(l.obs||'')+'</td><td>'+(S.canEdit?'<button class="'+(S.cfmDel===l.id?'b3':'lk')+'" data-act="delLeit" data-id="'+esc(l.id)+'">'+(S.cfmDel===l.id?'Confirmar exclusão':'Excluir')+'</button>':'')+'</td></tr>';}).join('')+'</tbody></table></div>':'<div class="note">Use “Lançar horímetro”. Na primeira vez, marque “Preventiva realizada” na leitura da última preventiva para o app começar a contar.</div>')+'</div>';}
+  h+='<div class="card"><h3>Leituras do horímetro · '+esc(p.nome)+'<small>'+(ls.length?'últimas '+ls.length:'nenhuma ainda')+'</small></h3>'+(ls.length?'<div class="tw"><table class="t"><thead><tr><th>Data</th><th class="n">Horímetro</th><th>Tipo</th><th>Observação</th><th>Lançado por</th><th></th></tr></thead><tbody>'+ls.map(function(l){return '<tr><td>'+fd(l.data)+'</td><td class="n">'+nf(l.h)+' h</td><td>'+(l.prev?'<span class="pill ok np">Preventiva (antiga)</span>':esc(l.obs&&/cartilha|checklist/i.test(l.obs)?'Leitura · '+l.obs:'Leitura'))+'</td><td>'+esc(l.obs||'')+'</td><td>'+esc(l.resp||'—')+'</td><td>'+(S.canEdit?'<button class="'+(S.cfmDel===l.id?'b3':'lk')+'" data-act="delLeit" data-id="'+esc(l.id)+'">'+(S.cfmDel===l.id?'Confirmar exclusão':'Excluir')+'</button>':'')+'</td></tr>';}).join('')+'</tbody></table></div>':'<div class="note">Use “Lançar horímetro”. As tarefas da Cartilha contam as horas a partir destas leituras.</div>')+'</div>';}
  return h;
 }
 
@@ -488,18 +501,18 @@ function vCfg(){
  return '<div class="card" style="max-width:720px"><h3>Parâmetros<small>valem para toda a equipe</small></h3><div class="form"><div class="fg">'+
  f('cDiam','Diâmetro do coletor',c.diam,'mm','Converte o volume (mL) em lâmina (mm).')+f('cRec','Lâmina recomendada padrão',c.laminaRec,'mm','Cada pivô pode ter a sua, em Pivôs → Editar.')+
  f('cFx','Faixa aceitável em torno da recomendada',c.faixa,'%','Coletor fora dela aparece como abaixo ou acima.')+f('cMg','Distância mínima do último coletor ao fim do pivô',c.margem,'m','Garante a sobreposição dos aspersores no último coletor.')+f('cVento','Vento máximo para avaliar',c.ventoMax,'m/s','Acima disso o app avisa para repetir.')+
- f('cInt','Intervalo da preventiva',c.intervalo,'h')+f('cAvH','Avisar “Próxima” faltando',c.avisoH,'h')+f('cAvD','ou faltando',c.avisoDias,'dias','Estimado pelo ritmo de uso do horímetro.')+
+ f('cAvH','Cartilha: avisar “Próxima” faltando',c.avisoH,'h')+f('cAvD','ou faltando',c.avisoDias,'dias','Nas tarefas por horas, estimado pelo ritmo de uso do horímetro.')+f('cHor','Destacar horímetro sem atualização há mais de',c.horAviso,'dias','Em amarelo no quadro Horímetros (aba Pivôs).')+
  '</div><div class="acts"><button class="b1" data-act="saveCfg"'+(S.ro?' disabled':'')+'>Salvar parâmetros</button></div><p class="note">Só quem edita a página (dono ou editor) pode salvar os parâmetros.</p></div></div>'+
- '<div class="card" style="max-width:720px"><h3>Como os resultados são calculados</h3><ul class="ins"><li>Lâmina do coletor (mm) = volume (mL) × 1000 ÷ área da boca do coletor (mm²).</li><li>CUC de Heermann e Hein: cada coletor pesa pela distância ao centro, porque representa uma faixa de área maior quanto mais longe está.</li><li>CUD: média ponderada do quarto da área com menor lâmina, dividida pela média ponderada.</li><li>Christiansen simples aparece como referência, para comparar com a planilha.</li><li>Coletores perdidos ou sem leitura ficam fora do cálculo.</li></ul></div>'+ckEditor()+'<div class="card" style="max-width:720px"><h3>Resultado do checklist</h3><ul class="ins"><li>Resultado = conformes ÷ (conformes + não conformes). Itens N/A ficam fora da conta.</li><li>Item crítico não conforme faz o app sugerir “Inapto”; para marcar “Apto” mesmo assim, é preciso justificar.</li><li>Cada não conforme abre uma pendência do pivô, que fica aberta até alguém marcar como resolvida.</li></ul></div>';
+ '<div class="card" style="max-width:720px"><h3>Como os resultados são calculados</h3><ul class="ins"><li>Lâmina do coletor (mm) = volume (mL) × 1000 ÷ área da boca do coletor (mm²).</li><li>CUC de Heermann e Hein: cada coletor pesa pela distância ao centro, porque representa uma faixa de área maior quanto mais longe está.</li><li>CUD: média ponderada do quarto da área com menor lâmina, dividida pela média ponderada.</li><li>Christiansen simples aparece como referência, para comparar com a planilha.</li><li>Coletores perdidos ou sem leitura ficam fora do cálculo.</li></ul></div>'+ckEditor()+ctEditor()+'<div class="card" style="max-width:720px"><h3>Situação da Cartilha</h3><ul class="ins"><li>Cada tarefa conta a partir do último registro: horas pelo horímetro (leitura atual − horímetro do registro) e meses pelo calendário. Com os dois, vence pelo que chegar primeiro.</li><li>Vencida: passou do prazo. Próxima: faltam '+nf(CFG.avisoH)+' h ou '+nf(CFG.avisoDias)+' dias. Sem registro: a tarefa nunca foi registrada no pivô.</li><li>A cor do pivô no mapa é a pior situação entre as tarefas.</li></ul></div><div class="card" style="max-width:720px"><h3>Resultado do checklist</h3><ul class="ins"><li>Resultado = conformes ÷ (conformes + não conformes). Itens N/A ficam fora da conta.</li><li>Item crítico não conforme faz o app sugerir “Inapto”; para marcar “Apto” mesmo assim, é preciso justificar.</li><li>Cada não conforme abre uma pendência do pivô, que fica aberta até alguém marcar como resolvida.</li></ul></div>';
 }
 
 // ---------- render ----------
-var VIEWS={mapa:['map','Mapa'],pivos:['list','Pivôs'],unif:['drop','Uniformidade'],ck:['ck','Checklist'],asp:['spr','Aspersores'],cfg:['gear','Configurações']};
+var VIEWS={mapa:['map','Mapa'],pivos:['list','Pivôs'],unif:['drop','Uniformidade','Uniform.'],ck:['ck','Checklist'],asp:['spr','Aspersores'],ct:['wr','Cartilha'],cfg:['gear','Configurações','Config.']};
 var rq=false;
 function schedule(){if(rq)return;rq=true;requestAnimationFrame(function(){rq=false;render();});}
 function render(){
  var ae=document.activeElement,fid=ae&&ae.id&&$('main').contains(ae)?ae.id:null,sel=fid&&ae.selectionStart!=null?[ae.selectionStart,ae.selectionEnd]:null;
- $('rail').innerHTML='<div class="brand" title="IrrigaManager">'+ic('logo')+'</div>'+Object.keys(VIEWS).map(function(k){return '<button type="button" data-go="'+k+'" class="'+(S.view===k?'on':'')+'"'+(S.view===k?' aria-current="page"':'')+'>'+ic(VIEWS[k][0],'')+VIEWS[k][1]+'</button>';}).join('')+'<button type="button" disabled title="Próxima etapa">'+ic('wr','')+'Cartilha</button><button type="button" disabled title="Próxima etapa">'+ic('fl','')+'Ações</button><span class="sp"></span>';
+ $('rail').innerHTML='<div class="brand" title="IrrigaManager">'+ic('logo')+'</div>'+Object.keys(VIEWS).map(function(k){return '<button type="button" data-go="'+k+'" class="'+(S.view===k?'on':'')+'"'+(S.view===k?' aria-current="page"':'')+'>'+ic(VIEWS[k][0],'')+(VIEWS[k][2]?'<span class="lg">'+VIEWS[k][1]+'</span><span class="sh">'+VIEWS[k][2]+'</span>':VIEWS[k][1])+'</button>';}).join('')+'<button type="button" disabled title="Próxima etapa">'+ic('fl','')+'Ações</button><span class="sp"></span>';
  var top='<div class="top"><div><span class="crumb">IrrigaManager</span><h1>'+VIEWS[S.view][1]+'</h1></div><div class="seg" role="group" aria-label="Tema">'+[['dark','Escuro'],['light','Claro'],['auto','Auto']].map(function(t){return '<button type="button" data-theme="'+t[0]+'" aria-pressed="'+(THEME===t[0])+'">'+t[1]+'</button>';}).join('')+'</div></div>';
  var bn='';
  if(S.mode==='loading')bn+='<div class="banner">Carregando os dados…</div>';
@@ -508,7 +521,7 @@ function render(){
  if(S.ro)bn+='<div class="banner warn">Seu acesso a esta página é só de leitura: você vê tudo, mas não salva.</div>';
  if(S.pend.length)bn+='<div class="banner warn"><b>'+S.pend.length+' registro(s) guardado(s) no aparelho</b> aguardando conexão.<button class="b2" data-act="enviarPend">Enviar agora</button></div>';
  kvDraftBanner&&(bn+=kvDraftBanner);
- var body=S.view==='mapa'?vMapa():S.view==='pivos'?vPivos():S.view==='unif'?vUnif():S.view==='ck'?vCk():S.view==='asp'?vAsp():vCfg();
+ var body=S.view==='mapa'?vMapa():S.view==='pivos'?vPivos():S.view==='unif'?vUnif():S.view==='ck'?vCk():S.view==='asp'?vAsp():S.view==='ct'?vCt():vCfg();
  $('main').innerHTML=top+bn+body;
  if(S.view==='mapa'){var mb=$('mapbox');if(mb){mb.insertBefore(mapImg(S.area),mb.firstChild);overlay();}}
  if(fid&&$(fid)){var e=$(fid);e.focus();if(sel)try{e.setSelectionRange(sel[0],sel[1]);}catch(x){}}
@@ -533,6 +546,11 @@ document.addEventListener('click',function(e){
  if(t.tagName==='TR'&&t.hasAttribute('data-gock')){S.cA=t.getAttribute('data-gock');S.cfmDel=null;schedule();return;}
  if(t.hasAttribute('data-cm')){var q2=t.getAttribute('data-cm').split('|'),k2=+q2[0],d2=+q2[1],L2=S.ckEdit,x2=L2[k2];L2[k2]=L2[k2+d2];L2[k2+d2]=x2;schedule();return;}
  if(t.hasAttribute('data-cdel')){S.ckEdit.splice(+t.getAttribute('data-cdel'),1);schedule();return;}
+ if(t.hasAttribute('data-tp')){S.tP=t.getAttribute('data-tp');S.sel=S.tP;S.tMode='p';S.cfmDel=null;schedule();return;}
+ if(t.hasAttribute('data-tsel')){S.tP=t.getAttribute('data-tsel');S.sel=S.tP;S.tMode='p';schedule();window.scrollTo(0,0);return;}
+ if(t.hasAttribute('data-tmode')){S.tMode=t.getAttribute('data-tmode');schedule();return;}
+ if(t.hasAttribute('data-tem')){var q3=t.getAttribute('data-tem').split('|'),k3=+q3[0],d3=+q3[1],L3=S.ctEdit,x3=L3[k3];L3[k3]=L3[k3+d3];L3[k3+d3]=x3;schedule();return;}
+ if(t.hasAttribute('data-tedel')){S.ctEdit.splice(+t.getAttribute('data-tedel'),1);schedule();return;}
  if(t.hasAttribute('data-ap')){S.aP=t.getAttribute('data-ap');S.sel=S.aP;S.aspS=null;S.aspIn='';S.aspVao=1;schedule();return;}
  if(t.hasAttribute('data-aspv')){S.aspVao=+t.getAttribute('data-aspv');S.aspIn='';S.aspS=null;schedule();setTimeout(function(){var q=$('aspQ');if(q)q.focus();},30);return;}
  if(t.hasAttribute('data-aspm')){var cur=S.aspS;S.aspM=t.getAttribute('data-aspm');if(cur)aspSel(cur);else{S.aspIn='';}schedule();return;}
@@ -541,10 +559,11 @@ document.addEventListener('click',function(e){
  if(t.hasAttribute('data-ev')){S.uA=t.getAttribute('data-ev');S.cfmDel=null;schedule();return;}
  if(t.tagName==='TR'&&t.hasAttribute('data-go')&&S.view==='unif'){S.uA=t.getAttribute('data-go');S.cfmDel=null;schedule();return;}
  if(t.hasAttribute('data-sel')){S.sel=t.getAttribute('data-sel');schedule();return;}
- if(t.hasAttribute('data-go')&&t.tagName==='BUTTON'){S.view=t.getAttribute('data-go');if(t.getAttribute('data-id')){S.sel=S.uP=S.cP=S.aP=t.getAttribute('data-id');S.uA=null;S.cA=null;S.aspS=null;S.aspIn='';}if(S.view==='mapa'){var q=pv(S.sel);if(q)S.area=q.area||1;}S.cfmDel=null;schedule();window.scrollTo(0,0);return;}
+ if(t.hasAttribute('data-go')&&t.tagName==='BUTTON'){S.view=t.getAttribute('data-go');if(t.getAttribute('data-id')){S.sel=S.uP=S.cP=S.aP=S.tP=t.getAttribute('data-id');if(S.view==='ct')S.tMode='p';S.uA=null;S.cA=null;S.aspS=null;S.aspIn='';}if(S.view==='mapa'){var q=pv(S.sel);if(q)S.area=q.area||1;}S.cfmDel=null;schedule();window.scrollTo(0,0);return;}
  if(t.hasAttribute('data-p')&&!S.ed){var pid=t.getAttribute('data-p'),tt=+t.getAttribute('data-t')||0;S.selT=(pid===S.sel&&tt&&S.selT===tt)?0:tt;S.sel=pid;schedule();return;}
  var act=t.getAttribute('data-act');if(!act)return;var id=t.getAttribute('data-id');
  if(act==='horimetro')dlgHorimetro(id||S.sel);
+ else if(act==='horLote')abrirHorLote();
  else if(act==='novoPivo')dlgPivo(null);
  else if(act==='editPivo')dlgPivo(id);
  else if(act==='novaAval')abrirWizard(id||S.sel);
@@ -558,16 +577,25 @@ document.addEventListener('click',function(e){
  else if(act==='ckAdd'){S.ckEdit.push({id:uid('i'),sec:S.ckEdit.length?S.ckEdit[S.ckEdit.length-1].sec:'Geral',t:'',crit:false});schedule();}
  else if(act==='ckDesc'){S.ckEdit=null;schedule();}
  else if(act==='ckSave')saveCkModel();
+ else if(act==='mtNovo')abrirMt(id||S.sel,t.getAttribute('data-t'));
+ else if(act==='ocNova')dlgOc(id||S.sel);
+ else if(act==='ctPdf')exportCtPDF(S.tMode==='m'?null:id);
+ else if(act==='ctXlsx')exportCtXLSX();
+ else if(act==='ctAdd'){var L4=ctEdState();L4.push({id:uid('t'),sec:L4.length?L4[L4.length-1].sec:'Geral',t:'',h:'1000',m:'',lig:false,un:'',unl:'',f:''});schedule();}
+ else if(act==='ctDesc'){S.ctEdit=null;schedule();}
+ else if(act==='ctSave')saveCtModel();
  else if(act==='enviarPend')enviarPendentes(true);
  else if(act==='saveCfg')saveCfg();
  else if(act==='pdf')exportPDF(id);
  else if(act==='xlsx')exportXLSX(id);
  else if(act==='foto')verFoto(t.getAttribute('data-ref'),t.getAttribute('data-k'));
- else if(act==='delAval'||act==='delLeit'||act==='delCk'){
+ else if(act==='delAval'||act==='delLeit'||act==='delCk'||act==='delMt'||act==='delOc'){
   if(S.cfmDel!==id){S.cfmDel=id;schedule();setTimeout(function(){if(S.cfmDel===id){S.cfmDel=null;schedule();}},5000);return;}
   S.cfmDel=null;
   if(act==='delAval'){var av=D.avaliacoes[id];del('avaliacoes',id).then(function(){toast('Avaliação excluída.');(av&&av.col||[]).forEach(function(c){if(c.foto&&c.foto.indexOf('d:')===0)del('fotos',c.foto.slice(2)).catch(function(){});});S.uA=null;}).catch(function(e){toast(errMsg(e),'crit');});}
   else if(act==='delCk'){var ck0=D.checklists[id];del('checklists',id).then(function(){toast('Inspeção excluída.');S.cA=null;pendDe(null).filter(function(x){return x.ck===id;}).forEach(function(x){del('pendencias',x.id).catch(function(){});});(ck0&&ck0.itens||[]).forEach(function(i){(i.fotos||[]).forEach(function(f){if(f.indexOf('d:')===0)del('fotos',f.slice(2)).catch(function(){});});});}).catch(function(e){toast(errMsg(e),'crit');});}
+  else if(act==='delMt'){var mt0=D.manutencoes[id];del('manutencoes',id).then(function(){toast('Registro excluído.');(mt0&&mt0.fotos||[]).forEach(function(f){if(f.indexOf('d:')===0)del('fotos',f.slice(2)).catch(function(){});});}).catch(function(e){toast(errMsg(e),'crit');});}
+  else if(act==='delOc')del('ocorrencias',id).then(function(){toast('Ocorrência excluída.');}).catch(function(e){toast(errMsg(e),'crit');});
   else del('leituras',id).then(function(){toast('Leitura excluída.');}).catch(function(e){toast(errMsg(e),'crit');});
  }
 });
@@ -577,10 +605,11 @@ document.addEventListener('change',function(e){var t=e.target;
  if(t.id==='edTog'){S.ed=t.checked;schedule();}
  if(t.id==='aspTamp'){S.aspTamp=t.checked;schedule();}
  if(t.id==='aspV'){S.aspVao=+t.value;aspResolve();schedule();}
+ var te=t.getAttribute&&t.getAttribute('data-te');if(te&&t.type==='checkbox'){S.ctEdit[+te.split('|')[0]].lig=t.checked;schedule();}
  var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce){var q=ce.split('|');if(t.type==='checkbox')S.ckEdit[+q[0]].crit=t.checked;schedule();}
  if(t.id==='eO'||t.id==='eR'){var p=pv(S.sel);if(!p)return;saveGeom(p.id,t.id==='eO'?{o:Math.round(num(t.value)||0)%360}:{r:+t.value});}
 });
-document.addEventListener('input',function(e){var t=e.target;if(t.id==='aspQ'){S.aspIn=String(t.value).replace(/\D/g,'');aspResolve();schedule();return;}var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce&&t.type!=='checkbox'){var q=ce.split('|');S.ckEdit[+q[0]][q[1]]=t.value;var sv=document.querySelector('[data-act="ckSave"]');if(sv&&!S.ro)sv.disabled=false;return;}if(t.id==='eR'){var p=pv(S.sel);if(!p)return;D.pivos[p.id]=Object.assign({},D.pivos[p.id],{r:+t.value});derive();overlay();}});
+document.addEventListener('input',function(e){var t=e.target;var te=t.getAttribute&&t.getAttribute('data-te');if(te&&t.type!=='checkbox'){var q5=te.split('|');S.ctEdit[+q5[0]][q5[1]]=t.value;var sv5=document.querySelector('[data-act="ctSave"]');if(sv5&&!S.ro)sv5.disabled=false;return;}if(t.id==='aspQ'){S.aspIn=String(t.value).replace(/\D/g,'');aspResolve();schedule();return;}var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce&&t.type!=='checkbox'){var q=ce.split('|');S.ckEdit[+q[0]][q[1]]=t.value;var sv=document.querySelector('[data-act="ckSave"]');if(sv&&!S.ro)sv.disabled=false;return;}if(t.id==='eR'){var p=pv(S.sel);if(!p)return;D.pivos[p.id]=Object.assign({},D.pivos[p.id],{r:+t.value});derive();overlay();}});
 var drag=null;
 document.addEventListener('pointerdown',function(e){if(!S.ed)return;var el=e.target.closest&&e.target.closest('#ovl [data-p]');if(!el)return;e.preventDefault();S.sel=el.getAttribute('data-p');S.selT=0;drag=S.sel;schedule();});
 window.addEventListener('pointermove',function(e){if(!drag)return;var sv=$('ovl');if(!sv)return;var pt=sv.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var q=pt.matrixTransform(sv.getScreenCTM().inverse());D.pivos[drag]=Object.assign({},D.pivos[drag],{x:Math.round(q.x),y:Math.round(q.y)});derive();overlay();});
@@ -597,15 +626,15 @@ function pivoOpts(sel){return P.map(function(p){return '<option value="'+esc(p.i
 function dlgHorimetro(pid){
  if(!P.length)return toast('Cadastre um pivô primeiro.');
  pid=pid||P[0].id;
- modal('Lançar horímetro','<div class="fg"><label class="fl full">Pivô<select id="hP">'+pivoOpts(pid)+'</select></label><label class="fl">Data<input id="hD" type="date" value="'+today()+'"></label><label class="fl">Horímetro (h)<input id="hH" inputmode="decimal" autocomplete="off"></label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="hPrev" type="checkbox" style="width:20px;height:20px;accent-color:var(--ac)"> Preventiva realizada nesta leitura (zera a contagem)</label><label class="fl full">Observação<input id="hO" maxlength="200"></label></div><p class="note" id="hInfo"></p>',
+ modal('Lançar horímetro','<div class="fg"><label class="fl full">Pivô<select id="hP">'+pivoOpts(pid)+'</select></label><label class="fl">Data<input id="hD" type="date" value="'+today()+'"></label><label class="fl">Horímetro (h)<input id="hH" inputmode="decimal" autocomplete="off"></label><label class="fl">Lançado por<input id="hR" maxlength="80" autocomplete="name" value="'+esc(S.userName||'')+'"></label><label class="fl">Observação<input id="hO" maxlength="200"></label></div><p class="note" id="hInfo"></p>',
  '<button class="b2" data-close="1">Cancelar</button><button class="b1" id="hOk">Salvar leitura</button>');
- function info(){var p=pv($('hP').value),r=p?prev(p):null;$('hInfo').textContent=r&&r.atual!=null?'Última leitura: '+nf(r.atual)+' h em '+fd(r.dataLast)+'.':'Primeira leitura deste pivô.';}
+ function info(){var p=pv($('hP').value),r=p?horAtual(p.id):null;$('hInfo').textContent=r?'Última leitura: '+nf(r.h)+' h em '+fd(r.data)+'.':'Primeira leitura deste pivô.';}
  info();$('hP').onchange=info;
  $('hOk').onclick=function(){var p=pv($('hP').value),h=num($('hH').value),dt=$('hD').value;
   if(!p||h==null||h<0||!dt){$('hInfo').className='note crit';$('hInfo').textContent='Informe a data e a leitura do horímetro.';return;}
   var ls=leitDe(p.id),bad=ls.filter(function(l){return (l.data<=dt&&l.h>h)||(l.data>dt&&l.h<h);})[0];
   if(bad){$('hInfo').className='note crit';$('hInfo').textContent='Não bate com a leitura de '+fd(bad.data)+' ('+nf(bad.h)+' h). Confira o valor ou a data.';return;}
-  var id=uid('l'),o={pivo:p.id,data:dt,h:h,prev:$('hPrev').checked,obs:$('hO').value.trim(),porId:S.userId||null,criado:new Date().toISOString()};
+  var id=uid('l'),o={pivo:p.id,data:dt,h:h,obs:$('hO').value.trim(),resp:$('hR').value.trim(),porId:S.userId||null,criado:new Date().toISOString()};
   this.disabled=true;put('leituras',id,o).then(function(){closeModal();toast('Leitura salva.');}).catch(function(e){$('hOk').disabled=false;$('hInfo').className='note crit';$('hInfo').textContent=errMsg(e);});};
 }
 function dlgPivo(id){
@@ -620,7 +649,7 @@ function dlgPivo(id){
   var cc=num($('pC').value);var obj=Object.assign({},base,{nome:nome,area:a,fazenda:$('pF').value.trim()||AREA[a],q:q,n:q.length,laminaRec:lr,ativo:$('pAt').checked});if(cc&&cc>0)obj.comp=cc;else delete obj.comp;
   this.disabled=true;put('pivos',nid,obj).then(function(){closeModal();S.sel=nid;toast('Pivô salvo.');}).catch(function(e){$('pOk').disabled=false;$('pInfo').className='note crit';$('pInfo').textContent=errMsg(e);});};
 }
-function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',margem:'cMg',ventoMax:'cVento',intervalo:'cInt',avisoH:'cAvH',avisoDias:'cAvD'};
+function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',margem:'cMg',ventoMax:'cVento',avisoH:'cAvH',avisoDias:'cAvD',horAviso:'cHor'};
  for(var k in m){var v=num($(m[k]).value);if(v==null||v<=0){toast('Confira o campo destacado.','crit');$(m[k]).focus();return;}o[k]=v;}
  put('cfg','geral',o).then(function(){toast('Parâmetros salvos.');}).catch(function(e){toast(e&&e.code==='invalid_argument'?'Só o dono ou um editor da página pode alterar os parâmetros.':errMsg(e),'crit');});}
 function fotoSrc(ref){if(!ref)return Promise.resolve(null);var k=ref.slice(0,2),id=ref.slice(2);
@@ -733,10 +762,10 @@ function wclick(e){
  if(a==='limpar'){W.sig=[];saveDraft();sigInit();return;}
  if(a==='fim')finalizar();
 }
-$('fotoIn').addEventListener('change',function(){var f=this.files&&this.files[0];if(!f)return;var alvo=FOTO;FOTO={tipo:'aval'};if(alvo.tipo==='ck'){if(!K)return;}else if(!W)return;var k=W?W.k:0,gp=alvo.tipo==='ck'?K.gps:W.gps,rot=alvo.tipo==='ck'?(pv(K.pivo)||{nome:''}).nome+' · '+alvo.item:'C'+k;
+$('fotoIn').addEventListener('change',function(){var f=this.files&&this.files[0];if(!f)return;var alvo=FOTO;FOTO={tipo:'aval'};if(alvo.tipo==='mt'){if(!MTF)return;}else if(alvo.tipo==='ck'){if(!K)return;}else if(!W)return;var k=W?W.k:0,gp=alvo.tipo==='ck'?K.gps:alvo.tipo==='mt'?null:W.gps,rot=alvo.tipo==='mt'?(pv(MTF.pivo)||{nome:''}).nome+' · manutenção':alvo.tipo==='ck'?(pv(K.pivo)||{nome:''}).nome+' · '+alvo.item:'C'+k;
  var rd=new FileReader();rd.onload=function(){var im=new Image();im.onload=function(){var mx=960,s=Math.min(1,mx/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);var x=c.getContext('2d');x.drawImage(im,0,0,c.width,c.height);
   var hm=nowHM(),tx=fd(today())+' '+hm+' · '+rot+(gp?' · '+gp.lat.toFixed(5)+', '+gp.lon.toFixed(5):''),fs=Math.max(14,Math.round(c.width/34));x.fillStyle='rgba(0,0,0,.6)';x.fillRect(0,c.height-fs*1.8,c.width,fs*1.8);x.fillStyle='#fff';x.font='600 '+fs+'px sans-serif';x.fillText(tx,fs*.6,c.height-fs*.6);
-  var qy=.7,u=c.toDataURL('image/jpeg',qy);while(u.length>230000&&qy>.3){qy-=.1;u=c.toDataURL('image/jpeg',qy);}if(u.length>230000){var c2=document.createElement('canvas');c2.width=Math.round(c.width*.6);c2.height=Math.round(c.height*.6);c2.getContext('2d').drawImage(c,0,0,c2.width,c2.height);u=c2.toDataURL('image/jpeg',.6);}if(alvo.tipo==='ck'){var it=kit(alvo.item);if(it){it.fotos=(it.fotos||[]).concat([u]).slice(0,3);saveKDraft();krender(true);}return;}W.col[k-1]=Object.assign({},W.col[k-1]||{},{foto:u,fh:hm});saveDraft();if(W.step===3&&W.k===k)wrender();};im.onerror=function(){toast('Não foi possível abrir a foto.','crit');};im.src=rd.result;};rd.readAsDataURL(f);});
+  var qy=.7,u=c.toDataURL('image/jpeg',qy);while(u.length>230000&&qy>.3){qy-=.1;u=c.toDataURL('image/jpeg',qy);}if(u.length>230000){var c2=document.createElement('canvas');c2.width=Math.round(c.width*.6);c2.height=Math.round(c.height*.6);c2.getContext('2d').drawImage(c,0,0,c2.width,c2.height);u=c2.toDataURL('image/jpeg',.6);}if(alvo.tipo==='mt'){if(MTF){MTF.fotos=MTF.fotos.concat([u]).slice(0,3);mrender(true);}return;}if(alvo.tipo==='ck'){var it=kit(alvo.item);if(it){it.fotos=(it.fotos||[]).concat([u]).slice(0,3);saveKDraft();krender(true);}return;}W.col[k-1]=Object.assign({},W.col[k-1]||{},{foto:u,fh:hm});saveDraft();if(W.step===3&&W.k===k)wrender();};im.onerror=function(){toast('Não foi possível abrir a foto.','crit');};im.src=rd.result;};rd.readAsDataURL(f);});
 function tryGPS(){return new Promise(function(res){if(!navigator.geolocation)return res(null);var done=false,t=setTimeout(function(){if(!done){done=true;res(null);}},8000);
  try{navigator.geolocation.getCurrentPosition(function(p){if(done)return;done=true;clearTimeout(t);res({lat:p.coords.latitude,lon:p.coords.longitude,acc:Math.round(p.coords.accuracy)});},function(){if(done)return;done=true;clearTimeout(t);res(null);},{enableHighAccuracy:true,timeout:7500,maximumAge:60000});}catch(e){done=true;clearTimeout(t);res(null);}});}
 // assinatura
@@ -779,7 +808,7 @@ function enviar(item){
 }
 var enviando=false;
 function enviarPendentes(manual){if(enviando||!S.pend.length||S.mode==='loading')return;enviando=true;var lst=S.pend.slice(),ok=0;
- var seq=Promise.resolve();lst.forEach(function(it){seq=seq.then(function(){return (it.kind==='ck'?enviarCk:enviar)(it).then(function(){ok++;S.pend=S.pend.filter(function(x){return x.id!==it.id;});return kvSet('pend',S.pend);},function(){return kvSet('pend',S.pend);});});});
+ var seq=Promise.resolve();lst.forEach(function(it){seq=seq.then(function(){return (it.kind==='ck'?enviarCk:it.kind==='mt'?enviarMt:enviar)(it).then(function(){ok++;S.pend=S.pend.filter(function(x){return x.id!==it.id;});return kvSet('pend',S.pend);},function(){return kvSet('pend',S.pend);});});});
  seq.then(function(){enviando=false;schedule();if(ok)toast(ok+' registro(s) enviado(s).');else if(manual)toast('Ainda sem conexão. Tente de novo mais tarde.','crit');});}
 
 // ---------- checklist de inspeção ----------
@@ -879,7 +908,7 @@ function krender(keep){
  var p=pv(K.pivo),secs=secsDe(K.itens),ns=secs.length,st=K.step,tot=ns+2,resp=K.itens.filter(function(i){return i.r;}).length;
  var wb=document.querySelector('#wiz .wbody'),sc=keep&&wb?wb.scrollTop:0;
  var h='<div class="wiz"><div class="wz" role="dialog" aria-modal="true" aria-label="Inspeção de pivô central"><div class="wbar"><div><small>Checklist · passo '+(st+1)+' de '+tot+'</small><b>'+esc(p?p.nome:'')+' · '+fd(K.data)+'</b></div><button class="x" data-kx="1" aria-label="Fechar e guardar rascunho">✕</button></div><div class="wbody"><div class="steps">'+Array.from({length:tot},function(_,i){return '<i class="'+(i<=st?'on':'')+'"></i>';}).join('')+'</div>',foot='';
- if(st===0){var r=p?prev(p):null;
+ if(st===0){
   h+='<div class="h5">Pivô e data</div><div class="fg"><label class="fl full">Pivô<select id="kP">'+pivoOpts(K.pivo)+'</select></label><label class="fl">Data<input id="kD" type="date" value="'+K.data+'"></label><label class="fl">Horário<input id="kH" type="time" value="'+esc(K.hora)+'"></label></div>'+
   '<p class="note">'+K.itens.length+' itens em '+ns+' seções: '+esc(secs.join(', '))+'.</p><p class="note" id="kMsg"></p>';
   foot='<button class="b1" data-k="next">Começar inspeção</button>';
@@ -1011,6 +1040,299 @@ function ckEditor(){
  h+='</tbody></table></div><div class="acts" style="margin-top:10px"><button class="b2" data-act="ckAdd">'+ic('pl')+'Adicionar item</button><span style="flex:1"></span>'+(dirty?'<button class="b2" data-act="ckDesc">Descartar alterações</button>':'')+'<button class="b1" data-act="ckSave"'+(S.ro||!dirty?' disabled':'')+'>Salvar itens</button></div><p class="note">Só o dono ou um editor da página pode salvar os itens.</p></div>';
  return h.replace(/<input data-ce="(\d+)\|(sec|t|un|unl)"/g,'<input class="cein" id="ce$1$2" data-ce="$1|$2"');
 }
+
+// ---------- horímetros: atualização semanal ----------
+// Enquanto não há integração com a plataforma dos pivôs, um analista atualiza todos os horímetros uma vez por semana.
+function fdc(iso){if(!iso)return '—';var p=iso.split('-');return p[2]+'/'+p[1];}
+function haTxt(n){return n<=0?'hoje':n===1?'há 1 dia':'há '+n+' dias';}
+function horDesat(cur){return !cur||dias(cur.data,today())>CFG.horAviso;}
+function ultAtualizacao(){var u=null;L.forEach(function(l){if(!u||l.data>u.data||(l.data===u.data&&(l.criado||'')>(u.criado||'')))u=l;});if(!u)return null;var n=P.filter(function(p){return leitDe(p.id).some(function(l){return l.data===u.data;});}).length;return {data:u.data,resp:u.resp||'',n:n};}
+function cardHorimetros(){
+ var u=ultAtualizacao(),atv=P.filter(function(p){return p.ativo!==false;});
+ var h='<div class="card" id="cardHor"><h3>Horímetros<small>'+(u?'última atualização: '+fd(u.data)+' ('+haTxt(dias(u.data,today()))+')'+(u.resp?' · '+esc(u.resp):'')+' · '+u.n+' de '+atv.length+' pivôs':'nenhuma leitura ainda')+'</small></h3>';
+ h+='<div class="tw"><table class="t"><thead><tr><th>Pivô</th><th class="n">Horímetro</th><th>Atualizado em</th><th class="hp">Por</th><th class="hp"></th></tr></thead><tbody>'+P.map(function(p){var cur=horAtual(p.id),n=cur?dias(cur.data,today()):null,v=horDesat(cur);
+  return '<tr data-hor="'+esc(p.id)+'"'+(v?' class="hdes"':'')+'><td>'+esc(p.nome)+(p.ativo===false?' <span class="pill mut np">Inativo</span>':'')+'</td><td class="n">'+(cur?md(cur.h)+' h':'—')+'</td><td class="hq">'+(cur?fd(cur.data)+' ':'')+(cur?'<span class="pill '+(v?'warn':'ok')+' np">'+haTxt(n)+'</span>':'<span class="pill warn np">sem leitura</span>')+'</td><td class="hp">'+esc(cur&&cur.resp||'—')+'</td><td class="hp"><button class="lk" data-act="horimetro" data-id="'+esc(p.id)+'">Lançar</button></td></tr>';}).join('')+'</tbody></table></div>';
+ return h+'<p class="note">Em amarelo: sem atualização há mais de '+nf(CFG.horAviso)+' dias. A atualização é semanal, por um analista, até a integração com a plataforma dos pivôs.</p></div>';}
+
+var HF=null;
+function abrirHorLote(){var atv=P.filter(function(p){return p.ativo!==false;});if(!atv.length){toast('Cadastre um pivô primeiro.');return;}
+ HF={data:today(),resp:S.userName||'',v:{},ok:false};hrender();}
+function fecharHor(){HF=null;$('wiz').innerHTML='';$('wiz').onclick=null;$('wiz').oninput=null;$('wiz').onchange=null;}
+function hChk(p){var s=String(HF.v[p.id]||'').trim();if(!s)return {st:'vazio'};var h=num(s);if(h==null||h<0)return {st:'erro',m:'Valor inválido.'};
+ var ls=leitDe(p.id),dt=HF.data,bad=ls.filter(function(l){return (l.data<=dt&&l.h>h)||(l.data>dt&&l.h<h);})[0];
+ if(bad)return {st:'erro',m:'Menor que a leitura de '+fd(bad.data)+' ('+nf(bad.h)+' h).'};
+ var ant=horimEm(p.id,dt);if(ant&&ant.data===dt&&ant.h===h)return {st:'igual',h:h,m:'Igual à leitura já lançada nesta data.'};
+ if(!ant)return {st:'ok',h:h,m:'Primeira leitura deste pivô.'};
+ var dd=dias(ant.data,dt),inc=h-ant.h;
+ if(dd>0&&inc>dd*24)return {st:'alto',h:h,m:'+'+nf(inc)+' h em '+dd+' dia'+(dd>1?'s':'')+': mais de 24 h por dia. Confira.'};
+ if(dd===0&&inc>24)return {st:'alto',h:h,m:'+'+nf(inc)+' h no mesmo dia da última leitura. Confira.'};
+ return {st:'ok',h:h,m:'+'+md(inc)+' h desde '+fd(ant.data)+(dd>0?' ('+md(Math.round(inc/dd*10)/10)+' h por dia)':'')+'.'};}
+function hrender(keep){
+ var atv=P.filter(function(p){return p.ativo!==false;}),wb=document.querySelector('#wiz .wbody'),sc=keep&&wb?wb.scrollTop:0,nf0=0;
+ var h='<div class="wiz"><div class="wz" role="dialog" aria-modal="true" aria-label="Atualizar horímetros"><div class="wbar"><div><small>Pivôs · atualização semanal</small><b>Atualizar horímetros</b></div><button class="x" data-hx="1" aria-label="Fechar sem salvar">✕</button></div><div class="wbody">';
+ h+='<div class="fg"><label class="fl">Data da atualização<input id="hbD" type="date" value="'+esc(HF.data)+'"></label><label class="fl">Atualizado por<input id="hbR" value="'+esc(HF.resp)+'" autocomplete="name" maxlength="80"></label></div>';
+ h+='<p class="note">Digite o horímetro de cada pivô. Pivô em branco fica como está.</p><div class="mtl">';
+ atv.forEach(function(p){var cur=horimEm(p.id,HF.data),c=hChk(p);if(c.st!=='vazio')nf0++;
+  h+='<div class="mti hbi'+(c.st==='erro'?' er':c.st==='alto'?' al':c.st==='ok'?' on':'')+'"><div class="hbr"><div><b>'+esc(p.nome)+'</b><small>'+(cur?'Última: '+md(cur.h)+' h em '+fd(cur.data)+' ('+haTxt(dias(cur.data,today()))+')':'Sem leitura')+'</small></div><label><span class="sr">Horímetro do '+esc(p.nome)+'</span><input id="hb-'+esc(p.id)+'" data-hb="'+esc(p.id)+'" inputmode="decimal" autocomplete="off" placeholder="h" value="'+esc(HF.v[p.id]||'')+'"></label></div><small class="hbm" id="hbm-'+esc(p.id)+'">'+esc(c.m||'')+'</small></div>';});
+ h+='</div><p class="note" id="hbMsg"></p></div><div class="wfoot"><div class="r"><button class="b2" data-hx="1">Cancelar</button><button class="b1" data-h="salvar" id="hbOk">'+(HF.ok?'Salvar mesmo assim':'Salvar '+(nf0?nf0+' leitura'+(nf0>1?'s':''):'leituras'))+'</button></div></div></div></div>';
+ $('wiz').innerHTML=h;$('wiz').onclick=hclick;$('wiz').oninput=hinput;$('wiz').onchange=hchange;
+ var nb=document.querySelector('#wiz .wbody');if(nb)nb.scrollTop=sc;}
+function hrow(pid){var p=pv(pid),c=hChk(p),box=$('hb-'+pid).closest('.hbi');box.className='mti hbi'+(c.st==='erro'?' er':c.st==='alto'?' al':c.st==='ok'?' on':'');$('hbm-'+pid).textContent=c.m||'';
+ var n=P.filter(function(q){return q.ativo!==false&&String(HF.v[q.id]||'').trim();}).length;HF.ok=false;$('hbOk').textContent='Salvar '+(n?n+' leitura'+(n>1?'s':''):'leituras');}
+function hinput(e){var t=e.target,pid=t.getAttribute('data-hb');if(pid){HF.v[pid]=t.value;hrow(pid);return;}if(t.id==='hbR')HF.resp=t.value;}
+function hchange(e){if(e.target.id==='hbD'){HF.data=e.target.value||today();HF.ok=false;hrender(true);}}
+function hmsg(m,k){var e=$('hbMsg');if(e){e.className='note '+(k||'crit');e.textContent=m;e.scrollIntoView({block:'nearest'});}}
+function hclick(e){var b=e.target.closest('[data-h],[data-hx]');if(!b)return;if(b.getAttribute('data-hx')){fecharHor();return;}if(b.getAttribute('data-h')==='salvar')salvarHor();}
+function salvarHor(){
+ var dt=HF.data,resp=String(HF.resp||'').trim(),atv=P.filter(function(p){return p.ativo!==false;}),cs=atv.map(function(p){return {p:p,c:hChk(p)};}).filter(function(x){return x.c.st!=='vazio';});
+ if(!dt)return hmsg('Informe a data.');
+ if(dt>today())return hmsg('A data não pode ser futura.');
+ if(!cs.length)return hmsg('Digite o horímetro de pelo menos um pivô.');
+ var er=cs.filter(function(x){return x.c.st==='erro';});if(er.length)return hmsg('Confira: '+er.map(function(x){return x.p.nome;}).join(', ')+'.');
+ if(!resp)return hmsg('Informe quem atualizou.');
+ var al=cs.filter(function(x){return x.c.st==='alto';});
+ if(al.length&&!HF.ok){HF.ok=true;$('hbOk').textContent='Salvar mesmo assim';return hmsg('Valor alto em '+al.map(function(x){return x.p.nome;}).join(', ')+'. Confira; se estiver certo, toque em “Salvar mesmo assim”.','warn');}
+ var novos=cs.filter(function(x){return x.c.st!=='igual';}),lote=uid('lote'),agora=new Date().toISOString();
+ if(!novos.length){fecharHor();toast('Nada novo para salvar.');return;}
+ var btn=$('hbOk');btn.disabled=true;btn.textContent='Salvando…';
+ var feitos=[],seq=Promise.resolve();
+ novos.forEach(function(x){seq=seq.then(function(){return put('leituras',uid('l'),{pivo:x.p.id,data:dt,h:x.c.h,obs:'Atualização semanal',resp:resp,lote:lote,porId:S.userId||null,criado:agora}).then(function(){feitos.push(x.p.id);delete HF.v[x.p.id];});});});
+ seq.then(function(){fecharHor();S.view='pivos';toast(feitos.length+' horímetro'+(feitos.length>1?'s atualizados':' atualizado')+'.');schedule();window.scrollTo(0,0);},
+  function(e){btn.disabled=false;HF.ok=false;hrender(true);hmsg((feitos.length?feitos.length+' salvos; ':'')+'não foi possível salvar o restante: '+errMsg(e)+' Tente de novo quando houver sinal.');});}
+
+// ---------- cartilha de manutenção ----------
+// Junção do "Plano de manutenção dos PCs" (periodicidades e especificações) com o plano preventivo Valley
+// (itens que faltavam, marcação de pivô ligado e histórico de ocorrências). Revisão de 26/11/2026:
+// 1.000 h só por horas; trimestral e anual só por calendário (o semestral do plano virou anual); troca de óleo em 2.000 h ou anual (o que vier primeiro).
+// O modelo em uso fica em cfg/cartilha e é editado em Configurações.
+var CT0=[
+ {id:'tc1',sec:'Torre central',t:'Engraxar a junta rotativa',h:1000,f:'P'},
+ {id:'tc2',sec:'Torre central',t:'Engraxar os graxeiros da haste principal',h:1000,f:'P'},
+ {id:'tc3',sec:'Torre central',t:'Lubrificar o pivotflex e verificar se as engraxadeiras funcionam',h:1000,f:'V'},
+ {id:'tc4',sec:'Torre central',t:'Limpar o excesso de lubrificante do conjunto',m:12,f:'P'},
+ {id:'tc5',sec:'Torre central',t:'Inspecionar a haste e os braços do pivô',h:1000,f:'P'},
+ {id:'tc6',sec:'Torre central',t:'Inspecionar a base e a ancoragem da torre central; reapertar se precisar',h:1000,f:'V'},
+ {id:'tc7',sec:'Torre central',t:'Vazamentos na subida: vedações do tubo de subida, flanges, curva e abraçadeiras do mangote',h:1000,lig:true,f:'V'},
+ {id:'tc8',sec:'Torre central',t:'Manômetro funcionando e pressão conforme o projeto',h:1000,lig:true,f:'V'},
+ {id:'tc9',sec:'Torre central',t:'Pressostato e transdutor de pressão: funcionamento e regulagem',h:1000,lig:true,f:'V'},
+ {id:'rd1',sec:'Redutores',t:'Redutor central, de transmissão e motorredutores: trocar o óleo (SAE 85W-140)',h:2000,m:12,f:'P'},
+ {id:'rd2',sec:'Redutores',t:'Redutores das rodas: trocar o óleo (SAE 140, 3,30 L por redutor)',h:2000,m:12,f:'P'},
+ {id:'rd3',sec:'Redutores',t:'Limpar retentores e selos e pintar a carcaça dos redutores',h:1000,f:'P'},
+ {id:'rd4',sec:'Redutores',t:'Todos os redutores: nível de óleo, drenar a condensação, vedações e diafragma',m:12,f:'P+V'},
+ {id:'rd5',sec:'Redutores',t:'Limpar e desobstruir os drenos dos motorredutores',h:1000,f:'V'},
+ {id:'rt1',sec:'Rodas e torres',t:'Pneus: calibrar de 23 a 30 psi e apertar as porcas a 162,79 N·m',m:3,f:'P'},
+ {id:'rt2',sec:'Rodas e torres',t:'Medir a convergência e ajustar o estabilizador',m:3,f:'P'},
+ {id:'rt3',sec:'Rodas e torres',t:'Checar porcas folgadas e os parafusos dos aros',m:3,f:'P+V'},
+ {id:'rt4',sec:'Rodas e torres',t:'Rastro das rodas: checar a profundidade; aterrar e cascalhar se precisar',m:3,f:'V'},
+ {id:'rt5',sec:'Rodas e torres',t:'Eixo cardã: posição, travamento, proteção e abraçadeiras',h:1000,f:'V'},
+ {id:'rt6',sec:'Rodas e torres',t:'Juntas entre lances: desgaste e travas; tirar ramos das juntas flexíveis',h:1000,f:'V'},
+ {id:'lb1',sec:'Lances e balanço',t:'Parafusos de fixação (folga e torque), tirantes e cabos do balanço',h:1000,f:'P+V'},
+ {id:'lb2',sec:'Lances e balanço',t:'Vazamentos nas vedações dos tubos, nas descidas e nos drenos',h:1000,lig:true,f:'V'},
+ {id:'lb3',sec:'Lances e balanço',t:'Irrigadores: limpar reguladores, bocais e defletores; trocar os gastos ou faltantes (conferir na aba Aspersores)',h:1000,f:'P+V'},
+ {id:'lb4',sec:'Lances e balanço',t:'Lavar a tubulação: abrir os drenos e o final do balanço',h:1000,f:'V'},
+ {id:'lb5',sec:'Lances e balanço',t:'Percurso do pivô: verificar obstruções',h:1000,f:'P'},
+ {id:'el1',sec:'Elétrica',t:'Anel coletor: escovas, pistas, poeira e corrosão (com a chave geral desligada)',h:1000,f:'P+V'},
+ {id:'el2',sec:'Elétrica',t:'Conexões elétricas do painel e dos motores; fixação do transformador',h:1000,f:'P+V'},
+ {id:'el3',sec:'Elétrica',t:'Aterramento: inspeção visual e medição da resistência',h:1000,un:'Ω',unl:'Resistência medida',f:'P+V'},
+ {id:'el4',sec:'Elétrica',t:'Fixação dos cabos elétricos: cabos aéreos e cabo do motorredutor',h:1000,f:'P+V'},
+ {id:'el5',sec:'Elétrica',t:'Painel: tensões, fusíveis, chaves, botoeiras, luzes, voltímetro e horímetro',h:1000,f:'V'},
+ {id:'el6',sec:'Elétrica',t:'Painel e caixas das torres: vedação, insetos, cabo terra e reaperto de bornes; testar o circuito de segurança de cada torre',h:1000,f:'V'},
+ {id:'cb1',sec:'Casa de bomba',t:'Nível de óleo do mancal da bomba (pela vareta)',h:1000,f:'V'},
+ {id:'cb2',sec:'Casa de bomba',t:'Lubrificar os rolamentos do motor (conforme o fornecedor)',h:1000,f:'V'},
+ {id:'cb3',sec:'Casa de bomba',t:'Vazamentos nas tubulações de sucção e recalque',h:1000,lig:true,f:'V'},
+ {id:'cb4',sec:'Casa de bomba',t:'Gaxeta do eixo da bomba: regular o vazamento',h:1000,lig:true,f:'V'},
+ {id:'cb5',sec:'Casa de bomba',t:'Alinhamento do conjunto motobomba',h:1000,f:'V'},
+ {id:'cb6',sec:'Casa de bomba',t:'Válvulas: de pé, de retenção e eixo do registro de gaveta',h:1000,f:'V'},
+ {id:'cb7',sec:'Casa de bomba',t:'Circuito de segurança do controle da bomba',h:1000,lig:true,f:'V'},
+ {id:'cb8',sec:'Casa de bomba',t:'Elétrica: ligações, vedação das chaves de partida e comandos remotos',h:1000,f:'V'},
+ {id:'cb9',sec:'Casa de bomba',t:'Aterramento da casa de bomba',h:1000,un:'Ω',unl:'Resistência medida',f:'V'}];
+var STXT={ok:'Em dia',warn:'Próxima',crit:'Vencida',mut:'Sem registro'},SORD={crit:3,warn:2,ok:1,mut:0};
+function CTM(){var m=D.cfg.cartilha&&D.cfg.cartilha.tarefas;return m&&m.length?m:CT0;}
+function addMeses(iso,m){var p=iso.split('-'),y=+p[0],mo=+p[1]-1+m,d=+p[2];y+=Math.floor(mo/12);mo=((mo%12)+12)%12;var last=new Date(y,mo+1,0).getDate();return y+'-'+pad(mo+1)+'-'+pad(Math.min(d,last));}
+function mesTxt(m){return m===12?'anual':m===6?'semestral':m===3?'trimestral':m===1?'mensal':m+' meses';}
+function perTxt(t){var a=[];if(t.h)a.push(nf(t.h)+' h');if(t.m)a.push(mesTxt(t.m));var s=a.join(' ou ');return s?s.charAt(0).toUpperCase()+s.slice(1):'—';}
+function horAtual(pid){var ls=leitDe(pid);var l=ls[ls.length-1];return l?{h:l.h,data:l.data,resp:l.resp||'',id:l.id}:null;}
+function taxaUso(pid){var ls=leitDe(pid);if(ls.length<2)return null;var last=ls[ls.length-1],lim=addDias(last.data,-90),base=null;for(var i=0;i<ls.length;i++){if(ls[i].data>=lim&&ls[i].data<last.data&&ls[i].h<=last.h){base=ls[i];break;}}if(!base)return null;var dd=dias(base.data,last.data);return dd>0&&last.h>base.h?(last.h-base.h)/dd:null;}
+function mtsDe(pid){return MT.filter(function(x){return !pid||x.pivo===pid;});}
+function ocsDe(pid){return OC.filter(function(x){return !pid||x.pivo===pid;});}
+var STC={};
+function ultExec(pid,tid){var l=mtsDe(pid),u=null;for(var i=l.length-1;i>=0;i--){if((l[i].tarefas||[]).indexOf(tid)>=0){u=l[i];break;}}return u;}
+function stTarefa(p,t){
+ var k=p.id+'|'+t.id+'|'+(t.h||'')+'|'+(t.m||'');if(STC[k])return STC[k];
+ var u=ultExec(p.id,t.id),r={t:t,ult:u};
+ if(!u){r.st='mut';r.txt='Sem registro';return STC[k]=r;}
+ var crit=false,warn=false,cur=horAtual(p.id);
+ if(t.h){if(u.horim!=null&&cur){r.desde=cur.h-u.horim;r.faltaH=t.h-r.desde;if(r.faltaH<=0)crit=true;else if(r.faltaH<=CFG.avisoH)warn=true;else{var tx=taxaUso(p.id);if(tx){var dr=r.faltaH/tx;r.dataEst=addDias(cur.data,Math.round(dr));if(dias(today(),r.dataEst)<=CFG.avisoDias)warn=true;}}}else r.semH=true;}
+ if(t.m){r.venc=addMeses(u.data,t.m);var dv=dias(today(),r.venc);if(dv<0)crit=true;else if(dv<=CFG.avisoDias)warn=true;}
+ if(r.semH&&!t.m){r.st='mut';r.txt='Sem horímetro';return STC[k]=r;}
+ r.st=crit?'crit':warn?'warn':'ok';r.txt=STXT[r.st];return STC[k]=r;}
+function proxTxt(r){var a=[];if(r.faltaH!=null)a.push(r.faltaH>0?'em '+nf(r.faltaH)+' h'+(r.dataEst?' (por volta de '+fd(r.dataEst)+')':''):'passou '+nf(-r.faltaH)+' h');else if(r.semH)a.push('horas: falta o horímetro');if(r.venc)a.push((r.venc<today()?'venceu em ':'até ')+fd(r.venc));return a.join(' ou ')||'—';}
+function stPivo(p){var k='P|'+p.id;if(STC[k])return STC[k];var n={ok:0,warn:0,crit:0,mut:0},w='mut',ls=[];
+ CTM().forEach(function(t){var r=stTarefa(p,t);n[r.st]++;ls.push(r);if(SORD[r.st]>SORD[w])w=r.st;});
+ var o={st:w,txt:w==='mut'?'Sem registro':STXT[w],n:n,lista:ls,tot:ls.length};return STC[k]=o;}
+function stPill2(st,txt){return '<span class="pill '+st+'">'+esc(txt||STXT[st])+'</span>';}
+function brl(v){return v==null||!isFinite(v)?'—':'R$ '+nf(v,2);}
+function gastoDe(pid,desde){return ocsDe(pid).filter(function(o){return !desde||o.data>=desde;}).reduce(function(s,o){return s+(+o.custo||0);},0);}
+function resumoPivo(sp){var a=[];if(sp.n.crit)a.push(sp.n.crit+' vencida'+(sp.n.crit>1?'s':''));if(sp.n.warn)a.push(sp.n.warn+' próxima'+(sp.n.warn>1?'s':''));if(sp.n.mut)a.push(sp.n.mut+' sem registro');return a.join(' · ')||'todas em dia';}
+
+function vCt(){
+ if(!P.length)return '<div class="card empty">Cadastre os pivôs primeiro.</div>';
+ var pid=S.tP||S.sel||P[0].id,p=pv(pid)||P[0];pid=p.id;var M=S.tMode==='m';
+ var h='<div class="top" style="align-items:flex-end"><div class="pv" role="group" aria-label="Pivô">'+P.map(function(q){var sp=stPivo(q);return '<button type="button" data-tp="'+esc(q.id)+'" class="'+(!M&&q.id===pid?'on':'')+'">'+esc(q.nome)+(sp.st==='crit'?' ⚠':'')+'</button>';}).join('')+'</div><div class="acts"><button class="b1" data-act="mtNovo" data-id="'+esc(pid)+'">'+ic('wr')+'Registrar manutenção</button><button class="b2" data-act="ocNova" data-id="'+esc(pid)+'">'+ic('pl')+'Nova ocorrência</button></div></div>';
+ h+='<div class="top" style="margin-top:-4px"><span class="seg" role="group" aria-label="Visão"><button type="button" data-tmode="p" aria-pressed="'+(!M)+'">Por pivô</button><button type="button" data-tmode="m" aria-pressed="'+M+'">Todos os pivôs</button></span><div class="acts"><button class="b2" data-act="ctPdf" data-id="'+esc(pid)+'">PDF da cartilha'+(M?'':' · '+esc(p.nome))+'</button><button class="b2" data-act="ctXlsx">Exportar Excel</button></div></div>';
+ return h+(M?ctMatriz():ctPivo(p));
+}
+function ctPivo(p){
+ var sp=stPivo(p),cur=horAtual(p.id),ano=addDias(today(),-365),g=gastoDe(p.id,ano),h='';
+ function kp(l,v,x){return '<div class="card"><span class="crumb">'+l+'</span><div class="bn">'+v+'</div>'+x+'</div>';}
+ h+='<div class="k5">'+kp('Situação',esc(sp.txt),stPill2(sp.st,sp.st==='mut'?'Registre as manutenções':resumoPivo(sp)))+kp('Vencidas',String(sp.n.crit),'<span class="crumb">de '+sp.tot+' tarefas</span>')+kp('Próximas',String(sp.n.warn),'<span class="crumb">faltando '+nf(CFG.avisoH)+' h ou '+nf(CFG.avisoDias)+' dias</span>')+kp('Horímetro',cur?nf(cur.h)+' h':'—','<span class="crumb">'+(cur?'atualizado em '+fd(cur.data)+' ('+haTxt(dias(cur.data,today()))+')':'sem leitura: lance em Pivôs')+'</span>')+kp('Gasto em peças',brl(g),'<span class="crumb">últimos 12 meses · '+ocsDe(p.id).filter(function(o){return o.data>=ano;}).length+' ocorrência(s)</span>')+'</div>';
+ if(sp.n.mut===sp.tot)h+='<div class="banner"><b>'+esc(p.nome)+' ainda não tem manutenção registrada.</b> Comece registrando a última vez que cada tarefa foi feita (data e horímetro): em “Registrar manutenção”, use “Marcar todas” se foi uma revisão completa.</div>';
+ secsDe(CTM()).forEach(function(sec){var ts=sp.lista.filter(function(r){return r.t.sec===sec;}),nc=ts.filter(function(r){return r.st==='crit';}).length;
+  h+='<div class="card"><h3>'+esc(sec)+'<small>'+ts.length+' tarefa'+(ts.length>1?'s':'')+(nc?' · '+nc+' vencida'+(nc>1?'s':''):'')+'</small></h3><div class="tw"><table class="t ct"><thead><tr><th>Tarefa</th><th>Periodicidade</th><th>Última vez</th><th>Próxima</th><th>Situação</th><th></th></tr></thead><tbody>'+
+  ts.map(function(r){var t=r.t,u=r.ult;return '<tr data-tid="'+esc(t.id)+'"><td style="white-space:normal;min-width:260px">'+esc(t.t)+(t.lig?' <span class="pill mut np">pivô ligado</span>':'')+'</td><td>'+esc(perTxt(t))+'</td><td>'+(u?fd(u.data)+(u.horim!=null?'<div class="crumb">'+nf(u.horim)+' h</div>':''):'<span class="muted">—</span>')+'</td><td style="white-space:normal;min-width:150px">'+esc(u?proxTxt(r):'—')+'</td><td>'+stPill2(r.st,r.txt)+'</td><td><button class="b2" data-act="mtNovo" data-id="'+esc(p.id)+'" data-t="'+esc(t.id)+'"'+(S.ro?' disabled':'')+'>Registrar</button></td></tr>';}).join('')+'</tbody></table></div></div>';});
+ var ms=mtsDe(p.id).slice().reverse(),cm=CTM(),byId={};cm.forEach(function(t){byId[t.id]=t;});
+ h+='<div class="card"><h3>Manutenções registradas · '+esc(p.nome)+'<small>'+(ms.length?ms.length+' registro'+(ms.length>1?'s':''):'nenhuma ainda')+'</small></h3>'+(ms.length?'<div class="tw"><table class="t"><thead><tr><th>Data</th><th class="n">Horímetro</th><th>Tarefas feitas</th><th>Verificado por</th><th>Observação</th><th>Fotos</th><th></th></tr></thead><tbody>'+ms.map(function(x){var its=(x.itens||[]).length?x.itens:(x.tarefas||[]).map(function(id){return byId[id]||{id:id,t:id};});
+  return '<tr><td>'+fd(x.data)+'</td><td class="n">'+(x.horim!=null?nf(x.horim)+' h':'—')+'</td><td style="white-space:normal;min-width:280px"><details><summary>'+its.length+' tarefa'+(its.length>1?'s':'')+'</summary><ul class="ins">'+its.map(function(i){var v=x.vals&&x.vals[i.id];return '<li>'+esc(i.t)+(v!=null?' · <b>'+f1(v)+' '+esc(i.un||(byId[i.id]||{}).un||'')+'</b>':'')+'</li>';}).join('')+'</ul></details></td><td>'+esc(x.resp||'')+'</td><td style="white-space:normal;min-width:180px">'+esc(x.obs||'')+'</td><td>'+(x.fotos||[]).map(function(f,k){return '<button class="lk" data-act="foto" data-ref="'+esc(f)+'" data-k="manutenção · '+(k+1)+'">Foto '+(k+1)+'</button>';}).join(' ')+'</td><td>'+(S.canEdit?'<button class="'+(S.cfmDel===x.id?'b3':'lk')+'" data-act="delMt" data-id="'+esc(x.id)+'">'+(S.cfmDel===x.id?'Confirmar exclusão':'Excluir')+'</button>':'')+'</td></tr>';}).join('')+'</tbody></table></div>':'<div class="note">Use “Registrar manutenção”. Cada registro guarda a data, o horímetro e as tarefas feitas; a contagem de cada tarefa recomeça a partir dele.</div>')+'</div>';
+ var oc=ocsDe(p.id).slice().reverse(),tot=gastoDe(p.id);
+ h+='<div class="card"><h3>Ocorrências e peças substituídas · '+esc(p.nome)+'<small>'+(oc.length?oc.length+' no total · '+brl(tot):'nenhuma ainda')+'</small></h3>'+(oc.length?'<div class="tw"><table class="t"><thead><tr><th>Data</th><th>Componente</th><th>Ocorrência</th><th>Ação corretiva</th><th>Peças substituídas</th><th class="n">Qtd</th><th class="n">Custo</th><th>Responsável</th><th></th></tr></thead><tbody>'+oc.map(function(o){return '<tr><td>'+fd(o.data)+'</td><td>'+esc(o.comp||'')+'</td><td style="white-space:normal;min-width:200px">'+esc(o.desc||'')+'</td><td style="white-space:normal;min-width:180px">'+esc(o.acao||'')+'</td><td style="white-space:normal;min-width:140px">'+esc(o.pecas||'')+'</td><td class="n">'+(o.qtd!=null?nf(o.qtd,o.qtd%1?1:0):'')+'</td><td class="n">'+(o.custo!=null?brl(o.custo):'')+'</td><td>'+esc(o.resp||'')+'</td><td>'+(S.canEdit?'<button class="'+(S.cfmDel===o.id?'b3':'lk')+'" data-act="delOc" data-id="'+esc(o.id)+'">'+(S.cfmDel===o.id?'Confirmar exclusão':'Excluir')+'</button>':'')+'</td></tr>';}).join('')+'<tr><td colspan="6" style="font-weight:700">Total</td><td class="n" style="font-weight:700">'+brl(tot)+'</td><td colspan="2"></td></tr></tbody></table></div>':'<div class="note">Registre aqui as quebras e consertos fora do plano, com as peças trocadas e o custo, para acompanhar o gasto de cada pivô.</div>')+'</div>';
+ return h;
+}
+function ctMatriz(){
+ var cm=CTM(),sps=P.map(function(p){return stPivo(p);}),ab={ok:'Em dia',warn:'Próx.',crit:'Venc.',mut:'—'};
+ var h='<div class="card"><h3>Situação das tarefas por pivô<small>clique numa célula para abrir o pivô</small></h3><div class="tw"><table class="t ctm"><thead><tr><th>Tarefa</th><th>Periodicidade</th>'+P.map(function(p){return '<th class="c">'+esc(p.nome.replace('Pivô ','PC '))+'</th>';}).join('')+'</tr></thead><tbody>';
+ h+='<tr><td style="font-weight:700">Situação geral</td><td></td>'+sps.map(function(sp,i){return '<td class="c"><button class="mtx '+sp.st+'" data-tsel="'+esc(P[i].id)+'" title="'+esc(P[i].nome+': '+resumoPivo(sp))+'">'+esc(sp.st==='mut'?'—':ab[sp.st])+'</button></td>';}).join('')+'</tr>';
+ secsDe(cm).forEach(function(sec){h+='<tr><td colspan="'+(P.length+2)+'" style="background:var(--sf2);font-weight:700;color:var(--tx2);height:32px">'+esc(sec)+'</td></tr>';
+  cm.filter(function(t){return t.sec===sec;}).forEach(function(t){h+='<tr><td style="white-space:normal;min-width:240px">'+esc(t.t)+'</td><td>'+esc(perTxt(t))+'</td>'+P.map(function(p){var r=stTarefa(p,t);return '<td class="c"><button class="mtx '+r.st+'" data-tsel="'+esc(p.id)+'" title="'+esc(p.nome+' · '+r.txt+(r.ult?' · última em '+fd(r.ult.data)+' · próxima '+proxTxt(r):''))+'">'+esc(r.st==='mut'?'—':ab[r.st])+'</button></td>';}).join('')+'</tr>';});});
+ h+='<tr><td style="font-weight:700">Gasto em peças (12 meses)</td><td></td>'+P.map(function(p){return '<td class="c n">'+brl(gastoDe(p.id,addDias(today(),-365)))+'</td>';}).join('')+'</tr>';
+ return h+'</tbody></table></div><div class="leg"><span class="pill ok">Em dia</span><span class="pill warn">Próxima</span><span class="pill crit">Vencida</span><span class="pill mut np">— sem registro</span></div></div>';
+}
+
+// registrar manutenção (celular)
+var MTF=null;
+function abrirMt(pid,tid){var p=pv(pid)||P.filter(function(x){return x.ativo!==false;})[0];if(!p){toast('Cadastre um pivô primeiro.');return;}
+ MTF={id:uid('m'),pivo:p.id,data:today(),horim:'',tar:{},vals:{},resp:S.userName||'',obs:'',fotos:[]};if(tid)MTF.tar[tid]=true;
+ var hm=horimEm(p.id,MTF.data);if(hm)MTF.horim=String(hm.h);mrender();
+ if(tid)setTimeout(function(){var e=document.getElementById('mt-'+tid);if(e)e.scrollIntoView({block:'center'});},60);}
+function fecharMt(){MTF=null;$('wiz').innerHTML='';$('wiz').onclick=null;$('wiz').oninput=null;$('wiz').onchange=null;}
+function mrender(keep){
+ var p=pv(MTF.pivo),cm=CTM(),n=Object.keys(MTF.tar).filter(function(k){return MTF.tar[k];}).length,hm=horimEm(MTF.pivo,MTF.data);
+ var wb=document.querySelector('#wiz .wbody'),sc=keep&&wb?wb.scrollTop:0;
+ var h='<div class="wiz"><div class="wz" role="dialog" aria-modal="true" aria-label="Registrar manutenção"><div class="wbar"><div><small>Cartilha · registrar manutenção</small><b>'+esc(p?p.nome:'')+' · '+fd(MTF.data)+'</b></div><button class="x" data-mx="1" aria-label="Fechar sem salvar">✕</button></div><div class="wbody">';
+ h+='<div class="fg"><label class="fl full">Pivô<select id="mP">'+pivoOpts(MTF.pivo)+'</select></label><label class="fl">Data<input id="mD" type="date" value="'+esc(MTF.data)+'"></label><label class="fl">Horímetro (h)<input id="mH" inputmode="decimal" autocomplete="off" value="'+esc(MTF.horim)+'"></label></div>';
+ h+='<p class="note" id="mHi">'+(hm?'Última leitura até esta data: '+nf(hm.h)+' h em '+fd(hm.data)+'. Se o horímetro estiver diferente, digite: o app salva também como leitura.':'Sem leitura do horímetro deste pivô: digite o valor para o app contar as horas das tarefas.')+'</p>';
+ h+='<div class="prog"><span><b>Tarefas feitas</b></span><span id="mN">'+n+' marcada'+(n===1?'':'s')+'</span></div><div class="acts"><button class="b2" data-m="venc">Marcar vencidas e próximas</button><button class="b2" data-m="todas">Marcar todas</button>'+(n?'<button class="lk" data-m="nenhuma">Desmarcar</button>':'')+'</div>';
+ secsDe(cm).forEach(function(sec){h+='<div class="h5">'+esc(sec)+'</div><div class="mtl">';
+  cm.filter(function(t){return t.sec===sec;}).forEach(function(t){var on=!!MTF.tar[t.id],r=p?stTarefa(p,t):null;
+   h+='<div class="mti'+(on?' on':'')+'" id="mt-'+esc(t.id)+'"><label class="mtc"><input type="checkbox" data-mt="'+esc(t.id)+'"'+(on?' checked':'')+'><span>'+esc(t.t)+'<small>'+esc(perTxt(t))+(t.lig?' · pivô ligado':'')+(r?' · '+esc(r.txt):'')+'</small></span></label>'+(on&&t.un?'<label class="fl"><span>'+esc(t.unl||'Valor medido')+' <small>('+esc(t.un)+')</small></span><input data-mv="'+esc(t.id)+'" id="mv-'+esc(t.id)+'" inputmode="decimal" autocomplete="off" value="'+esc(MTF.vals[t.id]==null?'':String(MTF.vals[t.id]).replace('.',','))+'"></label>':'')+'</div>';});
+  h+='</div>';});
+ h+='<div class="h5">Fechamento</div><label class="fl">Verificado por<input id="mR" value="'+esc(MTF.resp)+'" autocomplete="name" maxlength="80"></label><label class="fl">Observação<textarea id="mO" maxlength="600">'+esc(MTF.obs)+'</textarea></label>';
+ h+='<div class="thumbs">'+MTF.fotos.map(function(f,k){return '<img src="'+f+'" alt="Foto '+(k+1)+' da manutenção">';}).join('')+'</div><div class="acts">'+(MTF.fotos.length<3?'<button class="b2" data-m="foto">'+ic('cam')+(MTF.fotos.length?'Mais uma foto':'Tirar foto')+'</button>':'')+(MTF.fotos.length?'<button class="lk" data-m="fdel">Apagar fotos</button>':'')+'</div><p class="note" id="mMsg"></p>';
+ h+='</div><div class="wfoot"><div class="r"><button class="b2" data-mx="1">Cancelar</button><button class="b1" data-m="salvar" id="mOk">Salvar registro</button></div></div></div></div>';
+ $('wiz').innerHTML=h;$('wiz').onclick=mclick;$('wiz').oninput=minput;$('wiz').onchange=mchange;
+ var nb=document.querySelector('#wiz .wbody');if(nb)nb.scrollTop=sc;}
+function mmsg(m,k){var e=$('mMsg');if(e){e.className='note '+(k||'crit');e.textContent=m;e.scrollIntoView({block:'nearest'});}}
+function minput(e){var t=e.target,v=t.getAttribute('data-mv');if(v){MTF.vals[v]=num(t.value);return;}if(t.id==='mH')MTF.horim=t.value;if(t.id==='mR')MTF.resp=t.value;if(t.id==='mO')MTF.obs=t.value;}
+function mchange(e){var t=e.target,id=t.getAttribute('data-mt');if(id){MTF.tar[id]=t.checked;if(!t.checked)delete MTF.vals[id];mrender(true);return;}
+ if(t.id==='mP'||t.id==='mD'){var old=horimEm(MTF.pivo,MTF.data);if(t.id==='mP')MTF.pivo=t.value;else MTF.data=t.value||today();var hm=horimEm(MTF.pivo,MTF.data);if(!MTF.horim||(old&&String(old.h)===String(MTF.horim)))MTF.horim=hm?String(hm.h):'';mrender(true);}}
+function mclick(e){var b=e.target.closest('[data-m],[data-mx]');if(!b)return;if(b.getAttribute('data-mx')){fecharMt();return;}
+ var a=b.getAttribute('data-m'),p=pv(MTF.pivo),cm=CTM();
+ if(a==='todas'){cm.forEach(function(t){MTF.tar[t.id]=true;});mrender(true);return;}
+ if(a==='nenhuma'){MTF.tar={};MTF.vals={};mrender(true);return;}
+ if(a==='venc'){var k=0;cm.forEach(function(t){var r=stTarefa(p,t);if(r.st==='crit'||r.st==='warn'){MTF.tar[t.id]=true;k++;}});mrender(true);if(!k)mmsg('Nenhuma tarefa vencida ou próxima neste pivô.','');return;}
+ if(a==='foto'){FOTO={tipo:'mt'};$('fotoIn').value='';$('fotoIn').click();return;}
+ if(a==='fdel'){MTF.fotos=[];mrender(true);return;}
+ if(a==='salvar')salvarMt();}
+function salvarMt(){
+ var cm=CTM(),ids=cm.filter(function(t){return MTF.tar[t.id];}).map(function(t){return t.id;}),resp=String(MTF.resp||'').trim(),dt=MTF.data,h=num(MTF.horim);
+ if(!ids.length)return mmsg('Marque as tarefas feitas.');
+ if(!dt)return mmsg('Informe a data.');
+ if(dt>today())return mmsg('A data não pode ser futura.');
+ var precisaH=cm.some(function(t){return MTF.tar[t.id]&&t.h;});
+ if(String(MTF.horim||'').trim()&&(h==null||h<0))return mmsg('Confira o horímetro.');
+ if(precisaH&&h==null)return mmsg('Informe o horímetro: há tarefa marcada que conta por horas.');
+ if(h!=null){var bad=leitDe(MTF.pivo).filter(function(l){return (l.data<=dt&&l.h>h)||(l.data>dt&&l.h<h);})[0];if(bad)return mmsg('O horímetro não bate com a leitura de '+fd(bad.data)+' ('+nf(bad.h)+' h). Confira o valor ou a data.');}
+ var semV=cm.filter(function(t){return MTF.tar[t.id]&&t.un&&MTF.vals[t.id]==null;})[0];if(semV)return mmsg('Informe '+(semV.unl||'o valor medido').toLowerCase()+' em “'+semV.t+'”.');
+ if(!resp)return mmsg('Informe quem verificou.');
+ var vals={};ids.forEach(function(id){if(MTF.vals[id]!=null)vals[id]=MTF.vals[id];});
+ var doc={pivo:MTF.pivo,data:dt,horim:h,tarefas:ids,itens:cm.filter(function(t){return MTF.tar[t.id];}).map(function(t){var o={id:t.id,sec:t.sec,t:t.t};if(t.un)o.un=t.un;return o;}),vals:vals,resp:resp,obs:String(MTF.obs||'').trim(),fotos:[],porId:S.userId||null,criado:new Date().toISOString()};
+ var hm=horimEm(MTF.pivo,dt),leit=h!=null&&!(hm&&hm.data===dt&&hm.h===h)&&!leitDe(MTF.pivo).some(function(l){return l.data===dt&&l.h===h;})?{id:MTF.id+'-h',doc:{pivo:MTF.pivo,data:dt,h:h,obs:'Manutenção (cartilha)',porId:S.userId||null,criado:new Date().toISOString()}}:null;
+ var item={kind:'mt',id:MTF.id,mt:doc,fotos:MTF.fotos.map(function(f,n){return {k:n+1,img:f};}),leit:leit};
+ var btn=$('mOk');btn.disabled=true;btn.textContent='Salvando…';
+ enviarMt(item).then(function(){fimMt(item,'Manutenção registrada.');},function(e){
+  if(e&&(e.code==='invalid_argument'||e.code==='quota_exceeded')){btn.disabled=false;btn.textContent='Salvar registro';mmsg(errMsg(e));return;}
+  S.pend=S.pend.concat([item]);kvSet('pend',S.pend);fimMt(item,'Sem conexão: o registro ficou guardado no aparelho e será enviado quando houver sinal.');});}
+function fimMt(item,msg){fecharMt();S.view='ct';S.tP=item.mt.pivo;S.sel=item.mt.pivo;S.tMode='p';toast(msg);schedule();window.scrollTo(0,0);}
+function enviarMt(item){var seq=Promise.resolve();
+ item.fotos.forEach(function(f){seq=seq.then(function(){if(f.ref)return;return salvarFoto(item.id,f).then(function(ref){f.ref=ref;});});});
+ return seq.then(function(){if(item.leit&&!item.leit.ok)return put('leituras',item.leit.id,item.leit.doc).then(function(){item.leit.ok=true;});})
+ .then(function(){item.mt.fotos=item.fotos.filter(function(f){return f.ref;}).map(function(f){return f.ref;});return put('manutencoes',item.id,item.mt);});}
+
+// ocorrências e peças
+function dlgOc(pid){if(!P.length)return toast('Cadastre um pivô primeiro.');pid=pid||P[0].id;
+ var secs=secsDe(CTM());
+ modal('Nova ocorrência','<div class="fg"><label class="fl">Pivô<select id="oP">'+pivoOpts(pid)+'</select></label><label class="fl">Data<input id="oD" type="date" value="'+today()+'"></label><label class="fl full">Componente<select id="oC">'+secs.concat(['Outro']).map(function(s){return '<option>'+esc(s)+'</option>';}).join('')+'</select></label><label class="fl full">Ocorrência ou falha<textarea id="oO" maxlength="400"></textarea></label><label class="fl full">Ação corretiva<textarea id="oA" maxlength="400"></textarea></label><label class="fl full">Peças substituídas<input id="oPc" maxlength="200" placeholder="Nenhuma"></label><label class="fl">Quantidade<input id="oQ" inputmode="decimal"></label><label class="fl">Custo total (R$)<input id="oV" inputmode="decimal"></label><label class="fl full">Responsável<input id="oR" value="'+esc(S.userName||'')+'" maxlength="80"></label></div><p class="note" id="oInfo"></p>',
+ '<button class="b2" data-close="1">Cancelar</button><button class="b1" id="oOk">Salvar ocorrência</button>');
+ $('oOk').onclick=function(){var o={pivo:$('oP').value,data:$('oD').value,comp:$('oC').value,desc:$('oO').value.trim(),acao:$('oA').value.trim(),pecas:$('oPc').value.trim(),qtd:num($('oQ').value),custo:num($('oV').value),resp:$('oR').value.trim(),porId:S.userId||null,criado:new Date().toISOString()};
+  var inf=$('oInfo');inf.className='note crit';
+  if(!o.data||!o.desc)return inf.textContent='Informe a data e a ocorrência.';
+  if(o.custo!=null&&o.custo<0)return inf.textContent='Confira o custo.';
+  if(!o.resp)return inf.textContent='Informe o responsável.';
+  this.disabled=true;put('ocorrencias',uid('o'),o).then(function(){closeModal();S.view='ct';S.tP=o.pivo;S.tMode='p';toast('Ocorrência salva.');schedule();}).catch(function(e){$('oOk').disabled=false;inf.textContent=errMsg(e);});};}
+
+// editor da cartilha (Configurações)
+function saveCtModel(){var it=(S.ctEdit||[]).map(function(i){var o={id:i.id||uid('t'),sec:String(i.sec||'').trim(),t:String(i.t||'').trim()};var h=num(i.h),m=num(i.m);if(h&&h>0)o.h=Math.round(h);if(m&&m>0)o.m=Math.round(m);if(i.lig)o.lig=true;if(String(i.un||'').trim()){o.un=String(i.un).trim();if(String(i.unl||'').trim())o.unl=String(i.unl).trim();}if(i.f)o.f=i.f;return o;});
+ if(!it.length)return toast('A cartilha precisa de pelo menos uma tarefa.','crit');
+ var bad=it.filter(function(i){return !i.t||!i.sec;})[0];if(bad)return toast('Preencha a seção e o texto de todas as tarefas.','crit');
+ var sp=it.filter(function(i){return !i.h&&!i.m;})[0];if(sp)return toast('Informe as horas ou os meses de “'+sp.t+'”.','crit');
+ put('cfg','cartilha',{tarefas:it}).then(function(){S.ctEdit=null;toast('Tarefas da cartilha salvas.');}).catch(function(e){toast(e&&e.code==='invalid_argument'?'Só o dono ou um editor da página pode alterar a cartilha.':errMsg(e),'crit');});}
+function ctEdState(){return S.ctEdit||(S.ctEdit=CTM().map(function(i){return {id:i.id,sec:i.sec,t:i.t,h:i.h?String(i.h):'',m:i.m?String(i.m):'',lig:!!i.lig,un:i.un||'',unl:i.unl||'',f:i.f||''};}));}
+function ctEditor(){
+ var it=ctEdState(),orig=CTM().map(function(i){return {id:i.id,sec:i.sec,t:i.t,h:i.h?String(i.h):'',m:i.m?String(i.m):'',lig:!!i.lig,un:i.un||'',unl:i.unl||'',f:i.f||''};}),dirty=JSON.stringify(it)!==JSON.stringify(orig);
+ var h='<div class="card"><h3>Tarefas da cartilha de manutenção<small>'+it.length+' tarefas</small></h3><p class="note" style="margin:0 0 10px">Horas contam pelo horímetro; meses, pelo calendário. Com os dois, vence pelo que chegar primeiro (ex.: 2.000 h ou 12 meses). “Ligado” marca o que se faz com o pivô pressurizado. “Unidade” pede um valor medido (ex.: Ω no aterramento). Registros já feitos não mudam.</p><div class="tw"><table class="t"><thead><tr><th>Seção</th><th>Tarefa</th><th>Horas</th><th>Meses</th><th>Ligado</th><th>Unidade</th><th>Nome do valor</th><th></th></tr></thead><tbody>';
+ it.forEach(function(i,k){h+='<tr><td><input class="cein" id="te'+k+'sec" data-te="'+k+'|sec" value="'+esc(i.sec)+'" style="width:140px" aria-label="Seção"></td><td><input class="cein" id="te'+k+'t" data-te="'+k+'|t" value="'+esc(i.t)+'" style="width:100%;min-width:320px" aria-label="Tarefa"></td><td><input class="cein" id="te'+k+'h" data-te="'+k+'|h" inputmode="numeric" value="'+esc(i.h)+'" style="width:70px" aria-label="Horas"></td><td><input class="cein" id="te'+k+'m" data-te="'+k+'|m" inputmode="numeric" value="'+esc(i.m)+'" style="width:56px" aria-label="Meses"></td><td style="text-align:center"><input type="checkbox" data-te="'+k+'|lig"'+(i.lig?' checked':'')+' aria-label="Pivô ligado" style="width:18px;height:18px;accent-color:var(--ac)"></td><td><input class="cein" id="te'+k+'un" data-te="'+k+'|un" value="'+esc(i.un)+'" style="width:50px" aria-label="Unidade"></td><td><input class="cein" id="te'+k+'unl" data-te="'+k+'|unl" value="'+esc(i.unl)+'" style="width:130px" aria-label="Nome do valor"></td><td><div style="display:flex;gap:4px"><button class="x" data-tem="'+k+'|-1" aria-label="Subir"'+(k?'':' disabled')+'>↑</button> <button class="x" data-tem="'+k+'|1" aria-label="Descer"'+(k<it.length-1?'':' disabled')+'>↓</button> <button class="x" data-tedel="'+k+'" aria-label="Remover tarefa">✕</button></div></td></tr>';});
+ h+='</tbody></table></div><div class="acts" style="margin-top:10px"><button class="b2" data-act="ctAdd">'+ic('pl')+'Adicionar tarefa</button><span style="flex:1"></span>'+(dirty?'<button class="b2" data-act="ctDesc">Descartar alterações</button>':'')+'<button class="b1" data-act="ctSave"'+(S.ro||!dirty?' disabled':'')+'>Salvar tarefas</button></div><p class="note">Só o dono ou um editor da página pode salvar as tarefas.</p></div>';
+ return h;}
+
+// PDF da cartilha (para imprimir e levar a campo)
+function buildPDFct(pid){
+ var cm=CTM(),p=pid?pv(pid):null,pdf=PDF().page(),y=50,G='0.29 0.36 0.32',CO={ok:'0.13 0.4 0.23',warn:'0.62 0.42 0.05',crit:'0.71 0.22 0.18',mut:G};
+ pdf.text(40,y,'IrrigaManager · Cartilha de manutenção preventiva',10,{color:G});y+=22;
+ pdf.text(40,y,p?p.nome:'Todos os pivôs',18,{bold:true});y+=16;
+ var cur=p?horAtual(p.id):null;
+ pdf.text(40,y,(p?'Fazenda '+(p.fazenda||AREA[p.area||1])+' · horímetro '+(cur?nf(cur.h)+' h em '+fd(cur.data):'sem leitura')+' · ':'')+'impresso em '+fd(today()),10,{color:G});y+=16;
+ wrap('Horas contam pelo horímetro. "ou" = vence pelo que chegar primeiro. (ligado) = fazer com o pivô ligado e pressurizado; o restante, com a chave geral desligada e bloqueada.',110).forEach(function(l){pdf.text(40,y,l,8.5,{color:G});y+=11;});y+=8;
+ var cx=[40,330,410,490];
+ function cab(){pdf.text(cx[0],y,'Tarefa',8.5,{bold:true,color:G});pdf.text(cx[1],y,'Periodicidade',8.5,{bold:true,color:G});pdf.text(cx[2],y,p?'Última vez':'',8.5,{bold:true,color:G});pdf.text(cx[3],y,p?'Situação':'',8.5,{bold:true,color:G});pdf.text(555,y,'Feito',8.5,{bold:true,color:G,align:'right'});y+=6;pdf.line(40,y,555,y);y+=14;}
+ cab();
+ secsDe(cm).forEach(function(sec){if(y>760){pdf.page();y=50;cab();}
+  pdf.rect(40,y-11,515,16,'0.93 0.95 0.94');pdf.text(46,y,sec,10,{bold:true});y+=18;
+  cm.filter(function(t){return t.sec===sec;}).forEach(function(t){var ls=wrap(t.t+(t.lig?' (ligado)':''),58),r=p?stTarefa(p,t):null;
+   if(y+ls.length*10>800){pdf.page();y=50;cab();}
+   ls.forEach(function(l,i){pdf.text(46,y+i*10,l,9);});
+   pdf.text(cx[1],y,perTxt(t),9);
+   if(r){pdf.text(cx[2],y,r.ult?fd(r.ult.data):'—',9);if(r.ult&&r.ult.horim!=null)pdf.text(cx[2],y+10,nf(r.ult.horim)+' h',8,{color:G});pdf.text(cx[3],y,r.txt,9,{bold:true,color:CO[r.st]});}
+   var bx=543,by=y-8;pdf.line(bx,by,bx+10,by,'0.3 0.3 0.3',.7);pdf.line(bx+10,by,bx+10,by+10,'0.3 0.3 0.3',.7);pdf.line(bx+10,by+10,bx,by+10,'0.3 0.3 0.3',.7);pdf.line(bx,by+10,bx,by,'0.3 0.3 0.3',.7);
+   y+=Math.max(ls.length,r&&r.ult&&r.ult.horim!=null?2:1)*10+2;pdf.line(40,y-5,555,y-5,'0.88 0.9 0.89',.4);y+=4;});
+  y+=4;});
+ if(y>700){pdf.page();y=60;}
+ y+=20;pdf.text(40,y,'Registro da execução',11,{bold:true});y+=26;
+ [['Pivô',p?p.nome:''],['Horímetro (h)',''],['Data de execução',''],['Verificado por','']].forEach(function(f,i){var x=40+(i%2)*265,yy=y+Math.floor(i/2)*34;pdf.text(x,yy,f[0],8.5,{color:G});if(f[1])pdf.text(x+95,yy,f[1],10,{bold:true});pdf.line(x+90,yy+3,x+250,yy+3,'0.3 0.3 0.3',.6);});
+ y+=80;pdf.line(40,y,260,y,'0.3 0.3 0.3',.6);pdf.text(40,y+12,'Assinatura',8.5,{color:G});
+ pdf.text(40,822,'Fontes: Plano de manutenção dos PCs (periodicidades) e Plano de Manutenção Preventiva Valley (itens complementares).',7.5,{color:G});
+ return pdf.build();}
+function xlsxCt(){var cm=CTM();
+ var s1=[{b:1,c:['Seção','Tarefa','Periodicidade','Horas','Meses','Pivô ligado','Unidade do valor','Origem']}];cm.forEach(function(t){s1.push([t.sec,t.t,perTxt(t),t.h||null,t.m||null,t.lig?'sim':'',t.un||'',t.f==='P'?'Plano dos PCs':t.f==='V'?'Valley':t.f==='P+V'?'Plano dos PCs + Valley':'']);});
+ var s2=[{b:1,c:['Seção','Tarefa','Periodicidade'].concat(P.map(function(p){return p.nome;}))}];
+ s2.push(['','Situação geral',''].concat(P.map(function(p){var sp=stPivo(p);return sp.txt+' ('+resumoPivo(sp)+')';})));
+ cm.forEach(function(t){s2.push([t.sec,t.t,perTxt(t)].concat(P.map(function(p){var r=stTarefa(p,t);return r.ult?r.txt+' · última '+fd(r.ult.data)+(r.ult.horim!=null?' ('+nf(r.ult.horim)+' h)':'')+' · próxima '+proxTxt(r):r.txt;})));});
+ var s3=[{b:1,c:['Data','Pivô','Horímetro (h)','Seção','Tarefa','Valor medido','Unidade','Verificado por','Observação']}];
+ MT.forEach(function(x){var p=pv(x.pivo);(x.itens||[]).forEach(function(i){var v=x.vals&&x.vals[i.id];s3.push([fd(x.data),p?p.nome:x.pivo,x.horim,i.sec,i.t,v==null?null:v,v==null?'':(i.un||''),x.resp||'',x.obs||'']);});});
+ var s4=[{b:1,c:['Data','Pivô','Componente','Ocorrência / falha','Ação corretiva','Peças substituídas','Qtd','Custo total (R$)','Responsável']}],tot=0;
+ OC.forEach(function(o){var p=pv(o.pivo);tot+=+o.custo||0;s4.push([fd(o.data),p?p.nome:o.pivo,o.comp||'',o.desc||'',o.acao||'',o.pecas||'',o.qtd,o.custo,o.resp||'']);});
+ s4.push({b:1,c:['Total','','','','','','',rd(tot,2),'']});
+ return buildXLSX([{name:'Plano',rows:s1,widths:[18,70,18,8,8,11,10,22]},{name:'Situação por pivô',rows:s2,widths:[18,60,18].concat(P.map(function(){return 34;}))},{name:'Registros',rows:s3,widths:[12,10,13,18,60,12,9,22,40]},{name:'Ocorrências e peças',rows:s4,widths:[12,10,18,44,40,30,6,15,22]}]);}
+function exportCtPDF(pid){try{var p=pid?pv(pid):null;salvarArquivo('Cartilha de manutencao'+(p?' '+p.nome.replace(/[^\wÀ-ÿ -]/g,''):'')+' '+today()+'.pdf',new Blob([buildPDFct(pid)],{type:'application/pdf'}));}catch(e){toast('Erro ao gerar o PDF.','crit');}}
+function exportCtXLSX(){try{salvarArquivo('Cartilha de manutencao '+today()+'.xlsx',xlsxCt());}catch(e){toast('Erro ao gerar o Excel.','crit');}}
 
 // ---------- mapa de aspersores (consulta) ----------
 // Dados extraídos das cartas Senninger de cada pivô (dados/aspersores.json), um documento por pivô em aspersores/<id>.
@@ -1206,7 +1528,7 @@ function nomeArq(a,ext){var p=pv(a.pivo);return 'Uniformidade '+(p?p.nome:'pivo'
 function exportPDF(id){var a=D.avaliacoes[id];if(!a)return;var o=Object.assign({id:id},a);try{salvarArquivo(nomeArq(o,'pdf'),new Blob([buildPDF(o)],{type:'application/pdf'}));}catch(e){toast('Erro ao gerar o PDF.','crit');}}
 function exportXLSX(id){var a=D.avaliacoes[id];if(!a)return;var o=Object.assign({id:id},a);try{salvarArquivo(nomeArq(o,'xlsx'),xlsxAval(o));}catch(e){toast('Erro ao gerar o Excel.','crit');}}
 
-window.__im={anot:anot,aspDe:aspDe,saidaDe:saidaDe,mm64:mm64,ckRes:ckRes,buildPDFck:buildPDFck,xlsxCk:xlsxCk,CK0:CK0,calc:calc,buildPDF:buildPDF,xlsxAval:xlsxAval,D:D,S:S,derive:derive,prev:prev,put:put};
+window.__im={anot:anot,aspDe:aspDe,saidaDe:saidaDe,mm64:mm64,ckRes:ckRes,buildPDFck:buildPDFck,xlsxCk:xlsxCk,CK0:CK0,calc:calc,buildPDF:buildPDF,xlsxAval:xlsxAval,D:D,S:S,derive:derive,stPivo:stPivo,stTarefa:stTarefa,CTM:CTM,CT0:CT0,horAtual:horAtual,addMeses:addMeses,buildPDFct:buildPDFct,xlsxCt:xlsxCt,put:put};
 boot();refreshDraftBanner();schedule();
 })();
 </script>
