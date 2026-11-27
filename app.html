@@ -24,7 +24,7 @@ svg{display:block}
 .rail button.on{opacity:1;background:var(--railon);font-weight:700}
 .rail button[disabled]{opacity:.38;cursor:not-allowed}
 .rail .sp{flex:1}.rail .sh{display:none}
-.main{min-width:0;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px 16px;display:grid;gap:14px;align-content:start}
+.main{min-width:0;padding:16px max(16px,env(safe-area-inset-right,0px)) 40px 16px;display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-content:start}
 .top{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
 .top h1{margin:0;font-size:22px;line-height:1.2}
 .top .crumb{display:block}
@@ -172,6 +172,16 @@ details.card[open] summary{margin-bottom:10px}
 .hq .pill{margin-left:6px}
 .hbm{font-size:12.5px;color:var(--tx2)}.hbm:empty{display:none}
 .hbi.on{border-color:var(--ok)}.hbi.on .hbm{color:var(--ok)}.hbi.al{border-color:var(--warn)}.hbi.al .hbm{color:var(--warn)}.hbi.er{border-color:var(--crit)}.hbi.er .hbm{color:var(--crit)}
+.irbad td{background:color-mix(in srgb,var(--crit) 8%,transparent)}
+.irl input,.irl select{height:34px;padding:0 6px;font-size:13.5px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--tx);min-width:0}
+.irl input[type=date]{width:132px}.irl select{max-width:112px}.irl td{padding:4px 5px!important;vertical-align:middle}.irl .irst{min-width:140px;white-space:normal}
+.irst .pill{white-space:normal;line-height:1.25;height:auto;padding:3px 8px}
+.irf{grid-template-columns:repeat(4,minmax(0,1fr))!important;max-width:820px}
+.irch{width:100%;height:auto;display:block}.irb:hover path{filter:brightness(1.15)}
+.leg i{display:inline-block;width:14px;height:10px;margin-right:6px;vertical-align:-1px}.leg .lgb{background:var(--ac);border-radius:3px}.leg .lgr{border-top:2px dashed var(--tx2);height:0;vertical-align:3px}
+.hb{display:grid;gap:6px}.hbr2{display:grid;grid-template-columns:minmax(110px,190px) 1fr 120px;gap:10px;align-items:center;font-size:13.5px}
+.hbl{color:var(--tx2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hbt{height:14px;background:var(--sf2);border-radius:4px;overflow:hidden}.hbt i{display:block;height:100%;background:var(--ac);border-radius:0 4px 4px 0}.hbv{text-align:right;font-variant-numeric:tabular-nums}
+.irt td,.irt th{white-space:nowrap}.irt tr.irtot td,.irt td.irtot{font-weight:700}.irt td.warn{color:var(--warn)}
 .t.ct{table-layout:fixed;min-width:820px}.t.ct th:nth-child(2){width:128px}.t.ct th:nth-child(3){width:100px}.t.ct th:nth-child(4){width:200px}.t.ct th:nth-child(5){width:128px}.t.ct th:nth-child(6){width:112px}.t.ct td{white-space:normal}
 .mtl{display:grid;gap:6px}
 .mti{border:1px solid var(--ln);border-radius:10px;background:var(--sf);padding:8px 10px;display:grid;gap:8px}
@@ -187,8 +197,10 @@ details.card[open] summary{margin-bottom:10px}
  .shell{grid-template-columns:minmax(0,1fr)}
  .rail{position:fixed;top:auto;bottom:0;left:0;right:0;height:auto;flex-direction:row;z-index:10;padding:4px 4px calc(4px + env(safe-area-inset-bottom,0px));overflow-x:auto}
  .rail .brand,.rail .sp,.rail button[disabled]{display:none}
+ .irf{grid-template-columns:1fr 1fr!important}.hbr2{grid-template-columns:96px 1fr 92px;font-size:12.5px}
+ #main .seg{max-width:100%;min-width:0;flex:0 1 auto;overflow-x:auto;scrollbar-width:none}#main .seg button{white-space:nowrap;flex:0 0 auto}
  #cardHor .hp{display:none}#cardHor .hq .pill{margin-left:4px}
- .rail button{flex:1 1 0;min-width:50px;font-size:10px;padding:8px 0}.rail .lg{display:none}.rail .sh{display:inline}
+ .rail button{flex:1 1 0;min-width:44px;font-size:10px;padding:8px 0}.rail button[disabled]{display:none}.rail .lg{display:none}.rail .sh{display:inline}
  .main{padding-bottom:96px}
  .toast{bottom:calc(84px + env(safe-area-inset-bottom,0px))}
  .k5{grid-template-columns:repeat(2,minmax(0,1fr))}.k8{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -222,7 +234,7 @@ details.card[open] summary{margin-bottom:10px}
 
 // ---------- constantes ----------
 var NMAX=50;
-var CFG0={diam:72,horAviso:7,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10,margem:5};
+var CFG0={diam:72,horAviso:7,fatorHid:10,avisoH:100,avisoDias:30,ventoMax:4.5,faixa:15,laminaRec:10,margem:5};
 var AREA=['','RU','JD'];
 // Só usados no modo local (fora do Claude), para a página funcionar sozinha.
 var DEF_PIVOS=[
@@ -264,8 +276,8 @@ function kvGet(k){return idb().then(function(d){if(!d)return null;return new Pro
 function kvSet(k,v){return idb().then(function(d){if(!d)return false;return new Promise(function(res){try{var t=d.transaction('kv','readwrite');if(v==null)t.objectStore('kv').delete(k);else t.objectStore('kv').put(v,k);t.oncomplete=function(){res(true);};t.onerror=function(){res(false);};}catch(e){res(false);}});});}
 
 // ---------- estado e dados ----------
-var COLS=['pivos','avaliacoes','leituras','cfg','checklists','pendencias','aspersores','manutencoes','ocorrencias'];
-var D={pivos:{},avaliacoes:{},leituras:{},cfg:{},checklists:{},pendencias:{},aspersores:{},manutencoes:{},ocorrencias:{}};
+var COLS=['pivos','avaliacoes','leituras','cfg','checklists','pendencias','aspersores','manutencoes','ocorrencias','irrigacoes','irr_hist','irr_arq'];
+var D={pivos:{},avaliacoes:{},leituras:{},cfg:{},checklists:{},pendencias:{},aspersores:{},manutencoes:{},ocorrencias:{},irrigacoes:{},irr_hist:{},irr_arq:{}};
 var S={mode:'loading',stale:false,ro:false,view:'mapa',sel:null,selT:0,area:1,ed:false,uP:null,uA:null,pend:[],userName:'',userId:null,cfmDel:null,cP:null,cA:null,ckEdit:null,canEdit:false,aP:null,aspS:null,aspTamp:false,aspOff:false,aspM:'v',aspIn:'',aspVao:1,tP:null,tMode:'p',ctEdit:null};
 var DB=null,ASSETS=null,DL=null,USER=null;
 var P=[],A=[],L=[],C=[],PD=[],MT=[],OC=[],CFG=Object.assign({},CFG0),FOTO={tipo:'aval'};
@@ -278,7 +290,7 @@ function derive(){
  PD=Object.keys(D.pendencias).map(function(id){return Object.assign({id:id},D.pendencias[id]);}).sort(function(a,b){return a.criada<b.criada?-1:1;});
  MT=Object.keys(D.manutencoes||{}).map(function(id){return Object.assign({id:id},D.manutencoes[id]);}).sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:((a.horim||0)-(b.horim||0))||(a.criado<b.criado?-1:1);});
  OC=Object.keys(D.ocorrencias||{}).map(function(id){return Object.assign({id:id},D.ocorrencias[id]);}).sort(function(a,b){return a.data<b.data?-1:a.data>b.data?1:(a.criado<b.criado?-1:1);});
- CFG=Object.assign({},CFG0,D.cfg.geral||{});STC={};
+ CFG=Object.assign({},CFG0,D.cfg.geral||{});STC={};IRC=null;
  if(!S.sel||!pv(S.sel))S.sel=P[0]?P[0].id:null;
  if(S.uP&&!pv(S.uP))S.uP=null;
 }
@@ -290,7 +302,8 @@ var LKEY='irrigamanager-local-v1';
 function localLoad(){var j=null;try{j=JSON.parse(lsGet(LKEY)||'null');}catch(e){}
  if(j){COLS.forEach(function(c){if(j[c])D[c]=j[c];});}
  if(!Object.keys(D.pivos).length){DEF_PIVOS.forEach(function(p){var o=Object.assign({},p);delete o.id;o.fazenda=AREA[o.area];o.laminaRec=10;o.ativo=true;D.pivos[p.id]=o;});localSave();}
- if(!Object.keys(D.aspersores||{}).length&&ASP_EST){D.aspersores=JSON.parse(JSON.stringify(ASP_EST));localSave();}}
+ if(!Object.keys(D.aspersores||{}).length&&ASP_EST){D.aspersores=JSON.parse(JSON.stringify(ASP_EST));localSave();}
+ if(!Object.keys(D.irr_hist||{}).length&&IRR_HIST){D.irr_hist=JSON.parse(JSON.stringify(IRR_HIST.hist));D.irr_arq=JSON.parse(JSON.stringify(IRR_HIST.arq));localSave();}}
 function localSave(){if(!lsSet(LKEY,JSON.stringify(D)))toast('Não foi possível salvar neste navegador','crit');}
 
 function withTimeout(p,ms){return new Promise(function(res,rej){var t=setTimeout(function(){rej({code:'timeout',message:'Sem resposta do servidor'});},ms);p.then(function(v){clearTimeout(t);res(v);},function(e){clearTimeout(t);rej(e);});});}
@@ -439,6 +452,7 @@ function painel(p){
  var ug=urgentes(r);
  h+=ug.length?'<ul class="ins" style="margin:0">'+ug.slice(0,3).map(function(x){return '<li><b class="'+x.st+'">'+esc(x.txt)+':</b> '+esc(x.t.t)+' · '+esc(proxTxt(x))+'</li>';}).join('')+(ug.length>3?'<li class="muted">e mais '+(ug.length-3)+'</li>':'')+'</ul>':'<div class="note">'+(r.st==='mut'?'Nenhuma manutenção registrada. Registre na Cartilha a última vez que cada tarefa foi feita.':(cur?'Última leitura em '+fd(cur.data)+'. ':'')+'Nenhuma tarefa vencida ou próxima'+(r.n.mut?' ('+r.n.mut+' sem registro)':'')+'.')+'</div>';
  h+='<div class="sub"><span>Talhões</span><span class="muted" style="font-weight:400">'+nT(p)+'</span></div><div class="pills">'+(p.q||[]).map(function(t,k){return '<span class="pill np '+(S.selT===k+1?'ok':'mut')+'">'+esc(t)+'</span>';}).join('')+'</div>';
+ var ir=irrResumoPivo(p);h+='<div class="sub"><span>Irrigação</span><span>'+(ir?'mês: '+m3(ir.mes):'')+'</span></div><div class="note" style="margin:0">'+(ir?'Último apontamento: '+fd(ir.u.d)+' · '+esc(ir.u.tl||'')+' · '+md(ir.u.l)+' mm'+(ir.u.t?' · turno '+esc(ir.u.t):''):'Nenhum apontamento ainda.')+'</div>';
  if(ua&&ru.cuh!=null){h+='<div class="sub"><span>Uniformidade · '+fd(ua.data)+'</span><span>CUC '+f1(ru.cuh)+'% · CUD '+f1(ru.cud)+'%</span></div>'+miniBars(ua,ru);}
  else h+='<div class="sub"><span>Uniformidade</span></div><div class="note">Nenhuma avaliação ainda.</div>';
  if(uc){var ur=ckRes(uc);h+='<div class="sub"><span>Última inspeção · '+fd(uc.data)+'</span><span>'+(ur.pct==null?'—':f1(ur.pct)+'%')+' · '+ur.n+' não conforme'+(ur.n===1?'':'s')+'</span></div>';}
@@ -501,13 +515,13 @@ function vCfg(){
  return '<div class="card" style="max-width:720px"><h3>Parâmetros<small>valem para toda a equipe</small></h3><div class="form"><div class="fg">'+
  f('cDiam','Diâmetro do coletor',c.diam,'mm','Converte o volume (mL) em lâmina (mm).')+f('cRec','Lâmina recomendada padrão',c.laminaRec,'mm','Cada pivô pode ter a sua, em Pivôs → Editar.')+
  f('cFx','Faixa aceitável em torno da recomendada',c.faixa,'%','Coletor fora dela aparece como abaixo ou acima.')+f('cMg','Distância mínima do último coletor ao fim do pivô',c.margem,'m','Garante a sobreposição dos aspersores no último coletor.')+f('cVento','Vento máximo para avaliar',c.ventoMax,'m/s','Acima disso o app avisa para repetir.')+
- f('cAvH','Cartilha: avisar “Próxima” faltando',c.avisoH,'h')+f('cAvD','ou faltando',c.avisoDias,'dias','Nas tarefas por horas, estimado pelo ritmo de uso do horímetro.')+f('cHor','Destacar horímetro sem atualização há mais de',c.horAviso,'dias','Em amarelo no quadro Horímetros (aba Pivôs).')+
+ f('cAvH','Cartilha: avisar “Próxima” faltando',c.avisoH,'h')+f('cAvD','ou faltando',c.avisoDias,'dias','Nas tarefas por horas, estimado pelo ritmo de uso do horímetro.')+f('cHor','Destacar horímetro sem atualização há mais de',c.horAviso,'dias','Em amarelo no quadro Horímetros (aba Pivôs).')+f('cFh','Fator do hidrômetro de irrigação',c.fatorHid,'m³ por unidade','Consumo pelo hidrômetro = (final − inicial) × fator. Só para comparar com a lâmina.')+
  '</div><div class="acts"><button class="b1" data-act="saveCfg"'+(S.ro?' disabled':'')+'>Salvar parâmetros</button></div><p class="note">Só quem edita a página (dono ou editor) pode salvar os parâmetros.</p></div></div>'+
  '<div class="card" style="max-width:720px"><h3>Como os resultados são calculados</h3><ul class="ins"><li>Lâmina do coletor (mm) = volume (mL) × 1000 ÷ área da boca do coletor (mm²).</li><li>CUC de Heermann e Hein: cada coletor pesa pela distância ao centro, porque representa uma faixa de área maior quanto mais longe está.</li><li>CUD: média ponderada do quarto da área com menor lâmina, dividida pela média ponderada.</li><li>Christiansen simples aparece como referência, para comparar com a planilha.</li><li>Coletores perdidos ou sem leitura ficam fora do cálculo.</li></ul></div>'+ckEditor()+ctEditor()+'<div class="card" style="max-width:720px"><h3>Situação da Cartilha</h3><ul class="ins"><li>Cada tarefa conta a partir do último registro: horas pelo horímetro (leitura atual − horímetro do registro) e meses pelo calendário. Com os dois, vence pelo que chegar primeiro.</li><li>Vencida: passou do prazo. Próxima: faltam '+nf(CFG.avisoH)+' h ou '+nf(CFG.avisoDias)+' dias. Sem registro: a tarefa nunca foi registrada no pivô.</li><li>A cor do pivô no mapa é a pior situação entre as tarefas.</li></ul></div><div class="card" style="max-width:720px"><h3>Resultado do checklist</h3><ul class="ins"><li>Resultado = conformes ÷ (conformes + não conformes). Itens N/A ficam fora da conta.</li><li>Item crítico não conforme faz o app sugerir “Inapto”; para marcar “Apto” mesmo assim, é preciso justificar.</li><li>Cada não conforme abre uma pendência do pivô, que fica aberta até alguém marcar como resolvida.</li></ul></div>';
 }
 
 // ---------- render ----------
-var VIEWS={mapa:['map','Mapa'],pivos:['list','Pivôs'],unif:['drop','Uniformidade','Uniform.'],ck:['ck','Checklist'],asp:['spr','Aspersores'],ct:['wr','Cartilha'],cfg:['gear','Configurações','Config.']};
+var VIEWS={mapa:['map','Mapa'],pivos:['list','Pivôs'],unif:['drop','Uniformidade','Uniform.'],irr:['irr','Irrigação','Irrig.'],ck:['ck','Checklist'],asp:['spr','Aspersores','Aspers.'],ct:['wr','Cartilha'],cfg:['gear','Configurações','Config.']};
 var rq=false;
 function schedule(){if(rq)return;rq=true;requestAnimationFrame(function(){rq=false;render();});}
 function render(){
@@ -521,7 +535,7 @@ function render(){
  if(S.ro)bn+='<div class="banner warn">Seu acesso a esta página é só de leitura: você vê tudo, mas não salva.</div>';
  if(S.pend.length)bn+='<div class="banner warn"><b>'+S.pend.length+' registro(s) guardado(s) no aparelho</b> aguardando conexão.<button class="b2" data-act="enviarPend">Enviar agora</button></div>';
  kvDraftBanner&&(bn+=kvDraftBanner);
- var body=S.view==='mapa'?vMapa():S.view==='pivos'?vPivos():S.view==='unif'?vUnif():S.view==='ck'?vCk():S.view==='asp'?vAsp():S.view==='ct'?vCt():vCfg();
+ var body=S.view==='mapa'?vMapa():S.view==='pivos'?vPivos():S.view==='unif'?vUnif():S.view==='ck'?vCk():S.view==='asp'?vAsp():S.view==='ct'?vCt():S.view==='irr'?vIrr():vCfg();
  $('main').innerHTML=top+bn+body;
  if(S.view==='mapa'){var mb=$('mapbox');if(mb){mb.insertBefore(mapImg(S.area),mb.firstChild);overlay();}}
  if(fid&&$(fid)){var e=$(fid);e.focus();if(sel)try{e.setSelectionRange(sel[0],sel[1]);}catch(x){}}
@@ -546,6 +560,10 @@ document.addEventListener('click',function(e){
  if(t.tagName==='TR'&&t.hasAttribute('data-gock')){S.cA=t.getAttribute('data-gock');S.cfmDel=null;schedule();return;}
  if(t.hasAttribute('data-cm')){var q2=t.getAttribute('data-cm').split('|'),k2=+q2[0],d2=+q2[1],L2=S.ckEdit,x2=L2[k2];L2[k2]=L2[k2+d2];L2[k2+d2]=x2;schedule();return;}
  if(t.hasAttribute('data-cdel')){S.ckEdit.splice(+t.getAttribute('data-cdel'),1);schedule();return;}
+ if(t.hasAttribute('data-irs')){S.irS=t.getAttribute('data-irs');S.cfmDel=null;schedule();return;}
+ if(t.hasAttribute('data-irr')){S.irR=t.getAttribute('data-irr');schedule();return;}
+ if(t.hasAttribute('data-iry')){S.irY=t.getAttribute('data-iry');if(S.irR==='lam')S.irR='mes';schedule();return;}
+ if(t.hasAttribute('data-irp')){var ip=t.getAttribute('data-irp'),F=irFiltro(),hj=today();if(ip==='7'){F.de=addDias(hj,-6);F.ate=hj;}else if(ip==='mes'){F.de=hj.slice(0,8)+'01';F.ate=hj;}else if(ip==='ant'){var pm=addDias(hj.slice(0,8)+'01',-1);F.de=pm.slice(0,8)+'01';F.ate=pm;}else{F.de='2023-01-01';F.ate=hj;}S.irLim=300;schedule();return;}
  if(t.hasAttribute('data-tp')){S.tP=t.getAttribute('data-tp');S.sel=S.tP;S.tMode='p';S.cfmDel=null;schedule();return;}
  if(t.hasAttribute('data-tsel')){S.tP=t.getAttribute('data-tsel');S.sel=S.tP;S.tMode='p';schedule();window.scrollTo(0,0);return;}
  if(t.hasAttribute('data-tmode')){S.tMode=t.getAttribute('data-tmode');schedule();return;}
@@ -577,6 +595,16 @@ document.addEventListener('click',function(e){
  else if(act==='ckAdd'){S.ckEdit.push({id:uid('i'),sec:S.ckEdit.length?S.ckEdit[S.ckEdit.length-1].sec:'Geral',t:'',crit:false});schedule();}
  else if(act==='ckDesc'){S.ckEdit=null;schedule();}
  else if(act==='ckSave')saveCkModel();
+ else if(act==='irLer'){var st0=irlEstado(),tx=($('irZap')||{}).value||'',nv=parseZap(tx);if(!nv.length){var zm=$('irZapMsg');if(zm){zm.className='note crit';zm.textContent='Não encontrei apontamentos no texto. Confira se as mensagens têm Turno, Frota, Talhão e Lâmina.';}return;}st0.rows=st0.rows.concat(nv);st0.txt='';irlSalvaRasc();toast(nv.length+' apontamento'+(nv.length>1?'s lidos':' lido')+'. Confira e salve.');schedule();}
+ else if(act==='irLinha'){var st1=irlEstado(),ul=st1.rows[st1.rows.length-1];st1.rows.push(irlNova(ul?{d:ul.d,t:ul.t}:{}));irlSalvaRasc();schedule();}
+ else if(act==='irLimpar'){var st2=irlEstado();st2.rows=[];st2.txt='';irlSalvaRasc();schedule();}
+ else if(act==='irDel'){var st3=irlEstado();st3.rows=st3.rows.filter(function(r){return r.k!==id;});irlSalvaRasc();schedule();}
+ else if(act==='irSalvar')irlSalvar();
+ else if(act==='irEdit')dlgIrEdit(id);
+ else if(act==='irArq'){if(S.cfmArq!==id){S.cfmArq=id;schedule();}else{S.cfmArq=null;arquivarMes(id);}}
+ else if(act==='irMais'){S.irLim=(S.irLim||300)+300;schedule();}
+ else if(act==='irXlsApo'){try{salvarArquivo('Apontamentos de irrigacao '+irFiltro().de+' a '+irFiltro().ate+'.xlsx',xlsxIrrApo());}catch(e){toast('Erro ao gerar o Excel.','crit');}}
+ else if(act==='irXlsRel'){try{salvarArquivo('Irrigacao - '+(S.irTab?S.irTab.nome:'relatorio')+' '+today()+'.xlsx',xlsxIrrRel());}catch(e){toast('Erro ao gerar o Excel.','crit');}}
  else if(act==='mtNovo')abrirMt(id||S.sel,t.getAttribute('data-t'));
  else if(act==='ocNova')dlgOc(id||S.sel);
  else if(act==='ctPdf')exportCtPDF(S.tMode==='m'?null:id);
@@ -589,12 +617,13 @@ document.addEventListener('click',function(e){
  else if(act==='pdf')exportPDF(id);
  else if(act==='xlsx')exportXLSX(id);
  else if(act==='foto')verFoto(t.getAttribute('data-ref'),t.getAttribute('data-k'));
- else if(act==='delAval'||act==='delLeit'||act==='delCk'||act==='delMt'||act==='delOc'){
+ else if(act==='delAval'||act==='delLeit'||act==='delCk'||act==='delMt'||act==='delOc'||act==='irDelApo'){
   if(S.cfmDel!==id){S.cfmDel=id;schedule();setTimeout(function(){if(S.cfmDel===id){S.cfmDel=null;schedule();}},5000);return;}
   S.cfmDel=null;
   if(act==='delAval'){var av=D.avaliacoes[id];del('avaliacoes',id).then(function(){toast('Avaliação excluída.');(av&&av.col||[]).forEach(function(c){if(c.foto&&c.foto.indexOf('d:')===0)del('fotos',c.foto.slice(2)).catch(function(){});});S.uA=null;}).catch(function(e){toast(errMsg(e),'crit');});}
   else if(act==='delCk'){var ck0=D.checklists[id];del('checklists',id).then(function(){toast('Inspeção excluída.');S.cA=null;pendDe(null).filter(function(x){return x.ck===id;}).forEach(function(x){del('pendencias',x.id).catch(function(){});});(ck0&&ck0.itens||[]).forEach(function(i){(i.fotos||[]).forEach(function(f){if(f.indexOf('d:')===0)del('fotos',f.slice(2)).catch(function(){});});});}).catch(function(e){toast(errMsg(e),'crit');});}
   else if(act==='delMt'){var mt0=D.manutencoes[id];del('manutencoes',id).then(function(){toast('Registro excluído.');(mt0&&mt0.fotos||[]).forEach(function(f){if(f.indexOf('d:')===0)del('fotos',f.slice(2)).catch(function(){});});}).catch(function(e){toast(errMsg(e),'crit');});}
+  else if(act==='irDelApo'){var ix=irAcha(id);if(ix)(ix.src==='arq'?irGravaArq(ix,null):del('irrigacoes',id)).then(function(){toast('Apontamento excluído.');}).catch(function(e){toast(errMsg(e),'crit');});}
   else if(act==='delOc')del('ocorrencias',id).then(function(){toast('Ocorrência excluída.');}).catch(function(e){toast(errMsg(e),'crit');});
   else del('leituras',id).then(function(){toast('Leitura excluída.');}).catch(function(e){toast(errMsg(e),'crit');});
  }
@@ -605,11 +634,14 @@ document.addEventListener('change',function(e){var t=e.target;
  if(t.id==='edTog'){S.ed=t.checked;schedule();}
  if(t.id==='aspTamp'){S.aspTamp=t.checked;schedule();}
  if(t.id==='aspV'){S.aspVao=+t.value;aspResolve();schedule();}
+ var irk2=t.getAttribute&&t.getAttribute('data-ir');if(irk2){var q7=irk2.split('|'),r7=irlEstado().rows.filter(function(r){return r.k===q7[0];})[0];if(r7){r7[q7[1]]=t.value;if(q7[1]==='s'&&r7.tl&&sisTal(t.value).indexOf(r7.tl)<0)r7.tl='';if(q7[1]==='s'&&!r7.hi&&r7.hf){var u7=ultHf(t.value,r7.d);if(u7)r7.hi=String(u7.hf);}irlSalvaRasc();if(q7[1]==='s')schedule();else irlAtualiza();}}
+ if(t.id==='irDe'||t.id==='irAte'||t.id==='irSi'){var F2=irFiltro();if(t.id==='irDe')F2.de=t.value||F2.de;if(t.id==='irAte')F2.ate=t.value||F2.ate;if(t.id==='irSi')F2.s=t.value;S.irLim=300;schedule();}
+ if(t.id==='irLDe'||t.id==='irLAte'){if(t.id==='irLDe')S.irL.de=t.value||S.irL.de;else S.irL.ate=t.value||S.irL.ate;schedule();}
  var te=t.getAttribute&&t.getAttribute('data-te');if(te&&t.type==='checkbox'){S.ctEdit[+te.split('|')[0]].lig=t.checked;schedule();}
  var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce){var q=ce.split('|');if(t.type==='checkbox')S.ckEdit[+q[0]].crit=t.checked;schedule();}
  if(t.id==='eO'||t.id==='eR'){var p=pv(S.sel);if(!p)return;saveGeom(p.id,t.id==='eO'?{o:Math.round(num(t.value)||0)%360}:{r:+t.value});}
 });
-document.addEventListener('input',function(e){var t=e.target;var te=t.getAttribute&&t.getAttribute('data-te');if(te&&t.type!=='checkbox'){var q5=te.split('|');S.ctEdit[+q5[0]][q5[1]]=t.value;var sv5=document.querySelector('[data-act="ctSave"]');if(sv5&&!S.ro)sv5.disabled=false;return;}if(t.id==='aspQ'){S.aspIn=String(t.value).replace(/\D/g,'');aspResolve();schedule();return;}var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce&&t.type!=='checkbox'){var q=ce.split('|');S.ckEdit[+q[0]][q[1]]=t.value;var sv=document.querySelector('[data-act="ckSave"]');if(sv&&!S.ro)sv.disabled=false;return;}if(t.id==='eR'){var p=pv(S.sel);if(!p)return;D.pivos[p.id]=Object.assign({},D.pivos[p.id],{r:+t.value});derive();overlay();}});
+document.addEventListener('input',function(e){var t=e.target;var irk=t.getAttribute&&t.getAttribute('data-ir');if(irk&&t.tagName==='INPUT'&&t.type!=='date'){var q6=irk.split('|'),r6=irlEstado().rows.filter(function(r){return r.k===q6[0];})[0];if(r6){r6[q6[1]]=t.value;irlSalvaRasc();irlAtualiza();}return;}if(t.id==='irZap'){irlEstado().txt=t.value;irlSalvaRasc();return;}if(t.id==='irResp'){irlEstado().resp=t.value;irlSalvaRasc();return;}if(t.id==='irQ'){irFiltro().q=t.value.trim();clearTimeout(S.irQt);S.irQt=setTimeout(function(){schedule();setTimeout(function(){var e2=$('irQ');if(e2){e2.focus();e2.setSelectionRange(e2.value.length,e2.value.length);}},30);},350);return;}var te=t.getAttribute&&t.getAttribute('data-te');if(te&&t.type!=='checkbox'){var q5=te.split('|');S.ctEdit[+q5[0]][q5[1]]=t.value;var sv5=document.querySelector('[data-act="ctSave"]');if(sv5&&!S.ro)sv5.disabled=false;return;}if(t.id==='aspQ'){S.aspIn=String(t.value).replace(/\D/g,'');aspResolve();schedule();return;}var ce=t.getAttribute&&t.getAttribute('data-ce');if(ce&&t.type!=='checkbox'){var q=ce.split('|');S.ckEdit[+q[0]][q[1]]=t.value;var sv=document.querySelector('[data-act="ckSave"]');if(sv&&!S.ro)sv.disabled=false;return;}if(t.id==='eR'){var p=pv(S.sel);if(!p)return;D.pivos[p.id]=Object.assign({},D.pivos[p.id],{r:+t.value});derive();overlay();}});
 var drag=null;
 document.addEventListener('pointerdown',function(e){if(!S.ed)return;var el=e.target.closest&&e.target.closest('#ovl [data-p]');if(!el)return;e.preventDefault();S.sel=el.getAttribute('data-p');S.selT=0;drag=S.sel;schedule();});
 window.addEventListener('pointermove',function(e){if(!drag)return;var sv=$('ovl');if(!sv)return;var pt=sv.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;var q=pt.matrixTransform(sv.getScreenCTM().inverse());D.pivos[drag]=Object.assign({},D.pivos[drag],{x:Math.round(q.x),y:Math.round(q.y)});derive();overlay();});
@@ -639,17 +671,19 @@ function dlgHorimetro(pid){
 }
 function dlgPivo(id){
  var p=id?pv(id):null,o=p||{nome:'',fazenda:AREA[S.area],area:S.area,q:['','','',''],laminaRec:CFG.laminaRec,ativo:true};
- modal(p?'Editar '+esc(p.nome):'Novo pivô','<div class="fg"><label class="fl">Nome<input id="pN" value="'+esc(o.nome)+'" maxlength="40"></label><label class="fl">Área do mapa<select id="pA"><option value="1"'+((o.area||1)===1?' selected':'')+'>Área RU</option><option value="2"'+(o.area===2?' selected':'')+'>Área JD</option></select></label><label class="fl">Fazenda<input id="pF" value="'+esc(o.fazenda||'')+'" maxlength="40"></label><label class="fl">Lâmina recomendada (mm)<input id="pL" inputmode="decimal" value="'+esc(nf(o.laminaRec||CFG.laminaRec,1))+'"></label><label class="fl">Comprimento do pivô (m)<input id="pC" inputmode="decimal" value="'+esc(o.comp?nf(o.comp,2):'')+'" placeholder="'+esc(p&&aspDe(p.id)?nf(aspDe(p.id).meta.comprimento,2)+' (carta)':'')+'"><small>'+(p&&aspDe(p.id)?'Em branco, usa o da carta Senninger.':'Usado para calcular os coletores da uniformidade.')+'</small></label><label class="fl full">Talhões, na ordem do mapa (separados por vírgula)<input id="pQ" value="'+esc((o.q||[]).join(', '))+'"><small>Ex.: RU36, RU37, RU38, RU39 · use dois nomes para um pivô de dois talhões de 180°.</small></label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="pAt" type="checkbox"'+(o.ativo!==false?' checked':'')+' style="width:20px;height:20px;accent-color:var(--ac)"> Pivô em operação</label></div><p class="note" id="pInfo">'+(p?'A posição e o raio se ajustam no Mapa, em “Ajustar pivôs”.':'O pivô novo aparece no centro do mapa; depois arraste até o lugar certo em “Ajustar pivôs”.')+'</p>',
+ modal(p?'Editar '+esc(p.nome):'Novo pivô','<div class="fg"><label class="fl">Nome<input id="pN" value="'+esc(o.nome)+'" maxlength="40"></label><label class="fl">Área do mapa<select id="pA"><option value="1"'+((o.area||1)===1?' selected':'')+'>Área RU</option><option value="2"'+(o.area===2?' selected':'')+'>Área JD</option></select></label><label class="fl">Fazenda<input id="pF" value="'+esc(o.fazenda||'')+'" maxlength="40"></label><label class="fl">Lâmina recomendada (mm)<input id="pL" inputmode="decimal" value="'+esc(nf(o.laminaRec||CFG.laminaRec,1))+'"></label><label class="fl">Comprimento do pivô (m)<input id="pC" inputmode="decimal" value="'+esc(o.comp?nf(o.comp,2):'')+'" placeholder="'+esc(p&&aspDe(p.id)?nf(aspDe(p.id).meta.comprimento,2)+' (carta)':'')+'"><small>'+(p&&aspDe(p.id)?'Em branco, usa o da carta Senninger.':'Usado para calcular os coletores da uniformidade.')+'</small></label><label class="fl">Casa de bomba<input id="pCb" value="'+esc(o.cb||(SIS0[sisKeyDe(id||'')]||{}).cb||'')+'" maxlength="20" placeholder="ex.: CBR03"></label><label class="fl full">Talhões, na ordem do mapa (separados por vírgula)<input id="pQ" value="'+esc((o.q||[]).join(', '))+'"><small>Ex.: RU36, RU37, RU38, RU39 · use dois nomes para um pivô de dois talhões de 180°.</small></label><label class="fl full">Área de cada talhão (ha), na mesma ordem, separadas por ponto e vírgula<input id="pAr" value="'+esc((o.q||[]).map(function(t){var v=(o.areas&&o.areas[t])||AREAS0[t];return v==null?'':md(v);}).join('; '))+'"><small>Usada na irrigação aplicada: consumo = lâmina × área × 10.</small></label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="pHid" type="checkbox"'+((o.hid!=null?o.hid:(SIS0[sisKeyDe(id||'')]||{}).hid)?' checked':'')+' style="width:20px;height:20px;accent-color:var(--ac)"> Tem hidrômetro de irrigação (consumo pela leitura; sem ele, lâmina × área)</label><label class="fl full" style="grid-template-columns:auto 1fr;align-items:center;font-weight:600"><input id="pAt" type="checkbox"'+(o.ativo!==false?' checked':'')+' style="width:20px;height:20px;accent-color:var(--ac)"> Pivô em operação</label></div><p class="note" id="pInfo">'+(p?'A posição e o raio se ajustam no Mapa, em “Ajustar pivôs”.':'O pivô novo aparece no centro do mapa; depois arraste até o lugar certo em “Ajustar pivôs”.')+'</p>',
  '<button class="b2" data-close="1">Cancelar</button><button class="b1" id="pOk">Salvar</button>');
  $('pOk').onclick=function(){var nome=$('pN').value.trim(),q=$('pQ').value.split(',').map(function(s){return s.trim();}).filter(Boolean),lr=num($('pL').value),a=+$('pA').value;
   if(!nome||!q.length||!lr){$('pInfo').className='note crit';$('pInfo').textContent='Preencha nome, talhões e lâmina recomendada.';return;}
   var nid=id||('p'+nome.replace(/\D/g,'').slice(-3))||uid('p');if(!id&&(D.pivos[nid]||nid==='p'))nid=uid('p');
   var base=id?D.pivos[id]:{x:Math.round(DIM[a-1][0]/2),y:Math.round(DIM[a-1][1]/2),r:70,o:45};
   if(id&&(base.area||1)!==a)base=Object.assign({},base,{x:Math.round(DIM[a-1][0]/2),y:Math.round(DIM[a-1][1]/2)});
-  var cc=num($('pC').value);var obj=Object.assign({},base,{nome:nome,area:a,fazenda:$('pF').value.trim()||AREA[a],q:q,n:q.length,laminaRec:lr,ativo:$('pAt').checked});if(cc&&cc>0)obj.comp=cc;else delete obj.comp;
+  var ars=$('pAr').value.split(';').map(function(x){return x.trim();}),areas={},arOk=true;if(ars.join('')){if(ars.length!==q.length)arOk=false;else ars.forEach(function(x,i){var v=num(x);if(v==null||v<=0)arOk=false;else areas[q[i]]=v;});}
+  if(!arOk){$('pInfo').className='note crit';$('pInfo').textContent='Informe uma área para cada talhão, na mesma ordem.';return;}
+  var cc=num($('pC').value);var obj=Object.assign({},base,{nome:nome,area:a,fazenda:$('pF').value.trim()||AREA[a],q:q,n:q.length,laminaRec:lr,ativo:$('pAt').checked});if(cc&&cc>0)obj.comp=cc;else delete obj.comp;var cbv=$('pCb').value.trim().toUpperCase();if(cbv)obj.cb=cbv;else delete obj.cb;if(Object.keys(areas).length)obj.areas=areas;else delete obj.areas;obj.hid=$('pHid').checked;
   this.disabled=true;put('pivos',nid,obj).then(function(){closeModal();S.sel=nid;toast('Pivô salvo.');}).catch(function(e){$('pOk').disabled=false;$('pInfo').className='note crit';$('pInfo').textContent=errMsg(e);});};
 }
-function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',margem:'cMg',ventoMax:'cVento',avisoH:'cAvH',avisoDias:'cAvD',horAviso:'cHor'};
+function saveCfg(){var o={};var m={diam:'cDiam',laminaRec:'cRec',faixa:'cFx',margem:'cMg',ventoMax:'cVento',avisoH:'cAvH',avisoDias:'cAvD',horAviso:'cHor',fatorHid:'cFh'};
  for(var k in m){var v=num($(m[k]).value);if(v==null||v<=0){toast('Confira o campo destacado.','crit');$(m[k]).focus();return;}o[k]=v;}
  put('cfg','geral',o).then(function(){toast('Parâmetros salvos.');}).catch(function(e){toast(e&&e.code==='invalid_argument'?'Só o dono ou um editor da página pode alterar os parâmetros.':errMsg(e),'crit');});}
 function fotoSrc(ref){if(!ref)return Promise.resolve(null);var k=ref.slice(0,2),id=ref.slice(2);
@@ -1040,6 +1074,252 @@ function ckEditor(){
  h+='</tbody></table></div><div class="acts" style="margin-top:10px"><button class="b2" data-act="ckAdd">'+ic('pl')+'Adicionar item</button><span style="flex:1"></span>'+(dirty?'<button class="b2" data-act="ckDesc">Descartar alterações</button>':'')+'<button class="b1" data-act="ckSave"'+(S.ro||!dirty?' disabled':'')+'>Salvar itens</button></div><p class="note">Só o dono ou um editor da página pode salvar os itens.</p></div>';
  return h.replace(/<input data-ce="(\d+)\|(sec|t|un|unl)"/g,'<input class="cein" id="ce$1$2" data-ce="$1|$2"');
 }
+
+// ---------- irrigação aplicada ----------
+// Histórico: BD Volume da planilha "Consumo de água irrigação" (irr_hist, um documento por mês) e apontamentos
+// importados do "Controle de lâminas aplicadas" (irr_arq, um documento por mês). Novos apontamentos: coleção irrigacoes.
+// Consumo: pivôs com hidrômetro (01 a 04) e RU35 = (final − inicial) × fator; sem hidrômetro (05, 06, 09, 10) = lâmina × área × 10.
+// Com hidrômetro, mas sem leitura ou com leitura absurda (mais de 5× ou menos de 1/5 da lâmina), o consumo sai provisório pela lâmina e fica marcado para corrigir.
+var SIS0={P1:{n:'Pivô 01',hid:1,cb:'CBR01',p:'p01'},P2:{n:'Pivô 02',hid:1,cb:'CBR03',p:'p02'},P3:{n:'Pivô 03',hid:1,cb:'CBR03',p:'p03'},P4:{n:'Pivô 04',hid:1,cb:'CBR03',p:'p04'},
+ P5:{n:'Pivô 05',cb:'CBR11',p:'p05'},P6:{n:'Pivô 06',cb:'CBR11',p:'p06'},P8:{n:'Pivô 08',cb:'CBR13',p:'p08'},P9:{n:'Pivô 09',cb:'CBR09',p:'p09'},P10:{n:'Pivô 10',cb:'CBR09',p:'p10'},
+ RU35:{n:'RU35 (gotejo)',cb:'CBR05',loc:1,fh:1,hid:1,q:['RU35.1','RU35.2','RU35.3','RU35.4']},
+ 'CBR02-00':{n:'Área 00 · CBR02',cb:'CBR02',old:1},'CBR04-00':{n:'Área 00 · CBR04',cb:'CBR04',old:1},CQ:{n:'CQ',cb:'CBR05',old:1},COCO:{n:'Coco Anão',cb:'CBR03',old:1},M4:{n:'M4',cb:'CBR03',old:1},CP:{n:'CP',cb:'CBR12',old:1},M1:{n:'M1',cb:'CBR01',old:1},M2:{n:'M2',cb:'CBR01',old:1},M3:{n:'M3',cb:'CBR05',old:1}};
+var SISORD=['P1','P2','P3','P4','P5','P6','P8','P9','P10','RU35','CBR02-00','CBR04-00','CQ','COCO','M4','CP','M1','M2','M3'];
+var AREAS0={'RU35.1':0.6,'RU35.2':0.6,'RU35.3':0.6,'RU35.4':0.6,RU36:10.04,RU37:10.06,RU38:9.87,RU39:10.01,RU40:15.95,RU41:15.98,RU42:15.85,RU43:15.62,RU44:9.86,RU45:10.04,RU46:9.91,RU47:9.89,RU48:12.59,RU49:12.6,RU50:12.58,RU51:12.6,RU54:11.68,RU55:11.68,RU56:11.57,RU57:11.68,RU58:12,RU59:12,JD01:13.89,JD02:13.73,JD03:14.4,JD04:14.4,JD05:8.27,JD06:8.06,JD07:8.3,JD08:4.7};
+var MESES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+var IRR_HIST=/*IRRHIST*/null;
+function sisDe(k){return SIS0[k]||{n:k,cb:'—'};}
+function sisKeyDe(pid){var n=parseInt(String(pid).replace(/\D/g,''),10);return n?'P'+n:null;}
+function sisNome(k){var p=SIS0[k]&&SIS0[k].p?pv(SIS0[k].p):null;return p?p.nome:sisDe(k).n;}
+function sisCb(k){var p=SIS0[k]&&SIS0[k].p?pv(SIS0[k].p):null;return (p&&p.cb)||sisDe(k).cb;}
+function sisTal(k){var p=SIS0[k]&&SIS0[k].p?pv(SIS0[k].p):null;return p?(p.q||[]):(SIS0[k]&&SIS0[k].q)||[];}
+function sisLanc(){var a=[];P.forEach(function(p){var k=sisKeyDe(p.id);if(k&&p.ativo!==false)a.push(k);});a.sort(function(x,y){return SISORD.indexOf(x)-SISORD.indexOf(y);});a.push('RU35');return a;}
+function sisDoTal(tl){var ks=sisLanc();for(var i=0;i<ks.length;i++)if(sisTal(ks[i]).indexOf(tl)>=0)return ks[i];return null;}
+function areaTal(k,tl){var p=SIS0[k]&&SIS0[k].p?pv(SIS0[k].p):null;if(p&&p.areas&&p.areas[tl])return +p.areas[tl];return AREAS0[tl]||null;}
+function fatorHid(k){return (k&&SIS0[k]&&SIS0[k].fh)||CFG.fatorHid||10;}
+// leitura do hidrômetro fora de metade a o dobro da lâmina: provável erro de digitação; fica fora dos totais de comparação
+function sisHid(k){var p=SIS0[k]&&SIS0[k].p?pv(SIS0[k].p):null;if(p&&p.hid!=null)return !!p.hid;return !!(SIS0[k]&&SIS0[k].hid);}
+function irrCons(x){var lam=x.l!=null?+x.l:null,ar=x.ar!=null?+x.ar:null,hi=x.hi!=null&&x.hi!==''?+x.hi:null,hf=x.hf!=null&&x.hf!==''?+x.hf:null,r={};
+ r.cl=lam&&ar?Math.round(lam*ar*10*1000)/1000:null;r.ch=hi!=null&&hf!=null&&hf>=hi?Math.round((hf-hi)*fatorHid(x.s)*1000)/1000:null;r.hid=sisHid(x.s);
+ if(r.ch!=null&&r.cl)r.rz=r.ch/r.cl;
+ if(r.hid){if(r.ch!=null&&(r.rz==null||(r.rz<=5&&r.rz>=0.2))){r.c=r.ch;r.b='hid';}else if(r.cl!=null){r.c=r.cl;r.b='lam';r.av=r.ch!=null?'susp':'sem';}else r.c=null;}
+ else{r.c=r.cl;r.b='lam';}
+ return r;}
+function hidSusp(x){return x.av==='susp';}
+function baseTxt(x){return x.b==='hid'?'hidrômetro':x.av==='susp'?'lâmina · leitura suspeita':x.av==='sem'?'lâmina · sem leitura':'lâmina';}
+function segunda(iso){var d=new Date(iso+'T12:00:00'),w=(d.getDay()+6)%7;return addDias(iso,-w);}
+function isoSem(iso){var d=new Date(iso+'T12:00:00');d.setDate(d.getDate()+3-((d.getDay()+6)%7));var y=d.getFullYear(),j=new Date(y,0,4,12);return {y:y,w:1+Math.round(((d-j)/864e5-3+((j.getDay()+6)%7))/7)};}
+function m3(v){return v==null||!isFinite(v)?'—':nf(Math.round(v))+' m³';}
+function m3k(v){return v!=null&&Math.abs(v)>=1e6?nf(v/1e6,2)+' mi m³':m3(v);}
+function pct1(v){return v==null||!isFinite(v)?'—':(v>0?'+':'')+nf(v*100,1)+'%';}
+
+var IRC=null;
+function irrItens(){if(IRC&&IRC.it)return IRC.it;IRC=IRC||{};var a=[];
+ Object.keys(D.irr_arq||{}).forEach(function(m){((D.irr_arq[m]||{}).itens||[]).forEach(function(x){a.push(Object.assign({src:'arq',mes:m},x));});});
+ var noArq={};a.forEach(function(x){noArq[x.id]=1;});
+ // um apontamento já arquivado nunca conta duas vezes, mesmo se a exclusão do registro avulso tiver falhado
+ Object.keys(D.irrigacoes||{}).forEach(function(id){if(!noArq[id])a.push(Object.assign({src:'live',id:id},D.irrigacoes[id]));});
+ a.forEach(function(x){var r=irrCons(x);x.c=r.c;x.cl=r.cl;x.ch=r.ch;x.b=r.b;x.av=r.av;x.rz=r.rz;x.x=r.c==null?'a corrigir':null;});
+ a.sort(function(x,y){return x.d<y.d?-1:x.d>y.d?1:(SISORD.indexOf(x.s)-SISORD.indexOf(y.s))||((x.t||'')<(y.t||'')?-1:(x.t||'')>(y.t||'')?1:((x.criado||x.id||'')<(y.criado||y.id||'')?-1:1));});
+ return IRC.it=a;}
+function irrDia(){if(IRC&&IRC.dia)return IRC.dia;IRC=IRC||{};var o={};
+ function add(d,k,v){if(!v)return;var x=o[d]||(o[d]={});x[k]=(x[k]||0)+v;}
+ Object.keys(D.irr_hist||{}).forEach(function(m){var dd=(D.irr_hist[m]||{}).dias||{};Object.keys(dd).forEach(function(dia){var v=dd[dia];Object.keys(v).forEach(function(k){add(m+'-'+dia,k,+v[k]);});});});
+ irrItens().forEach(function(x){if(!x.x&&x.c!=null)add(x.d,x.s,+x.c);});
+ return IRC.dia=o;}
+function irrAnos(){var y={};Object.keys(irrDia()).forEach(function(d){y[d.slice(0,4)]=1;});return Object.keys(y).sort();}
+function agrega(filtro,chave){var o={};var dd=irrDia();Object.keys(dd).forEach(function(d){if(filtro&&!filtro(d))return;var v=dd[d];Object.keys(v).forEach(function(k){var g=chave(d,k);if(g==null)return;o[g]=(o[g]||0)+v[k];});});return o;}
+function ultHf(k,antes){var it=irrItens(),r=null;for(var i=it.length-1;i>=0;i--){var x=it[i];if(x.s===k&&x.hf&&(!antes||x.d<=antes)){r=x;break;}}return r;}
+function irrResumoPivo(p){var k=sisKeyDe(p.id),it=irrItens(),u=null;for(var i=it.length-1;i>=0;i--)if(it[i].s===k){u=it[i];break;}if(!u)return null;var mes=today().slice(0,7),c=0;it.forEach(function(x){if(x.s===k&&x.d.slice(0,7)===mes&&!x.x&&x.c)c+=+x.c;});return {u:u,mes:c};}
+
+// ----- tela -----
+function vIrr(){
+ var sub=S.irS||'rel',h='<div class="top" style="align-items:flex-end"><span class="seg" role="group" aria-label="Seção"><button type="button" data-irs="lan" aria-pressed="'+(sub==='lan')+'">Lançar</button><button type="button" data-irs="apo" aria-pressed="'+(sub==='apo')+'">Apontamentos</button><button type="button" data-irs="rel" aria-pressed="'+(sub==='rel')+'">Relatórios</button></span></div>';
+ return h+(sub==='lan'?irrLancar():sub==='apo'?irrApont():irrRel());}
+
+// lançar (escritório)
+var IRL=null,IRLKEY='im-irr-rascunho';
+function irlEstado(){if(IRL)return IRL;var j=null;try{j=JSON.parse(lsGet(IRLKEY)||'null');}catch(e){}IRL=j&&j.rows?j:{rows:[],resp:S.userName||'',txt:''};return IRL;}
+function irlSalvaRasc(){lsSet(IRLKEY,JSON.stringify(IRL));}
+function irlNova(o){return Object.assign({k:uid('r'),d:today(),t:'',s:'',tl:'',l:'',se:'',hi:'',hf:'',o:'manual'},o||{});}
+function talNorm(s){s=String(s||'').trim().toUpperCase().replace(/\s+/g,'').replace(',','.');var m=s.match(/^([A-Z]{2})-?(\d+)(\.\d)?$/);if(!m)return s;return m[1]+(m[2].length<2?'0'+m[2]:m[2])+(m[3]||'');}
+function parseZap(txt){
+ var linhas=String(txt||'').replace(/\r/g,'').split('\n'),blocos=[],b=null;
+ function novo(){b={};blocos.push(b);}
+ linhas.forEach(function(l0){var l=l0.replace(/^\s*\[[^\]]*\]\s*[^:]{1,40}:\s*/,'').replace(/^\s*\d{1,2}\/\d{1,2}\/\d{2,4},?\s*\d{1,2}:\d{2}\s*-\s*[^:]{1,40}:\s*/,'').trim();if(!l)return;
+  if(/^informa[cç][aã]o/i.test(l)){novo();return;}
+  var m;
+  if((m=l.match(/^turno\s*[:.\-]?\s*([ab])\b/i))){if(!b||b.t)novo();b.t=m[1].toUpperCase();return;}
+  if(!b)novo();
+  if((m=l.match(/^frota\s*[:.\-]?\s*(.*)$/i))){var f=m[1];if(/ru\s*-?\s*35/i.test(f))b.s='RU35';else{var n=f.match(/(\d+)/);if(n)b.s='P'+parseInt(n[1],10);}return;}
+  if((m=l.match(/^talh[aã]o\s*[:.\-]?\s*([a-z]{2}\s*-?\s*\d+(?:[.,]\d)?)/i))){b.tl=talNorm(m[1]);return;}
+  if((m=l.match(/^sent[a-z]*\s*[:.\-]?\s*([a-zçã]+)/i))){var v=m[1].toLowerCase();b.se=/^(avan|frent)/.test(v)?'Avanço':/^(inv|rev)/.test(v)?'Inverso':'';return;}
+  if((m=l.match(/^l[aâ]mina\s*[:.\-]?\s*([\d.,]+)/i))){b.l=m[1];return;}
+  if((m=l.match(/^hidr[oô]metro\s*inicial\s*[:.\-]?\s*([\d.,]*)/i))){b.hi=m[1]||'';return;}
+  if((m=l.match(/^hidr[oô]metro\s*final\s*[:.\-]?\s*([\d.,]*)/i))){b.hf=m[1]||'';return;}
+  if((m=l.match(/^data\s*[:.\-]?\s*(\d{1,2})[\/.\-](\d{1,2})(?:[\/.\-](\d{2,4}))?/i))){var y=m[3]?(m[3].length===2?'20'+m[3]:m[3]):today().slice(0,4);b.d=y+'-'+pad(+m[2])+'-'+pad(+m[1]);return;}
+ });
+ return blocos.filter(function(x){return x.t||x.s||x.tl||x.l;}).map(function(x){if(!x.s&&x.tl)x.s=sisDoTal(x.tl)||'';if(x.s&&!x.tl&&sisTal(x.s).length===1)x.tl=sisTal(x.s)[0];
+  if(!x.hi&&x.hf&&x.s){var u=ultHf(x.s,x.d||today());if(u)x.hi=String(u.hf);}
+  return irlNova({d:x.d||'',t:x.t||'',s:x.s||'',tl:x.tl||'',l:x.l||'',se:x.se||'',hi:x.hi||'',hf:x.hf||'',o:'whatsapp'});});}
+function irlCalc(r,todas){
+ var e=[],w=[],s=r.s,lam=num(r.l),hi=num(r.hi),hf=num(r.hf),ar=s&&r.tl?areaTal(s,r.tl):null,o={err:e,warn:w,ar:ar};
+ if(!r.d)e.push('data');else if(r.d>today())e.push('data futura');
+ if(r.t!=='A'&&r.t!=='B')e.push('turno');
+ if(!s)e.push('pivô');else if(sisLanc().indexOf(s)<0)e.push(sisNome(s)+' não está em operação');
+ if(!r.tl)e.push('talhão');else if(s&&sisTal(s).indexOf(r.tl)<0)e.push(r.tl+' não é do '+sisNome(s));else if(!ar)e.push('talhão sem área');
+ if(lam==null)e.push('lâmina');else if(lam<=0||lam>40)e.push('lâmina fora de 0 a 40 mm');
+ if(String(r.hi).trim()&&hi==null)e.push('hidrômetro inicial');if(String(r.hf).trim()&&hf==null)e.push('hidrômetro final');
+ if(hi!=null&&hf!=null&&hf<hi)e.push('hidrômetro final menor que o inicial');
+ if(!e.length||(lam!=null&&ar)){var cc=irrCons({s:s,l:lam,ar:ar,hi:hi,hf:hf});o.c=cc.c;o.cl=cc.cl;o.ch=cc.ch;o.b=cc.b;o.av=cc.av;if(cc.b==='hid'&&cc.cl)o.dif=cc.ch/cc.cl-1;}
+ if(!e.length){var dup=irrItens().some(function(x){return x.d===r.d&&x.s===s&&x.tl===r.tl&&x.t===r.t&&+x.l===lam;});if(dup)e.push('já lançado');
+  else if(todas&&todas.some(function(q){return q!==r&&q.d===r.d&&q.s===s&&q.tl===r.tl&&q.t===r.t&&num(q.l)===lam;}))e.push('repetido nesta lista');}
+ if(o.av==='sem')w.push('sem leitura do hidrômetro: consumo pela lâmina');if(o.av==='susp')w.push('leitura suspeita ('+nf(o.ch/o.cl,o.ch/o.cl<1?2:0)+' vezes a lâmina): consumo pela lâmina; confira');
+ return o;}
+function irrLancar(){
+ var st=irlEstado(),rows=st.rows,ks=sisLanc(),ok=0,h='';
+ h+='<div class="card"><h3>Colar mensagens do WhatsApp<small>uma ou várias de uma vez</small></h3><p class="note" style="margin:0 0 8px">Copie as mensagens do grupo (“Informação irrigação pivô…”) e cole aqui. O app lê turno, frota, talhão, sentido, lâmina, hidrômetro e data de cada uma e monta as linhas abaixo para você conferir.</p><textarea id="irZap" rows="6" style="width:100%;font:14px/1.45 var(--f,inherit)" placeholder="Informação irrigação pivô.\nTurno: B\nFrota: pivô 05.\nTalhão: jd02\nSentido: inverso\nLâmina: 9,50mm\nHidrômetro inicial.\nHidrômetro final.\nData: 25/11/2026">'+esc(st.txt||'')+'</textarea><div class="acts" style="margin-top:8px"><button class="b1" data-act="irLer">Ler mensagens</button><button class="b2" data-act="irLinha">'+ic('pl')+'Linha em branco</button>'+(rows.length?'<button class="lk" data-act="irLimpar">Limpar tudo</button>':'')+'</div><p class="note" id="irZapMsg"></p></div>';
+ h+='<div class="card"><h3>Apontamentos para salvar<small>'+(rows.length?rows.length+' linha'+(rows.length>1?'s':''):'nenhuma linha')+'</small></h3>';
+ if(rows.length){
+  h+='<div class="tw"><table class="t irl"><thead><tr><th>Data</th><th>Turno</th><th>Pivô</th><th>Talhão</th><th>Sentido</th><th class="n">Lâmina (mm)</th><th class="n">Hid. inicial</th><th class="n">Hid. final</th><th class="n">Consumo</th><th class="n">Pela lâmina</th><th>Situação</th><th></th></tr></thead><tbody>';
+  rows.forEach(function(r){var c=irlCalc(r,rows),bad=c.err.length;if(!bad)ok++;var tals=r.s?sisTal(r.s):[];
+   h+='<tr class="'+(bad?'irbad':'')+'" data-irk="'+esc(r.k)+'"><td><input type="date" data-ir="'+esc(r.k)+'|d" value="'+esc(r.d)+'" aria-label="Data"></td><td><select data-ir="'+esc(r.k)+'|t" aria-label="Turno"><option value=""></option><option'+(r.t==='A'?' selected':'')+'>A</option><option'+(r.t==='B'?' selected':'')+'>B</option></select></td><td><select data-ir="'+esc(r.k)+'|s" aria-label="Pivô"><option value=""></option>'+ks.map(function(k){return '<option value="'+k+'"'+(r.s===k?' selected':'')+'>'+esc(sisNome(k))+'</option>';}).join('')+(r.s&&ks.indexOf(r.s)<0?'<option value="'+esc(r.s)+'" selected>'+esc(sisNome(r.s))+'</option>':'')+'</select></td><td><select data-ir="'+esc(r.k)+'|tl" aria-label="Talhão"><option value=""></option>'+tals.map(function(t){return '<option'+(r.tl===t?' selected':'')+'>'+esc(t)+'</option>';}).join('')+(r.tl&&tals.indexOf(r.tl)<0?'<option selected>'+esc(r.tl)+'</option>':'')+'</select></td><td><select data-ir="'+esc(r.k)+'|se" aria-label="Sentido"><option value="">—</option><option'+(r.se==='Avanço'?' selected':'')+'>Avanço</option><option'+(r.se==='Inverso'?' selected':'')+'>Inverso</option></select></td><td><input class="n" data-ir="'+esc(r.k)+'|l" inputmode="decimal" value="'+esc(r.l)+'" aria-label="Lâmina" style="width:70px"></td><td><input class="n" data-ir="'+esc(r.k)+'|hi" inputmode="decimal" value="'+esc(r.hi)+'" aria-label="Hidrômetro inicial" style="width:92px"></td><td><input class="n" data-ir="'+esc(r.k)+'|hf" inputmode="decimal" value="'+esc(r.hf)+'" aria-label="Hidrômetro final" style="width:92px"></td><td class="n" id="irc-'+esc(r.k)+'">'+irlCc(c)+'</td><td class="n" id="irh-'+esc(r.k)+'">'+irlCl(c)+'</td><td class="irst" id="irs-'+esc(r.k)+'">'+irlSt(c)+'</td><td><button class="x" data-act="irDel" data-id="'+esc(r.k)+'" aria-label="Remover linha">✕</button></td></tr>';});
+  h+='</tbody></table></div>';}
+ else h+='<div class="note">Cole as mensagens acima ou use “Linha em branco” para lançar direto na tabela, como na planilha.</div>';
+ h+='<div class="fg" style="margin-top:12px;max-width:640px"><label class="fl">Lançado por<input id="irResp" value="'+esc(st.resp||'')+'" maxlength="80" autocomplete="name"></label></div>';
+ h+='<div class="acts" style="margin-top:6px"><button class="b1" data-act="irSalvar" id="irOk"'+(ok&&!S.ro?'':' disabled')+'>Salvar '+(ok?ok+' apontamento'+(ok>1?'s':''):'apontamentos')+'</button>'+(rows.length-ok?'<span class="note" style="margin:0">'+(rows.length-ok)+' com problema ficam na lista</span>':'')+'</div><p class="note">Consumo: pivôs com hidrômetro (01 a 04) = (final − inicial) × '+nf(fatorHid())+'; RU35 = final − inicial; pivôs sem hidrômetro (05, 06, 09, 10) = lâmina × área do talhão × 10. Sem leitura ou com leitura absurda, o consumo sai pela lâmina e fica marcado para conferir. Hidrômetro inicial em branco é preenchido com o final do último apontamento do pivô. A lista fica salva neste computador até você salvar.</p></div>';
+ return h;}
+function irlCc(c){return c.c!=null?m3(c.c)+'<div class="crumb">'+esc(c.b==='hid'?'hidrômetro':'lâmina')+'</div>':'—';}
+function irlCl(c){return c.b==='hid'&&c.cl!=null?m3(c.cl)+'<div class="crumb">hidrômetro '+pct1(c.dif)+'</div>':c.cl!=null&&c.b!=='lam'?m3(c.cl):'—';}
+function irlSt(c){return c.err.length?'<span class="pill crit np">'+esc(c.err.join(' · '))+'</span>':c.warn.length?'<span class="pill warn np">'+esc(c.warn.join(' · '))+'</span>':'<span class="pill ok np">ok</span>';}
+function irlAtualiza(){var rows=IRL.rows,ok=0;rows.forEach(function(r){var c=irlCalc(r,rows),tr=document.querySelector('tr[data-irk="'+r.k+'"]');if(!c.err.length)ok++;if(!tr)return;tr.className=c.err.length?'irbad':'';$('irc-'+r.k).innerHTML=irlCc(c);$('irh-'+r.k).innerHTML=irlCl(c);$('irs-'+r.k).innerHTML=irlSt(c);});
+ var b=$('irOk');if(b){b.disabled=!ok||S.ro;b.textContent='Salvar '+(ok?ok+' apontamento'+(ok>1?'s':''):'apontamentos');}}
+function irlSalvar(){
+ var st=IRL,resp=String(($('irResp')||{}).value||st.resp||'').trim();if(!resp){toast('Informe quem lançou.','crit');var f=$('irResp');if(f)f.focus();return;}
+ st.resp=resp;var boas=st.rows.filter(function(r){return !irlCalc(r,st.rows).err.length;});if(!boas.length)return;
+ var b=$('irOk');if(b){b.disabled=true;b.textContent='Salvando…';}
+ var feitos=0,seq=Promise.resolve(),agora=new Date().toISOString();
+ boas.forEach(function(r){seq=seq.then(function(){var c=irlCalc(r,[]);var o={d:r.d,t:r.t,s:r.s,tl:r.tl,l:num(r.l),se:r.se||'',ar:c.ar,c:c.c,b:c.b,resp:resp,origem:r.o||'manual',porId:S.userId||null,criado:agora};var hi=num(r.hi),hf=num(r.hf);if(hi!=null)o.hi=hi;if(hf!=null)o.hf=hf;if(c.ch!=null)o.ch=c.ch;if(c.cl!=null)o.cl=c.cl;
+  return put('irrigacoes',uid('i'),o).then(function(){feitos++;st.rows=st.rows.filter(function(q){return q!==r;});});});});
+ seq.then(function(){irlSalvaRasc();toast(feitos+' apontamento'+(feitos>1?'s salvos':' salvo')+'.');schedule();},function(e){irlSalvaRasc();toast((feitos?feitos+' salvos; ':'')+'não foi possível salvar o restante: '+errMsg(e),'crit');schedule();});}
+
+// apontamentos
+function irFiltro(){if(!S.irF)S.irF={de:addDias(today(),-6),ate:today(),s:'',q:''};return S.irF;}
+function irrApont(){
+ var f=irFiltro(),it=irrItens().filter(function(x){return x.d>=f.de&&x.d<=f.ate&&(!f.s||x.s===f.s)&&(!f.q||String(x.tl).indexOf(f.q.toUpperCase())>=0);}).slice().reverse(),tot=0,toth=0,totc=0,ncor=0;
+ var nsus=0,nsem=0,nh=0,nl=0;it.forEach(function(x){if(!x.x&&x.c){tot+=+x.c;if(x.b==='hid'){toth+=+x.c;nh++;}else{totc+=+x.c;nl++;}}if(x.av==='susp')nsus++;if(x.av==='sem')nsem++;if(x.x)ncor++;});
+ var ks=SISORD.filter(function(k){return irrItens().some(function(x){return x.s===k;});});
+ var h='<div class="card"><div class="fg irf"><label class="fl">De<input type="date" id="irDe" value="'+esc(f.de)+'"></label><label class="fl">Até<input type="date" id="irAte" value="'+esc(f.ate)+'"></label><label class="fl">Pivô<select id="irSi"><option value="">Todos</option>'+ks.map(function(k){return '<option value="'+k+'"'+(f.s===k?' selected':'')+'>'+esc(sisNome(k))+'</option>';}).join('')+'</select></label><label class="fl">Talhão<input id="irQ" value="'+esc(f.q)+'" placeholder="ex.: RU40" autocomplete="off"></label></div>';
+ h+='<div class="acts" style="margin-top:8px"><button class="lk" data-irp="7">Últimos 7 dias</button><button class="lk" data-irp="mes">Este mês</button><button class="lk" data-irp="ant">Mês passado</button><button class="lk" data-irp="tudo">Tudo</button><span style="flex:1"></span><button class="b2" data-act="irXlsApo">Exportar Excel (modelo do controle)</button></div></div>';
+ var kp=function(l,v,x){return '<div class="card"><span class="crumb">'+l+'</span><div class="bn">'+v+'</div>'+(x||'')+'</div>';};
+ h+='<div class="k5">'+kp('Apontamentos',nf(it.length),'<span class="crumb">'+fd(f.de)+' a '+fd(f.ate)+'</span>')+kp('Consumo',m3k(tot),'<span class="crumb">'+m3k(toth)+' pelo hidrômetro ('+nf(nh)+') · '+m3k(totc)+' pela lâmina ('+nf(nl)+')</span>')+kp('Para conferir',String(nsus+nsem),'<span class="crumb">'+nsus+' leitura'+(nsus===1?'':'s')+' suspeita'+(nsus===1?'':'s')+' · '+nsem+' sem leitura, em pivô com hidrômetro</span>')+kp('A corrigir',String(ncor),'<span class="crumb">sem lâmina e sem leitura: fora dos totais</span>')+'</div>';
+ h=irArqBanner()+h;
+ if(!it.length)return h+'<div class="card empty">Nenhum apontamento neste período.</div>';
+ var lim=S.irLim||300,vis=it.slice(0,lim);
+ h+='<div class="card"><div class="tw"><table class="t ira"><thead><tr><th>Data</th><th>Turno</th><th class="n">Sem.</th><th>Pivô</th><th>CB</th><th>Talhão</th><th class="n">Lâmina</th><th>Sentido</th><th class="n">Hid. inicial</th><th class="n">Hid. final</th><th class="n">Consumo</th><th class="n">Pela lâmina</th><th>Lançado</th><th></th></tr></thead><tbody>'+vis.map(function(x){var w=isoSem(x.d).w,dif=x.ch!=null&&x.cl?x.ch/x.cl-1:null;
+  return '<tr'+(x.x?' class="irbad"':'')+'><td>'+fd(x.d)+'</td><td>'+esc(x.t||'')+'</td><td class="n">'+w+'</td><td>'+esc(sisNome(x.s))+'</td><td>'+esc(sisCb(x.s))+'</td><td>'+esc(x.tl||'')+'</td><td class="n">'+(x.l!=null?md(x.l):'—')+'</td><td>'+esc(x.se||'—')+'</td><td class="n">'+(x.hi!=null?nf(x.hi):'')+'</td><td class="n">'+(x.hf!=null?nf(x.hf):'')+'</td><td class="n">'+(x.x?'<span class="pill crit np">a corrigir</span>':m3(x.c)+(x.av?'<div><span class="pill warn np">'+esc(baseTxt(x))+'</span></div>':'<div class="crumb">'+esc(baseTxt(x))+'</div>'))+'</td><td class="n">'+(x.b==='hid'&&x.cl!=null?m3(x.cl)+'<div class="crumb">hidrômetro '+pct1(dif)+'</div>':x.av==='susp'?'<span class="crumb">hidrômetro: '+m3(x.ch)+'</span>':'')+'</td><td>'+(x.src==='arq'?'<span class="crumb">planilha</span>':esc(x.resp||''))+(x.nota?'<div class="crumb" title="'+esc(x.nota)+'">ⓘ '+esc(x.nota.length>46?x.nota.slice(0,44)+'…':x.nota)+'</div>':'')+'</td><td style="white-space:nowrap">'+(irPodeEditar(x)?'<button class="lk" data-act="irEdit" data-id="'+esc(x.id)+'">Editar</button> <button class="'+(S.cfmDel===x.id?'b3':'lk')+'" data-act="irDelApo" data-id="'+esc(x.id)+'">'+(S.cfmDel===x.id?'Confirmar':'Excluir')+'</button>':'')+'</td></tr>';}).join('')+
+  '<tr><td colspan="10" style="font-weight:700">Total ('+nf(it.length-ncor)+' apontamentos)</td><td class="n" style="font-weight:700">'+m3(tot)+'</td><td class="n">'+(toth?m3(toth):'')+'</td><td colspan="2"></td></tr></tbody></table></div>'+(it.length>lim?'<div class="acts" style="margin-top:8px"><button class="b2" data-act="irMais">Mostrar mais ('+(it.length-lim)+')</button></div>':'')+'</div>';
+ return h;}
+// arquivar por mês: junta os apontamentos avulsos de um mês fechado num documento de irr_arq (um registro por mês)
+function irArqPend(){var cur=today().slice(0,7),o={};Object.keys(D.irrigacoes||{}).forEach(function(id){var m=String(D.irrigacoes[id].d||'').slice(0,7);if(m&&m<cur)o[m]=(o[m]||0)+1;});return o;}
+function mesNome(m){return MESES[+m.slice(5,7)-1]+'/'+m.slice(0,4);}
+function irArqBanner(){if(!S.canEdit||S.ro)return '';var o=irArqPend(),ms=Object.keys(o).sort();if(!ms.length)return '';
+ return '<div class="card"><h3>Arquivar meses fechados<small>só dono e editores</small></h3><p class="note" style="margin:0 0 8px">Arquivar junta os apontamentos do mês num registro só, para a base não encher. Relatórios, totais e Excel não mudam; depois de arquivados, só dono e editores corrigem.</p><div class="acts">'+ms.map(function(m){var c=S.cfmArq===m;return '<button class="'+(c?'b3':'b2')+'" data-act="irArq" data-id="'+m+'">'+(c?'Confirmar: arquivar ':'Arquivar ')+mesNome(m)+' ('+nf(o[m])+')</button>';}).join('')+'</div></div>';}
+function arquivarMes(m){
+ var ids=Object.keys(D.irrigacoes||{}).filter(function(id){return String(D.irrigacoes[id].d||'').slice(0,7)===m;});if(!ids.length)return;
+ var doc=D.irr_arq[m]||{itens:[]},its=(doc.itens||[]).slice(),tem={};its.forEach(function(x){tem[x.id]=1;});
+ ids.forEach(function(id){if(tem[id])return;var x=Object.assign({id:id},D.irrigacoes[id]);['c','b','ch','cl'].forEach(function(k){delete x[k];});its.push(x);});
+ its.sort(function(a,b){return a.d<b.d?-1:a.d>b.d?1:0;});
+ toast('Arquivando '+mesNome(m)+'…');
+ put('irr_arq',m,Object.assign({},doc,{itens:its,arquivado:new Date().toISOString(),arquivadoPor:S.userName||''})).then(function(){
+  var seq=Promise.resolve(),n=0;ids.forEach(function(id){seq=seq.then(function(){return del('irrigacoes',id).then(function(){n++;});});});
+  return seq.then(function(){toast(mesNome(m)+' arquivado: '+nf(n)+' apontamento'+(n>1?'s':'')+' num registro só.');schedule();});
+ }).catch(function(e){toast('Não foi possível arquivar: '+errMsg(e)+' Nada foi contado duas vezes; tente de novo.','crit');schedule();});}
+function irPodeEditar(x){if(S.ro)return false;if(x.src==='arq')return S.canEdit;return S.canEdit||(S.userId&&x.porId===S.userId);}
+function irAcha(id){var it=irrItens();for(var i=0;i<it.length;i++)if(it[i].id===id)return it[i];return null;}
+function irGravaArq(x,novo){var m=x.mes,doc=D.irr_arq[m]||{itens:[]},its=(doc.itens||[]).slice(),i=-1;its.forEach(function(q,k){if(q.id===x.id)i=k;});if(i<0)return Promise.reject({message:'Apontamento não encontrado.'});if(novo)its[i]=novo;else its.splice(i,1);return put('irr_arq',m,Object.assign({},doc,{itens:its}));}
+function dlgIrEdit(id){var x=irAcha(id);if(!x)return;var ks=sisLanc();if(ks.indexOf(x.s)<0)ks=ks.concat([x.s]);
+ modal('Editar apontamento','<div class="fg"><label class="fl">Data<input id="ieD" type="date" value="'+esc(x.d)+'"></label><label class="fl">Turno<select id="ieT"><option'+(x.t==='A'?' selected':'')+'>A</option><option'+(x.t==='B'?' selected':'')+'>B</option></select></label><label class="fl">Pivô<select id="ieS">'+ks.map(function(k){return '<option value="'+k+'"'+(x.s===k?' selected':'')+'>'+esc(sisNome(k))+'</option>';}).join('')+'</select></label><label class="fl">Talhão<input id="ieTl" value="'+esc(x.tl||'')+'"></label><label class="fl">Lâmina (mm)<input id="ieL" inputmode="decimal" value="'+esc(x.l!=null?String(x.l).replace('.',','):'')+'"></label><label class="fl">Sentido<select id="ieSe"><option value="">—</option><option'+(x.se==='Avanço'?' selected':'')+'>Avanço</option><option'+(x.se==='Inverso'?' selected':'')+'>Inverso</option></select></label><label class="fl">Hidrômetro inicial<input id="ieHi" inputmode="decimal" value="'+esc(x.hi!=null?String(x.hi):'')+'"></label><label class="fl">Hidrômetro final<input id="ieHf" inputmode="decimal" value="'+esc(x.hf!=null?String(x.hf):'')+'"></label></div>'+(x.nota?'<p class="note">'+esc(x.nota)+'</p>':'')+'<p class="note" id="ieInfo">'+(x.src==='arq'?'Apontamento importado da planilha. ':'')+'Ao salvar, o consumo é recalculado pela regra do pivô (hidrômetro ou lâmina × área).'+'</p>',
+ '<button class="b2" data-close="1">Cancelar</button><button class="b1" id="ieOk">Salvar</button>');
+ $('ieOk').onclick=function(){var r={d:$('ieD').value,t:$('ieT').value,s:$('ieS').value,tl:talNorm($('ieTl').value),l:$('ieL').value,se:$('ieSe').value,hi:$('ieHi').value,hf:$('ieHf').value};
+  var keep=sisLanc();var c=irlCalc(r,[]),err=c.err.filter(function(e){return e!=='já lançado'&&!(keep.indexOf(r.s)<0&&/não está em operação/.test(e));});var inf=$('ieInfo');
+  if(err.length){inf.className='note crit';inf.textContent='Confira: '+err.join(', ')+'.';return;}
+  var ar=(r.s===x.s&&r.tl===x.tl&&x.ar)?x.ar:c.ar;var cc=irrCons({s:r.s,l:num(r.l),ar:ar,hi:num(r.hi),hf:num(r.hf)});
+  var o={d:r.d,t:r.t,s:r.s,tl:r.tl,l:num(r.l),se:r.se,ar:ar,c:cc.c,b:cc.b};var hi=num(r.hi),hf=num(r.hf);if(hi!=null)o.hi=hi;if(hf!=null)o.hf=hf;if(cc.ch!=null)o.ch=cc.ch;if(cc.cl!=null)o.cl=cc.cl;
+  var base=Object.assign({},x);['src','mes','x','hi','hf','ch','cl','b','av','rz'].forEach(function(k){delete base[k];});var novo=Object.assign(base,o,{editado:new Date().toISOString(),editadoPor:S.userName||''});
+  this.disabled=true;(x.src==='arq'?irGravaArq(x,novo):put('irrigacoes',x.id,(function(){var z=Object.assign({},novo);delete z.id;return z;})())).then(function(){closeModal();toast('Apontamento salvo.');}).catch(function(e){$('ieOk').disabled=false;inf.className='note crit';inf.textContent=errMsg(e);});};}
+
+// relatórios
+function irrRel(){
+ var r=S.irR||'mes',anos=irrAnos(),ano=S.irY&&anos.indexOf(S.irY)>=0?S.irY:anos[anos.length-1]||today().slice(0,4);
+ var h='<div class="top" style="margin-top:-4px"><span class="seg" role="group" aria-label="Relatório"><button type="button" data-irr="mes" aria-pressed="'+(r==='mes')+'">Mensal</button><button type="button" data-irr="piv" aria-pressed="'+(r==='piv')+'">Por pivô</button><button type="button" data-irr="cb" aria-pressed="'+(r==='cb')+'">Por casa de bomba</button><button type="button" data-irr="sem" aria-pressed="'+(r==='sem')+'">Semanal</button><button type="button" data-irr="lam" aria-pressed="'+(r==='lam')+'">Hidrômetro × lâmina</button></span>'+(r!=='lam'?'<span class="seg" role="group" aria-label="Ano">'+anos.map(function(y){return '<button type="button" data-iry="'+y+'" aria-pressed="'+(y===ano)+'">'+y+'</button>';}).join('')+'</span>':'')+'<div class="acts"><button class="b2" data-act="irXlsRel">Exportar Excel</button></div></div>';
+ if(!anos.length)return h+'<div class="card empty">Ainda não há consumo registrado.</div>';
+ var t=r==='mes'?relMes(ano):r==='piv'?relGrupo(ano,'piv'):r==='cb'?relGrupo(ano,'cb'):r==='sem'?relSem(ano):relLam();S.irTab=t.tab;
+ return h+t.html;}
+function kpiRow(a){return '<div class="k5">'+a.map(function(x){return '<div class="card"><span class="crumb">'+x[0]+'</span><div class="bn">'+x[1]+'</div><span class="crumb">'+(x[2]||'')+'</span></div>';}).join('')+'</div>';}
+function irBarras(vals,labs,tips,opt){opt=opt||{};var W=opt.w||720,H=opt.h||220,l=56,r=8,t=12,b=26,n=vals.length,mx=0;vals.forEach(function(v){if(v>mx)mx=v;});(opt.ref||[]).forEach(function(v){if(v>mx)mx=v;});if(!mx)mx=1;
+ var st=Math.pow(10,Math.floor(Math.log10(mx))),k=mx/st,step=(k<=2?0.5:k<=5?1:2)*st,top=Math.ceil(mx/step)*step,gw=(W-l-r)/n,bw=Math.max(2,Math.min(34,gw*0.62)),s='<svg viewBox="0 0 '+W+' '+H+'" class="irch" role="img" aria-label="'+esc(opt.aria||'Gráfico')+'">';
+ for(var g=0;g<=top+1e-9;g+=step){var y=t+(H-t-b)*(1-g/top);s+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+y+'" y2="'+y+'" stroke="var(--ln)" stroke-width="1"/><text x="'+(l-6)+'" y="'+(y+4)+'" font-size="10.5" text-anchor="end" fill="var(--tx3)">'+(g>=1e6?nf(g/1e6,g%1e6?1:0)+' mi':g>=1e3?nf(g/1e3,g%1e3?1:0)+' mil':nf(g))+'</text>';}
+ var sk=Math.max(1,Math.ceil(n/(opt.maxLab||14)));
+ vals.forEach(function(v,i){var x=l+gw*i+(gw-bw)/2,hh=(H-t-b)*(v/top),y=H-b-hh;s+='<g class="irb"><rect x="'+(l+gw*i)+'" y="'+t+'" width="'+gw+'" height="'+(H-t-b)+'" fill="transparent"/>'+(v>0?'<path d="M'+x+','+(H-b)+'V'+(y+Math.min(4,hh))+'q0,-'+Math.min(4,hh)+' '+Math.min(4,bw/2)+',-'+Math.min(4,hh)+'H'+(x+bw-Math.min(4,bw/2))+'q'+Math.min(4,bw/2)+',0 '+Math.min(4,bw/2)+','+Math.min(4,hh)+'V'+(H-b)+'z" fill="var(--ac)"/>':'')+(opt.ref&&opt.ref[i]!=null?'<line x1="'+(x-2)+'" x2="'+(x+bw+2)+'" y1="'+(H-b-(H-t-b)*(opt.ref[i]/top))+'" y2="'+(H-b-(H-t-b)*(opt.ref[i]/top))+'" stroke="var(--tx2)" stroke-width="2" stroke-dasharray="3 2"/>':'')+'<title>'+esc(tips[i])+'</title></g>';
+  if(i%sk===0)s+='<text x="'+(l+gw*i+gw/2)+'" y="'+(H-8)+'" font-size="10.5" text-anchor="middle" fill="var(--tx3)">'+esc(labs[i])+'</text>';});
+ return s+'</svg>'+(opt.ref?'<div class="leg"><span><i class="lgb"></i>'+esc(opt.lab||'')+'</span><span><i class="lgr"></i>'+esc(opt.labRef||'')+'</span></div>':'');}
+function hbarras(itens){var mx=0;itens.forEach(function(x){if(x[1]>mx)mx=x[1];});return '<div class="hb">'+itens.map(function(x){return '<div class="hbr2" title="'+esc(x[0]+': '+m3(x[1]))+'"><span class="hbl">'+esc(x[0])+'</span><span class="hbt"><i style="width:'+(mx?Math.max(0.5,x[1]/mx*100):0)+'%"></i></span><span class="hbv">'+m3(x[1])+'</span></div>';}).join('')+'</div>';}
+function relMes(ano){
+ var anos=irrAnos(),tb=agrega(null,function(d){return d.slice(0,7);}),pv0=String(+ano-1),cur=[],ant=[],h='';
+ for(var m=1;m<=12;m++){cur.push(tb[ano+'-'+pad(m)]||0);ant.push(tb[pv0+'-'+pad(m)]!=null?tb[pv0+'-'+pad(m)]:null);}
+ var tot=cur.reduce(function(a,b){return a+b;},0),nm=cur.filter(function(v){return v>0;}).length,mx=Math.max.apply(0,cur),im=cur.indexOf(mx);
+ var ult=0;cur.forEach(function(v,i){if(v>0)ult=i;});var ytd=0,ytdA=0;for(var i=0;i<=ult;i++){ytd+=cur[i];ytdA+=ant[i]||0;}
+ h+=kpiRow([['Total '+ano,m3k(tot),nm+' mes'+(nm===1?'':'es')+' com consumo'],['Média mensal',nm?m3(tot/nm):'—','dos meses com consumo'],['Maior mês',mx?MESES[im]+'/'+ano:'—',mx?m3(mx):''],['Comparado a '+pv0,ytdA?pct1(ytd/ytdA-1):'—','jan a '+MESES[ult]+', mesmo período']]);
+ h+='<div class="card"><h3>Consumo mensal total · '+ano+'<small>barras: '+ano+' · tracejado: '+pv0+'</small></h3>'+irBarras(cur,MESES,cur.map(function(v,i){return MESES[i]+'/'+ano+': '+m3(v)+(ant[i]!=null?' · '+pv0+': '+m3(ant[i]):'');}),{ref:ant.some(function(v){return v!=null;})?ant:null,lab:ano,labRef:pv0,aria:'Consumo mensal em '+ano})+'</div>';
+ var rows=[['Ano'].concat(MESES).concat(['Total'])];anos.forEach(function(y){var a=[y],s=0;for(var m=1;m<=12;m++){var v=tb[y+'-'+pad(m)];a.push(v||null);s+=v||0;}a.push(s);rows.push(a);});
+ h+='<div class="card"><h3>Consumo de água em m³ por mês<small>como a TDin da planilha</small></h3><div class="tw"><table class="t irt"><thead><tr>'+rows[0].map(function(c,i){return '<th'+(i?' class="n"':'')+'>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.slice(1).map(function(r){return '<tr'+(r[0]===ano?' class="sel"':'')+'>'+r.map(function(c,i){return i?'<td class="n'+(i===13?' irtot':'')+'">'+(c?nf(Math.round(c)):'—')+'</td>':'<td><button class="lk" data-iry="'+c+'">'+c+'</button></td>';}).join('')+'</tr>';}).join('')+'<tr class="irtot"><td>Total geral</td>'+(function(){var o='',g=0;for(var m=1;m<=12;m++){var s=0;anos.forEach(function(y){s+=tb[y+'-'+pad(m)]||0;});o+='<td class="n">'+nf(Math.round(s))+'</td>';g+=s;}return o+'<td class="n">'+nf(Math.round(g))+'</td>';})()+'</tr></tbody></table></div></div>';
+ return {html:h,tab:{nome:'Consumo mensal',rows:rows}};}
+function relGrupo(ano,tipo){
+ var key=tipo==='cb'?function(d,k){return d.slice(0,4)===ano?sisCb(k)+'|'+d.slice(5,7):null;}:function(d,k){return d.slice(0,4)===ano?k+'|'+d.slice(5,7):null;};
+ var ag=agrega(null,key),grupos={};Object.keys(ag).forEach(function(x){var p=x.split('|');(grupos[p[0]]=grupos[p[0]]||{})[+p[1]]=ag[x];});
+ var ord=tipo==='cb'?Object.keys(grupos).sort():SISORD.filter(function(k){return grupos[k];});
+ var tot={},g=0;ord.forEach(function(k){var s=0;for(var m=1;m<=12;m++)s+=grupos[k][m]||0;tot[k]=s;g+=s;});
+ var nome=function(k){return tipo==='cb'?k:sisNome(k)+(SIS0[k]&&SIS0[k].old?' (desativada)':'');};
+ var h=kpiRow([[tipo==='cb'?'Casas de bomba':'Pivôs e sistemas',String(ord.length),'com consumo em '+ano],['Total '+ano,m3k(g),''],['Maior consumo',ord.length?nome(ord.slice().sort(function(a,b){return tot[b]-tot[a];})[0]):'—',ord.length?m3(Math.max.apply(0,ord.map(function(k){return tot[k];}))):'']]);
+ h+='<div class="card"><h3>'+(tipo==='cb'?'Consumo por casa de bomba':'Consumo de cada pivô')+' · '+ano+'<small>total do ano</small></h3>'+hbarras(ord.slice().sort(function(a,b){return tot[b]-tot[a];}).map(function(k){return [nome(k),tot[k]];}))+'</div>';
+ var rows=[[tipo==='cb'?'Casa de bomba':'Pivô / sistema'].concat(tipo==='cb'?['Sistemas']:['Casa de bomba']).concat(MESES).concat(['Total','% do total'])];
+ var agS=tipo==='cb'?agrega(function(d){return d.slice(0,4)===ano;},function(d,q){return q;}):{};
+ ord.forEach(function(k){var a=[nome(k),tipo==='cb'?SISORD.filter(function(s){return sisCb(s)===k&&agS[s];}).map(sisNome).join(', '):sisCb(k)];for(var m=1;m<=12;m++)a.push(grupos[k][m]||null);a.push(tot[k]);a.push(g?tot[k]/g:null);rows.push(a);});
+ var tr=['Total',''];for(var m=1;m<=12;m++){var s=0;ord.forEach(function(k){s+=grupos[k][m]||0;});tr.push(s);}tr.push(g);tr.push(1);rows.push(tr);
+ h+='<div class="card"><h3>Consumo em m³ por mês · '+ano+'</h3><div class="tw"><table class="t irt"><thead><tr>'+rows[0].map(function(c,i){return '<th'+(i>1?' class="n"':'')+'>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.slice(1).map(function(r,ri){return '<tr'+(ri===rows.length-2?' class="irtot"':'')+'>'+r.map(function(c,i){return i<2?'<td'+(i===1?' class="crumb" style="white-space:normal;min-width:90px"':'')+'>'+esc(c)+'</td>':i===15?'<td class="n">'+(c==null?'—':nf(c*100,1)+'%')+'</td>':'<td class="n'+(i===14?' irtot':'')+'">'+(c?nf(Math.round(c)):'—')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+ return {html:h,tab:{nome:tipo==='cb'?'Por casa de bomba':'Por pivô',rows:rows,pct:15}};}
+function relSem(ano){
+ var ag=agrega(null,function(d,k){var w=isoSem(d);return w.y===+ano?pad(w.w)+'|'+sisCb(k):null;}),sem={},cbs={};
+ Object.keys(ag).forEach(function(x){var p=x.split('|');(sem[p[0]]=sem[p[0]]||{})[p[1]]=ag[x];cbs[p[1]]=1;});
+ var ws=Object.keys(sem).sort(),cl=Object.keys(cbs).sort(),tots=ws.map(function(w){var s=0;cl.forEach(function(c){s+=sem[w][c]||0;});return s;});
+ function ini(w){var j=new Date(+ano,0,4,12),seg=new Date(j);seg.setDate(j.getDate()-((j.getDay()+6)%7)+(w-1)*7);return seg.getFullYear()+'-'+pad(seg.getMonth()+1)+'-'+pad(seg.getDate());}
+ var t=0,mx=0,im=-1;tots.forEach(function(v,i){t+=v;if(v>mx){mx=v;im=i;}});
+ var hoje=isoSem(today()),comp=ws.filter(function(w){return !(+ano===hoje.y&&+w>=hoje.w);}),uw=comp[comp.length-1];
+ var h=kpiRow([['Semanas com consumo',String(ws.length),'em '+ano],['Média semanal',ws.length?m3(t/ws.length):'—',''],['Maior semana',im>=0?'Semana '+(+ws[im]):'—',im>=0?m3(mx):''],['Última semana completa',uw?'Semana '+(+uw):'—',uw?m3(tots[ws.indexOf(uw)])+' · '+fd(ini(+uw)).slice(0,5)+' a '+fd(addDias(ini(+uw),6)).slice(0,5):'']]);
+ h+='<div class="card"><h3>Consumo semanal total · '+ano+'<small>semana de segunda a domingo</small></h3>'+irBarras(tots,ws.map(function(w){return String(+w);}),ws.map(function(w,i){return 'Semana '+(+w)+' ('+fd(ini(+w)).slice(0,5)+' a '+fd(addDias(ini(+w),6)).slice(0,5)+'): '+m3(tots[i]);}),{maxLab:18,aria:'Consumo semanal em '+ano})+'</div>';
+ var rows=[['Semana','Período'].concat(cl).concat(['Total'])];ws.forEach(function(w,i){var a=[+w,fd(ini(+w)).slice(0,5)+' a '+fd(addDias(ini(+w),6)).slice(0,5)];cl.forEach(function(c){a.push(sem[w][c]||null);});a.push(tots[i]);rows.push(a);});
+ var tr=['Total',''];cl.forEach(function(c){var s=0;ws.forEach(function(w){s+=sem[w][c]||0;});tr.push(s);});tr.push(t);rows.push(tr);
+ h+='<div class="card"><h3>Consumo semanal em m³ por casa de bomba · '+ano+'</h3><div class="tw"><table class="t irt"><thead><tr>'+rows[0].map(function(c,i){return '<th'+(i>1?' class="n"':'')+'>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.slice(1).reverse().map(function(r,ri){return '<tr'+(ri===0?' class="irtot"':'')+'>'+r.map(function(c,i){return i<2?'<td>'+esc(c)+'</td>':'<td class="n'+(i===r.length-1?' irtot':'')+'">'+(c?nf(Math.round(c)):'—')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div></div>';
+ return {html:h,tab:{nome:'Semanal',rows:rows}};}
+function relLam(){
+ if(!S.irL)S.irL={de:today().slice(0,8)+'01',ate:today()};var f=S.irL,it=irrItens().filter(function(x){return x.d>=f.de&&x.d<=f.ate&&!x.x&&x.c!=null&&sisHid(x.s);}),g={};
+ it.forEach(function(x){var k=x.s+'|'+x.tl,o=g[k]||(g[k]={s:x.s,tl:x.tl,n:0,lam:0,c:0,nh:0,ch:0,cc:0,ns:0});o.n++;o.lam+=+x.l||0;o.c+=+(x.cl||0);if(x.ch!=null&&x.cl){if(hidSusp(x))o.ns++;else{o.nh++;o.ch+=+x.ch;o.cc+=+x.cl;}}});
+ var ks=Object.keys(g).sort(function(a,b){var A=g[a],B=g[b];return (SISORD.indexOf(A.s)-SISORD.indexOf(B.s))||(A.tl<B.tl?-1:1);}),T={n:0,c:0,nh:0,ch:0,cc:0,ns:0};ks.forEach(function(k){var o=g[k];T.n+=o.n;T.c+=o.c;T.nh+=o.nh;T.ch+=o.ch;T.cc+=o.cc;T.ns+=o.ns;});
+ var h='<div class="card"><div class="fg irf"><label class="fl">De<input type="date" id="irLDe" value="'+esc(f.de)+'"></label><label class="fl">Até<input type="date" id="irLAte" value="'+esc(f.ate)+'"></label></div><p class="note">Só os pivôs com hidrômetro (01 a 04) e o RU35. Compara o consumo pelo hidrômetro (oficial) com o que a lâmina apontada daria, nos apontamentos com as duas leituras. Leitura absurda (mais de 5 vezes ou menos de 1/5 da lâmina) conta como suspeita e fica fora da comparação.</p></div>';
+ h+=kpiRow([['Irrigações',nf(T.n),fd(f.de)+' a '+fd(f.ate)],['Consumo pela lâmina',m3k(T.c),'o que a lâmina apontada daria'],['Com leitura do hidrômetro',nf(T.nh),(T.n?nf(T.nh/T.n*100,0)+'% das irrigações':'')+(T.ns?' · '+T.ns+' suspeita'+(T.ns>1?'s':''):'')],['Hidrômetro × lâmina',T.cc?pct1(T.ch/T.cc-1):'—',T.cc?m3(T.ch)+' × '+m3(T.cc):'sem leituras']]);
+ var rows=[['Pivô / sistema','Talhão','Irrigações','Lâmina total (mm)','Lâmina média (mm)','Consumo pela lâmina (m³)','Com leitura','Hidrômetro (m³)','Lâmina nos mesmos (m³)','Diferença','Leituras suspeitas']];
+ var porS={};ks.forEach(function(k){var o=g[k];rows.push([sisNome(o.s),o.tl,o.n,o.lam,o.n?o.lam/o.n:null,o.c,o.nh,o.nh?o.ch:null,o.nh?o.cc:null,o.cc?o.ch/o.cc-1:null,o.ns]);});
+ rows.push(['Total','',T.n,null,null,T.c,T.nh,T.nh?T.ch:null,T.nh?T.cc:null,T.cc?T.ch/T.cc-1:null,T.ns]);
+ h+='<div class="card"><h3>Hidrômetro × lâmina apontada por talhão</h3>'+(ks.length?'<div class="tw"><table class="t irt"><thead><tr>'+rows[0].map(function(c,i){return '<th'+(i>1?' class="n"':'')+'>'+esc(c)+'</th>';}).join('')+'</tr></thead><tbody>'+rows.slice(1).map(function(r,ri){var d=r[9];return '<tr'+(ri===rows.length-2?' class="irtot"':'')+'>'+r.map(function(c,i){return i<2?'<td>'+esc(c)+'</td>':i===9?'<td class="n'+(d!=null&&Math.abs(d)>0.15?' warn':'')+'">'+(c==null?'—':pct1(c))+'</td>':i===3||i===4?'<td class="n">'+(c==null?'—':md(Math.round(c*100)/100))+'</td>':i===2||i===6||i===10?'<td class="n'+(i===10&&c?' warn':'')+'">'+nf(c)+'</td>':'<td class="n">'+(c==null?'—':nf(Math.round(c)))+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table></div>':'<div class="note">Nenhum apontamento no período.</div>')+'</div>';
+ return {html:h,tab:{nome:'Hidrometro x lamina',rows:rows,pct:9}};}
+function xlsxIrrRel(){var t=S.irTab;if(!t)return;var rows=t.rows.map(function(r,i){if(!i)return {b:1,c:r};var a=r.map(function(c,j){if(c==null)return null;if(typeof c==='number'&&t.pct===j)return Math.round(c*1000)/10;return typeof c==='number'?Math.round(c*100)/100:c;});return /^Total/.test(String(r[0]))?{b:1,c:a}:a;});
+ if(t.pct!=null)rows[0]={b:1,c:t.rows[0].map(function(c,j){return j===t.pct?c+' (%)':c;})};
+ return buildXLSX([{name:t.nome,rows:rows,widths:t.rows[0].map(function(c,j){return j<2?22:12;})}]);}
+function xlsxIrrApo(){var f=irFiltro(),it=irrItens().filter(function(x){return x.d>=f.de&&x.d<=f.ate&&(!f.s||x.s===f.s)&&(!f.q||String(x.tl).indexOf(f.q.toUpperCase())>=0);});
+ var rows=[{b:1,c:['Data da leitura','Turno','Semana','Sistema','Casa de bomba','Frota','Talhão','Lamina (mm)','Sentido','LEITURA HID. INICIAL','LEITURA HID. FINAL','CONSUMO ÁGUA (m3)','LÂMINA APLICADA COM BASE NO HIDROMETRO','VARIAÇÃO DE LAMINA','Base do consumo','Consumo pela lâmina (m3)','Lançado por','Observação']}];
+ it.forEach(function(x){var lh=x.ch!=null&&x.ar?x.ch/(x.ar*10):null;rows.push([fd(x.d),x.t||'',isoSem(x.d).w,SIS0[x.s]&&SIS0[x.s].loc?'Localizada':'Pivo',sisCb(x.s),x.s==='RU35'?'RU35':+String(x.s).replace(/\D/g,''),x.tl||'',x.l,x.se||'-',x.hi!=null?x.hi:null,x.hf!=null?x.hf:null,x.x?null:x.c,lh!=null?Math.round(lh*100)/100:null,lh!=null&&x.l?Math.round((lh/x.l-1)*1000)/1000:null,x.x?'':baseTxt(x),x.cl!=null?x.cl:null,x.src==='arq'?'planilha':(x.resp||''),(x.x?'A CORRIGIR. ':'')+(x.nota||'')]);});
+ return buildXLSX([{name:'Apontamentos',rows:rows,widths:[12,7,8,10,12,7,9,10,9,14,14,14,16,12,22,14,18,40]}]);}
 
 // ---------- horímetros: atualização semanal ----------
 // Enquanto não há integração com a plataforma dos pivôs, um analista atualiza todos os horímetros uma vez por semana.
@@ -1528,7 +1808,7 @@ function nomeArq(a,ext){var p=pv(a.pivo);return 'Uniformidade '+(p?p.nome:'pivo'
 function exportPDF(id){var a=D.avaliacoes[id];if(!a)return;var o=Object.assign({id:id},a);try{salvarArquivo(nomeArq(o,'pdf'),new Blob([buildPDF(o)],{type:'application/pdf'}));}catch(e){toast('Erro ao gerar o PDF.','crit');}}
 function exportXLSX(id){var a=D.avaliacoes[id];if(!a)return;var o=Object.assign({id:id},a);try{salvarArquivo(nomeArq(o,'xlsx'),xlsxAval(o));}catch(e){toast('Erro ao gerar o Excel.','crit');}}
 
-window.__im={anot:anot,aspDe:aspDe,saidaDe:saidaDe,mm64:mm64,ckRes:ckRes,buildPDFck:buildPDFck,xlsxCk:xlsxCk,CK0:CK0,calc:calc,buildPDF:buildPDF,xlsxAval:xlsxAval,D:D,S:S,derive:derive,stPivo:stPivo,stTarefa:stTarefa,CTM:CTM,CT0:CT0,horAtual:horAtual,addMeses:addMeses,buildPDFct:buildPDFct,xlsxCt:xlsxCt,put:put};
+window.__im={anot:anot,aspDe:aspDe,saidaDe:saidaDe,mm64:mm64,ckRes:ckRes,buildPDFck:buildPDFck,xlsxCk:xlsxCk,CK0:CK0,calc:calc,buildPDF:buildPDF,xlsxAval:xlsxAval,D:D,S:S,derive:derive,parseZap:parseZap,irrCons:irrCons,irrDia:irrDia,irrItens:irrItens,agrega:agrega,isoSem:isoSem,sisCb:sisCb,areaTal:areaTal,stPivo:stPivo,stTarefa:stTarefa,CTM:CTM,CT0:CT0,horAtual:horAtual,addMeses:addMeses,buildPDFct:buildPDFct,xlsxCt:xlsxCt,put:put};
 boot();refreshDraftBanner();schedule();
 })();
 </script>

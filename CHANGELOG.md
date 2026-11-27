@@ -1,8 +1,43 @@
 # Histórico de versões
 
+## 0.5.2 · 27/11/2026 · arquivar apontamentos por mês
+
+- Em Apontamentos, dono e editores veem os meses fechados com apontamentos avulsos e o botão "Arquivar" (com confirmação), usado quando quiserem.
+- Arquivar junta os apontamentos do mês num registro só (irr_arq), como os importados da planilha; a base passa a guardar 1 registro por mês em vez de cerca de 600.
+- Relatórios, totais e Excel não mudam; depois de arquivados, só dono e editores corrigem.
+- Um apontamento nunca conta duas vezes, mesmo se a limpeza dos avulsos for interrompida.
+
+## 0.5.1 · 26/11/2026 · consumo pelo hidrômetro
+
+Aprovada por inteiro (itens 78 a 80); limite de 5 vezes mantido. Respostas às perguntas da aprovação da 0.5.0 (itens 71, 72 e 75).
+
+- Consumo de água pelo hidrômetro, (final − inicial) × 10, nos pivôs 01 a 04, e final − inicial no RU35 (sem × 10). Nos pivôs 05, 06, 09 e 10, que não têm hidrômetro, lâmina aplicada × área do talhão × 10.
+- Em pivô com hidrômetro, se faltar leitura ou a leitura for absurda (mais de 5 vezes ou menos de 1/5 da lâmina, provável erro de digitação), o consumo sai provisório pela lâmina e o apontamento fica em "Para conferir".
+- O consumo é calculado pelo app a partir da lâmina, da área e das leituras, também nos apontamentos importados; os do RU35 sem lâmina passam a usar o hidrômetro e nada fica fora dos totais.
+- "Tem hidrômetro de irrigação" no cadastro do pivô.
+- Área de cada apontamento guardada: o pivô 10 com 12 ha vale de 24/11 em diante; os anteriores mantêm 6 ha, inclusive ao editar.
+- Relatório "Hidrômetro × lâmina" só com os pivôs que têm hidrômetro; Excel dos apontamentos com a base do consumo.
+- Mensagens do WhatsApp: a leitura já aceita maiúsculas e minúsculas.
+
+## 0.5.0 · 26/11/2026 · irrigação aplicada
+
+Feita a partir das planilhas "Consumo de água irrigação - Limoeiro 1" (BD Volume e TDin Volume) e "Controle de lâminas aplicadas", com as decisões de 26/11.
+
+- Aba Irrigação com Lançar, Apontamentos e Relatórios.
+- Lançar, pensado para o analista no escritório: colar as mensagens do grupo do WhatsApp ("Informação irrigação pivô…") e o app monta as linhas; também lança direto na tabela. Confere talhão do pivô, pivô em operação, data, lâmina e repetição antes de salvar; a lista fica salva no computador até salvar.
+- Consumo oficial = lâmina apontada × área do talhão × 10. O hidrômetro (final − inicial) × 10 nos pivôs e × 1 no RU35 fica só para comparar; leitura fora de metade a o dobro da lâmina é marcada como suspeita.
+- Casa de bomba, sistema e semana (segunda a domingo) saem do pivô e da data. RU35 (gotejo) na CBR05.
+- Apontamentos com filtro, edição e exclusão, e Excel no mesmo modelo do controle.
+- Relatórios com gráfico, tabela e Excel: consumo mensal total (como a TDin), por pivô, por casa de bomba, semanal e lâmina × hidrômetro.
+- Histórico: BD Volume de 01/01/2023 a 31/08/2026 (e, depois, os sistemas fora do controle) e os 1.674 apontamentos do controle de 01/09 a 24/11/2026. Totais de 2023, 2024 e 2025 iguais à TDin.
+- Correções na importação: "pivô 8" em 14/10 entrou como pivô 6 (JD08); RU35 de setembro recalculado pela lâmina (o hidrômetro dava cerca de 10 vezes mais); 9 apontamentos do RU35 sem lâmina ficam "a corrigir", fora dos totais.
+- Pivô 10 com 2 talhões de 12 ha (RU58 e RU59); áreas dos talhões e casa de bomba editáveis em Pivôs → Editar.
+- Painel do pivô no mapa mostra o último apontamento e o consumo do mês.
+- Menu do celular com 8 abas cabendo na tela.
+
 ## 0.4.1 · 26/11/2026 · atualização semanal dos horímetros
 
-Pedido no comentário do ITEM 56: enquanto não há integração com a plataforma dos pivôs, um analista atualiza todos os horímetros uma vez por semana.
+Aprovada por inteiro (itens 65 a 67). Pedido no comentário do ITEM 56: enquanto não há integração com a plataforma dos pivôs, um analista atualiza todos os horímetros uma vez por semana.
 
 - Botão "Atualizar horímetros" na aba Pivôs: uma tela com todos os pivôs em operação, a data e quem atualizou; cada valor preenchido vira uma leitura e pivô em branco fica como está.
 - Confere cada valor na hora: recusa valor menor que a leitura anterior, mostra as horas e o ritmo por dia, e pede confirmação quando passa de 24 h por dia; mesmo valor na mesma data não duplica.

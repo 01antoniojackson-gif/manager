@@ -22,6 +22,10 @@ imgs_js = "var IMGS=%s,DIM=%s;" % (json.dumps(urls), json.dumps(mapas["dimensoes
 asp = (RAIZ / "dados" / "aspersores.json").read_text(encoding="utf-8").strip().replace("<", "\\u003c")
 corpo = src.replace("<!--SYMBOLS-->", icones).replace("/*IMGS*/", imgs_js).replace("/*ASP*/null", asp)
 
+hist = (RAIZ / "dados" / "irrigacao-historico.json").read_text(encoding="utf-8").strip().replace("<", "\\u003c")
+# o histórico de irrigação só vai embutido na página local (GitHub); no Claude ele fica na base compartilhada
+corpo = corpo.replace("/*IRRHIST*/null", "null" if "--artefato" in sys.argv else hist)
+
 if "--artefato" in sys.argv:
     destino = RAIZ / "dist" / "irrigamanager-app.html"
     destino.parent.mkdir(exist_ok=True)

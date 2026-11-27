@@ -1,8 +1,8 @@
 # IrrigaManager
 
-App para gestão de pivôs centrais: mapa das áreas com a situação da manutenção, controle de horímetro, cartilha de manutenção preventiva, checklist de inspeção diária e avaliação de uniformidade de irrigação (CUC e CUD), feitos no celular, no campo.
+App para gestão de pivôs centrais: mapa das áreas com a situação da manutenção, controle de horímetro, irrigação aplicada (consumo de água), cartilha de manutenção preventiva, checklist de inspeção diária e avaliação de uniformidade de irrigação (CUC e CUD), feitos no celular, no campo.
 
-**Versão 0.4.1 · atualização semanal dos horímetros** (0.1.0 aprovada em 23/11/2026; 0.2.0 com ajustes em 24/11/2026; 0.3.0 em 25/11/2026; 0.3.1 a 0.4.1 em 26/11/2026).
+**Versão 0.5.2 · arquivar apontamentos por mês** (0.1.0 aprovada em 23/11/2026; 0.2.0 com ajustes em 24/11/2026; 0.3.0 em 25/11/2026; 0.3.1 a 0.5.1 em 26/11/2026; 0.5.2 em 27/11/2026).
 
 ## O que o app faz
 
@@ -27,6 +27,12 @@ App para gestão de pivôs centrais: mapa das áreas com a situação da manuten
   - saídas tampadas (bujão), desenho do pivô com as torres e os bocais na cor, lista completa e quantidade de cada bocal;
   - dono e editores podem corrigir uma saída quando o campo for diferente da carta (a carta original fica guardada);
   - dados das cartas Senninger dos pivôs 01 a 06 (`dados/aspersores.json`), conferidos com a lista de materiais e a folha de instalação de cada carta. Pivôs 09 e 10 aguardam as cartas.
+- **Irrigação aplicada** (aba Irrigação):
+  - **Lançar**, no escritório: cola as mensagens do grupo do WhatsApp ("Informação irrigação pivô…") e o app monta as linhas (turno, pivô, talhão, sentido, lâmina, hidrômetro, data); também dá para lançar direto na tabela. Linha com problema fica em vermelho e não é salva;
+  - consumo pelo hidrômetro nos pivôs 01 a 04 ((final − inicial) × 10) e no RU35 (final − inicial); nos pivôs 05, 06, 09 e 10, sem hidrômetro, lâmina × área do talhão × 10. Sem leitura ou com leitura absurda, sai provisório pela lâmina e fica para conferir; casa de bomba e semana saem do pivô e da data;
+  - **Apontamentos** com filtro, edição, exclusão e Excel no modelo do controle de lâminas; dono e editores arquivam os meses fechados (um registro por mês) quando quiserem;
+  - **Relatórios**: consumo mensal total (como a TDin), por pivô, por casa de bomba, semanal (segunda a domingo) e hidrômetro × lâmina, com gráfico, tabela e Excel;
+  - histórico desde 01/01/2023 (BD Volume) e apontamentos desde 01/09/2026 (controle de lâminas), conferidos com a TDin.
 - **Cartilha de manutenção**: 40 tarefas preventivas (torre central, redutores, rodas e torres, lances e balanço, elétrica e casa de bomba), juntando o plano de manutenção dos PCs e o plano Valley.
   - periodicidade por horas (1.000 h), por calendário (trimestral, anual) ou pelo que vier primeiro (troca de óleo: 2.000 h ou anual);
   - situação de cada tarefa por pivô (Em dia, Próxima, Vencida, Sem registro) e tabela tarefas × pivôs;
@@ -57,6 +63,8 @@ O app é um único arquivo HTML, sem servidor.
 | Nº de coletores | (comprimento − 5 m − distância do 1º) ÷ espaçamento, arredondado para baixo, + 1; no máximo 50 |
 | Vento | acima de 4,5 m/s o app avisa e pede confirmação |
 | Tarefa da Cartilha | horas desde o último registro = horímetro atual − horímetro do registro; meses pelo calendário; com os dois, vence pelo que vier primeiro. "Próxima" faltando 100 h ou 30 dias (por horas, estimado pelo ritmo de uso) |
+| Consumo de irrigação | com hidrômetro (pivôs 01 a 04, RU35): (final − inicial) × 10 nos pivôs, × 1 no RU35; sem hidrômetro (05, 06, 09, 10): lâmina (mm) × área do talhão (ha) × 10 = m³; leitura faltando ou absurda (mais de 5× ou menos de 1/5 da lâmina) → lâmina, marcada para conferir |
+| Semana da irrigação | segunda a domingo (ISO), igual à coluna Semana do controle de lâminas |
 | Situação do pivô | a pior entre as tarefas (Vencida > Próxima > Em dia); tarefas sem registro não entram |
 | Resultado do checklist | conformes ÷ (conformes + não conformes); N/A fica fora da conta |
 
@@ -72,6 +80,7 @@ src/mapas.json             imagens do mapa e suas dimensões em pixels
 assets/                    prints das áreas RU e JD
 dados/dados-iniciais.json  os 8 pivôs, os parâmetros iniciais e as tarefas da cartilha
 dados/aspersores.json      mapas de aspersores dos pivôs 01 a 06 (das cartas Senninger)
+dados/irrigacao-historico.json  histórico de consumo (BD Volume, por dia e sistema) e apontamentos importados do controle de lâminas
 docs/aprovacao-etapa1.html página de aprovação da etapa 1 (v0.1.0)
 docs/aprovacao-v0.2.0.html página de aprovação do checklist
 docs/aprovacao-v0.2.1.html página de aprovação dos ajustes do checklist
@@ -80,6 +89,9 @@ docs/aprovacao-v0.3.1.html página de aprovação dos coletores calculados
 docs/aprovacao-v0.3.2.html página de aprovação do limite de 50 coletores
 docs/aprovacao-v0.4.0.html página de aprovação da Cartilha de manutenção
 docs/aprovacao-v0.4.1.html página de aprovação da atualização dos horímetros
+docs/aprovacao-v0.5.0.html página de aprovação da irrigação aplicada
+docs/aprovacao-v0.5.1.html página de aprovação do consumo pelo hidrômetro
+docs/aprovacao-v0.5.2.html página de aprovação do arquivamento mensal
 docs/padrao-pagina-aprovacao.md  padrão das páginas de aprovação
 tools/build.py             gera index.html (ou dist/ para publicar no Claude)
 tools/aprovacao_src.html   fonte da página de aprovação (as imagens entram no lugar de /*SHOTS*/)
@@ -88,6 +100,7 @@ tools/testes/t_checklist.js teste de ponta a ponta do checklist
 tools/testes/t_aspersores.js teste da aba Aspersores, com valores lidos das cartas
 tools/testes/t_cartilha.js  teste da Cartilha de manutenção (situação, registros, ocorrências, PDF e Excel)
 tools/testes/t_horimetros.js teste da atualização semanal dos horímetros
+tools/testes/t_irrigacao.js teste da irrigação aplicada (histórico contra a TDin, WhatsApp, relatórios)
 ```
 
 ## Desenvolvimento
@@ -104,6 +117,8 @@ Edite sempre `src/` e `assets/` e gere de novo; não edite `index.html` à mão.
 
 `t_cartilha.js` confere as 40 tarefas e periodicidades, registra uma revisão completa no celular (com foto e resistência do aterramento), simula o uso do horímetro até cada tarefa ficar Próxima e Vencida, confere mapa, painel, tabela tarefas × pivôs, ocorrências com custo, PDF, Excel, exclusão e o editor.
 
+`t_irrigacao.js` confere o histórico contra a TDin (anos, pivôs e casas de bomba), a semana, os relatórios, lê mensagens do WhatsApp, recusa talhão de outro pivô e repetido, salva, edita, corrige um importado, exclui e gera os Excel.
+
 `t_checklist.js` faz uma inspeção completa no tamanho de celular (respostas, pressão, não conformes com foto, apto com justificativa, assinatura), confere resultado, pendências e o horímetro vindo da última leitura, resolve uma pendência, gera PDF e Excel, testa o rascunho e o editor de itens.
 
 ## Dados
@@ -112,7 +127,7 @@ Na base compartilhada (artefato do Claude), as coleções são:
 
 | Coleção | Conteúdo |
 |---|---|
-| `pivos/<id>` | nome, fazenda, área do mapa (1 = RU, 2 = JD), posição `x`, `y`, raio `r`, giro `o`, talhões `q`, lâmina recomendada, comprimento `comp` (opcional; sem ele vale o da carta), ativo |
+| `pivos/<id>` | nome, fazenda, área do mapa (1 = RU, 2 = JD), posição `x`, `y`, raio `r`, giro `o`, talhões `q`, áreas dos talhões `areas` (ha; sem elas valem as da planilha), casa de bomba `cb`, tem hidrômetro `hid`, lâmina recomendada, comprimento `comp` (opcional; sem ele vale o da carta), ativo |
 | `leituras/<id>` | pivô, data, horímetro `h`, observação, quem lançou `resp`, `lote` (mesma atualização semanal); `prev` só nas leituras antigas da preventiva de 2.000 h |
 | `avaliacoes/<id>` | pivô, data, hora, pressão, vento, torre, lâmina recomendada, faixa, `d1`, `ds`, `n`, comprimento do pivô `comp`, margem, diâmetro, coletores (`vol`, `perdido`, `foto`), observações, responsável, assinatura, GPS, resultados |
 | `fotos/<id>` | foto do frasco, quando não há armazenamento de arquivos disponível |
@@ -122,6 +137,9 @@ Na base compartilhada (artefato do Claude), as coleções são:
 | `cfg/checklist` | itens do checklist em uso (só dono e editores gravam) |
 | `cfg/cartilha` | tarefas da cartilha em uso: seção, texto, horas `h`, meses `m`, pivô ligado `lig`, unidade do valor (só dono e editores gravam; sem ele vale o padrão do app) |
 | `manutencoes/<id>` | pivô, data, horímetro `horim`, tarefas feitas (`tarefas` e cópia em `itens`), valores medidos `vals`, verificado por `resp`, observação, fotos |
+| `irrigacoes/<id>` | apontamento novo: data `d`, turno `t`, sistema `s` (P1…P10, RU35), talhão `tl`, lâmina `l`, sentido `se`, hidrômetro `hi`/`hf`, área `ar` (guardada: a da época), consumo `c` e base `b` (hidrômetro ou lâmina), consumo pelo hidrômetro `ch` e pela lâmina `cl`, quem lançou, origem (whatsapp/manual); o app recalcula o consumo pela regra do pivô |
+| `irr_hist/<AAAA-MM>` | histórico da BD Volume: `dias` → dia → sistema → m³ (só dono e editores gravam) |
+| `irr_arq/<AAAA-MM>` | apontamentos importados do controle de lâminas, um documento por mês (`itens`, com o consumo da planilha em `cp` só para consulta; só dono e editores gravam) |
 | `ocorrencias/<id>` | pivô, data, componente, ocorrência `desc`, ação corretiva, peças, quantidade, custo (R$), responsável |
 | `aspersores/<id do pivô>` | dados da carta (`meta`) e `itens`: torres (`T`), saídas tampadas (`b`) e aspersores (`a`: saída do centro `s`, distância `d`, bocal `b`, regulador `r`, nº do aspersor `p`); a saída do vão é calculada pelas torres; só dono e editores gravam |
 

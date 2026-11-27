@@ -1,12 +1,12 @@
 {
   "name": "irrigamanager",
-  "version": "0.4.1",
+  "version": "0.5.2",
   "private": true,
-  "description": "Gestão de pivôs centrais: mapa, horímetro, cartilha de manutenção preventiva, checklist de inspeção, avaliação de uniformidade (CUC e CUD) e mapa de aspersores, no celular.",
+  "description": "Gestão de pivôs centrais: mapa, horímetro, irrigação aplicada (consumo de água), cartilha de manutenção, checklist de inspeção, avaliação de uniformidade (CUC e CUD) e mapa de aspersores.",
   "scripts": {
     "build": "python3 tools/build.py",
     "build:artefato": "python3 tools/build.py --artefato",
-    "test": "node tools/testes/t_app.js && node tools/testes/t_checklist.js && node tools/testes/t_aspersores.js && node tools/testes/t_cartilha.js && node tools/testes/t_horimetros.js"
+    "test": "node tools/testes/t_app.js && node tools/testes/t_checklist.js && node tools/testes/t_aspersores.js && node tools/testes/t_cartilha.js && node tools/testes/t_horimetros.js && node tools/testes/t_irrigacao.js"
   },
   "devDependencies": {
     "playwright": "^1.47.0"
